@@ -1,13 +1,23 @@
-
 <template>
   <div>
     <div>
       <ul>
-     <li><router-link to="/home">Home</router-link></li>
-      <li><router-link to="/contact">Contact</router-link></li>
-      <li><router-link to="/info">Information</router-link></li>
-      <li><router-link to="/register">Register</router-link></li>
-     <li><router-link to="/login">Login</router-link></li>
+        <li>
+          <router-link to="/home">Home</router-link>
+        </li>
+        <li>
+          <router-link to="/contact">Contact</router-link>
+        </li>
+        <li>
+          <router-link to="/info">Information</router-link>
+        </li>
+        <li>
+          <router-link to="/register">Register</router-link>
+        </li>
+        <li>
+          <router-link to="/login">Login</router-link>
+        </li>
+        <input type="button" @click="Logout" value="Wyloguj">
       </ul>
     </div>
     <div id="app">
@@ -27,21 +37,30 @@
 export default {
   names: 'App',
   components:
-      {
-      },
+      {},
   updated() {
 
   },
   data() {
-    return {}
+    return {
+      status: "",
+      logged:''
+    }
   },
 
   methods: {
-
+    Logout: function(){
+      this.logged =  sessionStorage.getItem('Current user');
+      if(this.logged === ""){
+        sessionStorage.clear();
+        this.$router.push('/home')
+      }
+      else{
+        console.log("good")
+      }
     },
-  }
-
-
+  },
+}
 
 </script>
 

@@ -11,6 +11,13 @@
       <input type="password" name="password" required min="8" id="password" v-model="password">
       <br>
       <br>
+      <br>
+      <select name="type" id="type" v-model="type">
+        <option value="Administrator">Administrator</option>
+        <option value="User">Users</option>
+      </select>
+      <br>
+      <br>
       <input type="button" value="Forgotten password" v-on:click="Forgot" >
       <br>
       <br>
@@ -34,10 +41,15 @@ export default {
       res: "",
       username:'',
       password:'',
+      status:'',
+      element:'',
+      type: '',
+      info:'',
     }
   },
 
   methods: {
+
     Forgot: function(){
       const email = document.getElementById("username").value
       this.data = fetch('http://localhost:8000/forgot', {
@@ -69,29 +81,35 @@ export default {
     onAuth: function () {
       const email = document.getElementById("username").value
       const password = document.getElementById("password").value
-      this.data = fetch('http://localhost:8000/login', {
+      const type = document.getElementById("type").value
+      sessionStorage.setItem('Current user', email);
+       fetch('http://localhost:8000/login', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email, password
+          email, password, type
         })
       })
-          .then(res => {
-            this.data = res.json
-            return res;
-          })
-          .then(res => {
-            console.log(res.status);
-            if(res.status === 200){
-              console.log("done")
-              this.$router.push('home')
-            }
-            else{
-              console.log("failed")
-            }
-          });
+
+           .then(response => response.json())
+           .then(data => {
+             console.log('Success:', data);
+             if(data.status === "Login complete"){
+               console.log("done")
+               this.status = data.file
+               sessionStorage.setItem('type', this.status);
+               alert(`Hello ${this.status}`)
+               this.$router.push("home")
+             }
+             else{
+               console.log("failed")
+             }
+           })
+           .catch((error) => {
+             console.error('Error:', error);
+           });
     },
 
   }

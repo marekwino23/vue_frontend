@@ -1,7 +1,6 @@
 <template>
   <div>
 <div>
-<p>Hello users<p/>
 </div>
   </div>
 </template>
@@ -18,11 +17,13 @@ export default {
   },
   data() {
     return {
-      logged:'',
-
+      status: '',
     }
   },
 
+  methods: {
+
+  }
 }
 
 
