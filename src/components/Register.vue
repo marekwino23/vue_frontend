@@ -22,18 +22,11 @@
         <br>
         <br>
         <label>Check email</label>
-        <input type="button" v-on:click="oncheck" v-model="check"/>
+        <input type="button" v-on:click="onCheck" v-model="check"/>
         <br>
         <br>
         <label>Password</label>
         <input type="password" name="password" required min="8" value="password" v-model="password">
-        <br>
-        <br>
-        <label> Type users </label>
-        <select name="type" id="type" v-model="type">
-          <option value="Administrator">Administrator</option>
-          <option value="User">Users</option>
-        </select>
         <br>
         <br>
         <label> Validation</label>
@@ -62,12 +55,12 @@ export default {
       password: "",
       response: '',
       data: '',
-      check: "check",
-      validation: "off"
+      check: "busy",
+      validation: "off",
     }
   },
   methods: {
-    oncheck: async () => {
+    onCheck: async (check) => {
       const email = document.getElementById("email").value
       console.log(email);
       const requestOptions = {
@@ -81,26 +74,28 @@ export default {
       const data = await response.json()
       console.log(data.status)
       if (data.status === "success") {
+        check = "free"
         alert("email is free")
+        console.log(check)
       } else {
         alert("email is busy")
       }
     },
 
     checkform() {
-      if (this.username === "" || this.password === "" || this.name === "" || this.surname === "" || this.type === "") {
-        alert("please to complete your form")
+      if (this.username === "" || this.password === "" || this.name === "" || this.surname === "" ) {
+        alert("please to complete your form or check your email")
       } else {
         this.validation = "on"
       }
     },
 
     onsubmit: function (event) {
-      this.res = fetch("http://localhost:8000/register", {
+      sessionStorage.setItem("name", this.name)
+      this.data = fetch("http://localhost:8000/register", {
         method: "POST",
         body: JSON.stringify({
           "name": this.name,
-          "type": this.type,
           "surname": this.surname,
           "username": this.username,
           "password": this.password
@@ -109,19 +104,18 @@ export default {
           "Content-Type": "application/json"
         },
       })
-          .then(res => {
-            this.data = res.json
-            return res;
-          })
-          .then(res => {
-            console.log(res.status);
-            if(res.status === 200){
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+            if(data.status === "success"){
               alert("User is created")
               console.log("done")
               this.$router.push('login')
             }
-            else{
-              console.log("failed")
+            else if(data.error === "Email is in database"){
+              alert("Register failed: Email is in database")
+              this.$router.push('home')
+
             }
           });
 

@@ -9,7 +9,10 @@
           <router-link to="/contact">Contact</router-link>
         </li>
         <li>
-          <router-link to="/info">Information</router-link>
+          <router-link to="/info">User information</router-link>
+        </li>
+        <li>
+          <router-link  to="/book">Book meeting</router-link>
         </li>
         <li>
           <router-link to="/register">Register</router-link>
@@ -17,7 +20,7 @@
         <li>
           <router-link to="/login">Login</router-link>
         </li>
-        <input type="button" @click="Logout" value="Wyloguj">
+        <input v-show="logged" type="button" @click="Logout" value="Wyloguj">
       </ul>
     </div>
     <div id="app">
@@ -50,16 +53,13 @@ export default {
 
   methods: {
     Logout: function(){
-      this.logged =  sessionStorage.getItem('Current user');
-      if(this.logged === ""){
-        sessionStorage.clear();
-        this.$router.push('/home')
-      }
-      else{
-        console.log("good")
-      }
-    },
+      sessionStorage.clear();
+        this.$router.push('/login')
+    }
   },
+  mounted(){
+    this.logged = sessionStorage.getItem("loggedin")
+  }
 }
 
 </script>

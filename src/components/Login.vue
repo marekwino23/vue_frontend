@@ -12,12 +12,6 @@
       <br>
       <br>
       <br>
-      <select name="type" id="type" v-model="type">
-        <option value="Administrator">Administrator</option>
-        <option value="User">Users</option>
-      </select>
-      <br>
-      <br>
       <input type="button" value="Forgotten password" v-on:click="Forgot" >
       <br>
       <br>
@@ -81,7 +75,6 @@ export default {
     onAuth: function () {
       const email = document.getElementById("username").value
       const password = document.getElementById("password").value
-      const type = document.getElementById("type").value
       sessionStorage.setItem('Current user', email);
        fetch('http://localhost:8000/login', {
         method: "POST",
@@ -89,7 +82,7 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email, password, type
+          email, password
         })
       })
 
@@ -97,19 +90,22 @@ export default {
            .then(data => {
              console.log('Success:', data);
              if(data.status === "Login complete"){
-               console.log("done")
-               this.status = data.file
-               sessionStorage.setItem('type', this.status);
-               alert(`Hello ${this.status}`)
+               sessionStorage.setItem("loggedin",true);
+               sessionStorage.setItem("name",data.name);
+               sessionStorage.setItem("surname",data.surname);
+               sessionStorage.setItem("email",data.email);
+               sessionStorage.setItem("password",data.password);
+               sessionStorage.setItem("id",data.id);
+
+               alert(`Hello Users: Success Login`)
                this.$router.push("home")
              }
-             else{
-               console.log("failed")
+             else if(data.error === "failed" ) {
+               alert("Wrong password or email")
+               this.$router.push("register")
+
              }
            })
-           .catch((error) => {
-             console.error('Error:', error);
-           });
     },
 
   }

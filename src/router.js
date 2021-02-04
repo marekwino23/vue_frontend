@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Contact from "@/components/Contact";
 import Information from "@/components/Information";
 import Valid from "@/components/Valid";
+import Book from "@/components/Book";
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,13 @@ const router =  new VueRouter({
             name: 'information',
             component: Information,
         },
+
+        {
+            path: '/book',
+            name: 'book',
+            component: Book,
+        },
+
         {
             path: '/valid',
             name: 'valid',
