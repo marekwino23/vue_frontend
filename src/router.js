@@ -7,6 +7,7 @@ import Contact from "@/components/Contact";
 import Information from "@/components/Information";
 import Valid from "@/components/Valid";
 import Book from "@/components/Book";
+import listUsers from "@/components/listUsers";
 
 Vue.use(VueRouter);
 
@@ -44,6 +45,12 @@ const router =  new VueRouter({
             path: '/book',
             name: 'book',
             component: Book,
+        },
+
+        {
+            path: '/list',
+            name: 'list',
+            component: listUsers,
         },
 
         {

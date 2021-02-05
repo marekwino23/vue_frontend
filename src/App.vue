@@ -12,9 +12,12 @@
           <router-link to="/info">User information</router-link>
         </li>
         <li>
-          <router-link  to="/book">Book meeting</router-link>
+          <router-link  to="/book">Blog</router-link>
         </li>
-        <li>
+        <li v-show='status === "Admin"'>
+          <router-link to="/list">User list</router-link>
+        </li>
+        <li v-show='logged === null'>
           <router-link to="/register">Register</router-link>
         </li>
         <li>
@@ -59,6 +62,7 @@ export default {
   },
   mounted(){
     this.logged = sessionStorage.getItem("loggedin")
+    this.status = sessionStorage.getItem("type")
   }
 }
 

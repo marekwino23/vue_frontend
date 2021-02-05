@@ -33,6 +33,13 @@
         <input type="button" v-on:click="checkform" v-model="validation"/>
         <br>
         <br>
+        <select v-model="type">
+          <option>User</option>
+          <option>Creator</option>
+        </select>
+        <br>
+        <br>
+        <br>
         <input type="submit" class="check" value="submit" :disabled='validation === "off"'>
       </form>
     </div>
@@ -83,7 +90,7 @@ export default {
     },
 
     checkform() {
-      if (this.username === "" || this.password === "" || this.name === "" || this.surname === "" ) {
+      if (this.username === "" || this.password === "" || this.name === "" || this.surname === "" || this.type === "" ) {
         alert("please to complete your form or check your email")
       } else {
         this.validation = "on"
@@ -91,14 +98,14 @@ export default {
     },
 
     onsubmit: function (event) {
-      sessionStorage.setItem("name", this.name)
       this.data = fetch("http://localhost:8000/register", {
         method: "POST",
         body: JSON.stringify({
           "name": this.name,
           "surname": this.surname,
           "username": this.username,
-          "password": this.password
+          "password": this.password,
+          "type": this.type
         }),
         headers: {
           "Content-Type": "application/json"

@@ -1,6 +1,7 @@
 <template>
   <div>
 <div>
+  <h1>{{status}}</h1>
 </div>
   </div>
 </template>
@@ -21,9 +22,13 @@ export default {
     }
   },
 
+  mounted() {
+   this.status = sessionStorage.getItem("type");
+  },
+
   methods: {
 
-  }
+  },
 }
 
 

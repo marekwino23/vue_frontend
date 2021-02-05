@@ -89,16 +89,42 @@ export default {
            .then(response => response.json())
            .then(data => {
              console.log('Success:', data);
-             if(data.status === "Login complete"){
+             if(data.status === "Login complete" || data.type === "admin" ){
                sessionStorage.setItem("loggedin",true);
                sessionStorage.setItem("name",data.name);
                sessionStorage.setItem("surname",data.surname);
                sessionStorage.setItem("email",data.email);
                sessionStorage.setItem("password",data.password);
                sessionStorage.setItem("id",data.id);
-
-               alert(`Hello Users: Success Login`)
+               sessionStorage.setItem("type",data.type);
+               sessionStorage.setItem("oldEmail",data.secondEmail);
+               console.log(data.type)
+               alert(`Success Login` + "Hello" + data.type )
                this.$router.push("home")
+             }
+             else if(data.status === "Login complete" || data.type === "Creator"){
+               sessionStorage.setItem("loggedin",true);
+               sessionStorage.setItem("name",data.name);
+               sessionStorage.setItem("surname",data.surname);
+               sessionStorage.setItem("email",data.email);
+               sessionStorage.setItem("password",data.password);
+               sessionStorage.setItem("id",data.id);
+               sessionStorage.setItem("type",data.type);
+               sessionStorage.setItem("secondEmail",data.secondEmail);
+               console.log(data.type)
+               alert(`Success Login` + "Hello" + data.type )
+             }
+             else if(data.status === "Login complete" || data.type === "User"){
+               sessionStorage.setItem("loggedin",true);
+               sessionStorage.setItem("name",data.name);
+               sessionStorage.setItem("surname",data.surname);
+               sessionStorage.setItem("email",data.email);
+               sessionStorage.setItem("password",data.password);
+               sessionStorage.setItem("id",data.id);
+               sessionStorage.setItem("type",data.type);
+               sessionStorage.setItem("secondEmail",data.secondEmail);
+               console.log(data.type)
+               alert(`Success Login` + "Hello" + data.type )
              }
              else if(data.error === "failed" ) {
                alert("Wrong password or email")

@@ -11,8 +11,13 @@
         <li> Surname:{{ surname }}</li>
         <li> Email: {{email}}</li>
         <br>
-        <li> Second Email: <input type="text" v-model="secondEmail" id="newEmail"> <input type="submit" value="change email"> </li>
-<!--        <li> Password: <input type="text" id="newPassword"> <input type="button" value="change password" @click="onchangePassword"></li>-->
+        <li>Second Email: {{oldEmail}} </li>
+        <br>
+          <li> <input type="text" v-model="secondEmail" id="newEmail"> <input type="submit" value="change"> </li>
+        <br>
+        <br>
+   <li> Password: <input type="text" id="newPassword"> <input type="button" value="change password" @click="onchangePassword">
+      </li>
       </ul>
         </form>
     </div>
@@ -34,6 +39,7 @@ export default {
       name: '',
       surname: '',
       email: '',
+      oldEmail: '',
       secondEmail:'',
       password: '',
       code: '',
@@ -43,7 +49,9 @@ export default {
     this.name = sessionStorage.getItem("name")
     this.surname = sessionStorage.getItem("surname")
     this.email = sessionStorage.getItem("email")
-    this.secondEmail = sessionStorage.getItem("newEmail")
+    this.password = sessionStorage.getItem("password")
+    this.oldEmail = sessionStorage.getItem("oldEmail")
+    this.secondEmail = sessionStorage.getItem("secondEmail")
   },
   methods: {
     addEmail: function () {
@@ -75,6 +83,7 @@ export default {
 
     onchangePassword: function () {
       const newPassword = document.getElementById("newPassword").value
+      const id = sessionStorage.getItem("id")
       console.log(newPassword)
       fetch('http://localhost:8000/onchangePassword', {
         method: "PATCH",
@@ -82,13 +91,13 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          newPassword,
+          newPassword, id
         })
       })
           .then(response => response.json())
           .then(data => {
             if (data.status === 200) {
-              this.secondEmail = data.file
+              sessionStorage.setItem("newPassword",data.file);
               console.log("done")
               this.$router.push('home')
             } else {
