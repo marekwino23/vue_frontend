@@ -14,7 +14,7 @@
         <li>
           <router-link  to="/book">Blog</router-link>
         </li>
-        <li v-show='status === "Admin"'>
+        <li v-show='status === "Administrator"'>
           <router-link to="/list">User list</router-link>
         </li>
         <li v-show='logged === null'>

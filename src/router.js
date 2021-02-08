@@ -8,6 +8,7 @@ import Information from "@/components/Information";
 import Valid from "@/components/Valid";
 import Book from "@/components/Book";
 import listUsers from "@/components/listUsers";
+import editUser from "@/components/editUser";
 
 Vue.use(VueRouter);
 
@@ -52,6 +53,14 @@ const router =  new VueRouter({
             name: 'list',
             component: listUsers,
         },
+
+
+        {
+            path: '/edit',
+            name: 'edit',
+            component: editUser,
+        },
+
 
         {
             path: '/valid',
