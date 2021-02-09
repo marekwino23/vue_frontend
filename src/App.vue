@@ -28,7 +28,6 @@
     </div>
     <div id="app">
       <router-view></router-view>
-      <img alt="Vue logo" src="./assets/logo.png">
     </div>
     <div id="home">
       <br>
