@@ -35,9 +35,13 @@ export default {
     }
   },
   mounted() {
+<<<<<<< HEAD
     this.status = sessionStorage.getItem("type")
    fetch("http://localhost:8000/updateBlog",{
 
+=======
+   fetch("http://localhost:8000/updateBlog",{
+>>>>>>> origin/master
      method: "GET",
      headers: {
        "Content-Type": "application/json",
