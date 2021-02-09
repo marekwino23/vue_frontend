@@ -6,52 +6,41 @@
     <div class="row">
       <div class="leftcolumn">
         <div class="card">
-          <ul v-for="list in lists" :key="list.type"> </ul>
-            <h2>Title: <input type="text" v-model="title"></h2>
-            <h3>Date publicated: {{date}}</h3>
-            <h3>Who:</h3>
-            <div class="fakeimg" style="height:200px;"> <img alt="obrazek" src="../assets/example.jpg"> <textarea v-model="text" rows="10" cols="40"> </textarea>  <input type="button" value="addPost" @click="addPosts"> </div>
-          </div>
+          <h2> Title: <input type="text" v-model="title"> </h2>
+          <h5> Title description:</h5>
+          <h5> Who publicated: </h5>
+          <div class="fakeimg" style="height:200px;"></div>
+          <br>
+          <textarea v-model="text"></textarea>
+          <input type="button" value="addPost" @click="addPosts">
         </div>
+        <div class="card">
+          <h2>Title: {{title2}}</h2>
+          <h5>Title description:{{title2}}</h5>
+          <h5> Who publicated: {{post.typeUser}}</h5>
+          <div class="fakeimg" style="height:200px;"></div>
+          <p>{{post.post}}</p>
+        </div>
+      </div>
+      <div class="rightcolumn">
+        <div class="card">
+          <h2>About Me</h2>
+          <div class="fakeimg" style="height:100px;">Image</div>
+          <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+        </div>
+        <div class="card">
+          <h3>Popular Post</h3>
+          <div class="fakeimg">Image</div><br>
+          <div class="fakeimg">Image</div><br>
+          <div class="fakeimg">Image</div>
+        </div>
+        <div class="card">
+          <h3>Follow Me</h3>
+          <p>Some text..</p>
+        </div>
+      </div>
     </div>
-    <h1>Posts</h1>
-    <div class="card">
-      <ul v-for="list in lists" :key="list.type"> </ul>
-      <h2>Title:{{title2}}</h2>
-      <h3>Date publicated: {{date}}</h3>
-      <h3>Who publicated: {{post.typeUser}}</h3>
-      <div class="fakeimg" style="height:200px;"> <img alt="obrazek" src="../assets/example.jpg"> <textarea disabled  v-model="post.post" rows="10" cols="40"> </textarea> </div>
-  </div>
-    <div class="card">
-      <ul v-for="list in lists" :key="list.type"> </ul>
-      <h2>Title: <input type="text" v-model="title"></h2>
-      <h3>Date publicated:</h3>
-      <h3>Who:</h3>
-      <div class="fakeimg" style="height:200px;"> <img alt="obrazek" src="../assets/example.jpg"> <textarea v-model="text" rows="10" cols="40"> </textarea> </div>
     </div>
-    <div class="card">
-      <ul v-for="list in lists" :key="list.type"> </ul>
-      <h2>Title: {{title}}</h2>
-      <h3>Date publicated:</h3>
-      <h3>Who:</h3>
-      <div class="fakeimg" style="height:200px;"> <img alt="obrazek" src="../assets/example.jpg"> <textarea v-model="text" rows="10" cols="40"> </textarea> </div>
-    </div>
-    <div class="card">
-      <ul v-for="list in lists" :key="list.type"> </ul>
-      <h2>Title: <input type="text" v-model="title"></h2>
-      <h3>Date publicated:</h3>
-      <h3>Who:</h3>
-      <div class="fakeimg" style="height:200px;"> <img alt="obrazek" src="../assets/example.jpg"> <textarea v-model="text" rows="10" cols="40"> </textarea> </div>
-    </div>
-    <div class="footer">
-      <h2>Footer</h2>
-    </div>
-    <div>
-      <br>
-      <br>
-      <img alt="obrazek" src="../assets/example.jpg">
-    </div>
-  </div>
 </template>
 
 
@@ -136,22 +125,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#layout{
-  float:left;
-  background-color:blue;
-}
-img{
-  float: left;
-  width:300px;
-}
-
 body {
   font-family: Arial;
   padding: 20px;
   background: #f1f1f1;
 }
-h2{
-  margin-left: 211px
+img{
+  width: 100px;
+  height: 100px;
+  float:left;
 }
 
 /* Header/Blog Title */
@@ -178,7 +160,7 @@ h2{
 
 /* Fake image */
 .fakeimg {
-  background-color: white;
+  background-color: #aaa;
   width: 100%;
   padding: 20px;
 }
