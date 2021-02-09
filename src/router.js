@@ -6,8 +6,10 @@ import Register from './components/Register';
 import Contact from "@/components/Contact";
 import Information from "@/components/Information";
 import Valid from "@/components/Valid";
-import Book from "@/components/Book";
+import Blog from "@/components/Blog";
 import listUsers from "@/components/listUsers";
+import addUser from "@/components/addUser";
+import editUser from "@/components/editUser";
 
 Vue.use(VueRouter);
 
@@ -42,9 +44,21 @@ const router =  new VueRouter({
         },
 
         {
-            path: '/book',
-            name: 'book',
-            component: Book,
+            path: '/add',
+            name: 'add',
+            component: addUser,
+        },
+
+        {
+            path: '/edit',
+            name: 'edit',
+            component: editUser,
+        },
+
+        {
+            path: '/blog',
+            name: 'blog',
+            component: Blog,
         },
 
         {

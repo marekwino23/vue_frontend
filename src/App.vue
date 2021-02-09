@@ -12,7 +12,7 @@
           <router-link to="/info">User information</router-link>
         </li>
         <li>
-          <router-link  to="/book">Blog</router-link>
+          <router-link to="/blog">Blog</router-link>
         </li>
         <li v-show='status === "Admin"'>
           <router-link to="/list">User list</router-link>
@@ -57,12 +57,14 @@ export default {
   methods: {
     Logout: function(){
       sessionStorage.clear();
+      localStorage.clear()
         this.$router.push('/login')
     }
   },
   mounted(){
     this.logged = sessionStorage.getItem("loggedin")
     this.status = sessionStorage.getItem("type")
+    console.log(this.status)
   }
 }
 
