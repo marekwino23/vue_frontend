@@ -9,16 +9,16 @@
       <form @submit="onsubmit" method="post">
         <div id="name">
           <label>Name</label>
-          <input type="text" name="name" required value="name" v-model="name">
+          <input type="text" class="field" name="name" required value="name" v-model="name">
         </div>
         <br>
         <br>
         <label>Surname </label>
-        <input type="text" name="surname" required value="surname" v-model="surname">
+        <input type="text" name="surname" class="field" required value="surname" v-model="surname">
         <br>
         <br>
         <label>Email </label>
-        <input type="email" name="email" id="email" required v-model="username">
+        <input type="email" name="email" id="email" class="field" required v-model="username">
         <br>
         <br>
         <label>Check email</label>
@@ -26,7 +26,10 @@
         <br>
         <br>
         <label>Password</label>
-        <input type="password" name="password" required min="8" value="password" v-model="password">
+        <input type="password" name="password" class="field" required min="8" value="password" v-model="password">
+        <br>
+        <label>Phone number</label>
+        <input type="text" name="password" class="field" required min="8" value="password" v-model="phone">
         <br>
         <br>
         <label> Validation</label>
@@ -40,7 +43,7 @@
         <br>
         <br>
         <br>
-        <input type="submit" class="check" value="submit" :disabled='validation === "off"'>
+        <input type="submit" class="sub" value="submit" :disabled='validation === "off"'>
       </form>
     </div>
   </div>
@@ -60,6 +63,7 @@ export default {
       surname: "",
       username: "",
       password: "",
+      phone:'',
       response: '',
       data: '',
       check: "busy",
@@ -105,7 +109,8 @@ export default {
           "surname": this.surname,
           "username": this.username,
           "password": this.password,
-          "type": this.type
+          "type": this.type,
+          "phone": this.phone,
         }),
         headers: {
           "Content-Type": "application/json"
@@ -148,6 +153,37 @@ export default {
 #name {
   margin-left: 29px;
 }
+
+.field[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.sub[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+
+div {
+  border-radius: 5px;
+  padding: 20px;
+}
+
+
 
 
 </style>

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="header">
+      <h1>My Website</h1>
+    </div>
 <div>
   <h1>{{status}}</h1>
 </div>

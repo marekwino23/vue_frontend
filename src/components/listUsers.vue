@@ -2,7 +2,7 @@
   <div>
     <div>
       <p>Panel Admina<p/>
-      <table>
+      <table id="users">
         <th> id</th>
         <th> name</th>
         <th> surname </th>
@@ -18,10 +18,12 @@
           <td>{{list.secondEmail}}</td>
           <td>{{list.code}}</td>
           <td>{{list.typeUser}}</td>
-          <input type="button" value="delete" @click="deleteRow(list, list.id)">
-          <input type="button" value="edit" @click="editUser(list)">
+          <div class="btn-group">
+          <input type="button" class="button" value="delete" @click="deleteRow(list, list.id)">
+          <input type="button" class="button" value="edit" @click="editUser(list)">
+        <input type="button" class="button" value="add user" @click="addUser">
+          </div>
         </tr>
-        <input type="button" value="add user" @click="addUser">
       </table>
     </div>
   </div>
@@ -107,4 +109,49 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
+#users {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#users td, #users th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#users tr:nth-child(even){background-color: #f2f2f2;}
+
+#users tr:hover {background-color: #ddd;}
+
+#users th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-group .button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+}
+
+.btn-group .button:hover {
+  background-color: #3e8e41;
+}
+
+
+
+
 </style>

@@ -8,7 +8,9 @@
       <form @submit="addEmail" action="http://localhost:8000/onchangeEmail">
       <ul>
         <li> Name: {{ name }}</li>
+        <br>
         <li> Surname:{{ surname }}</li>
+        <br>
         <li> Email: {{email}}</li>
         <br>
         <li>Second Email: {{oldEmail}} </li>
@@ -132,6 +134,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+ul{
+  margin-left:383px;
+}
 
 </style>

@@ -9,8 +9,9 @@
           <h2> Title: <input type="text" v-model="title"> </h2>
           <h5> Title description:</h5>
           <h5> Who publicated: </h5>
-          <div class="fakeimg" style="height:200px;"></div>
+          <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
           <br>
+          <input type="file" @click="onChange">
           <textarea v-model="text"></textarea>
           <input type="button" value="addPost" @click="addPosts">
         </div>
@@ -18,14 +19,14 @@
           <h2>Title: {{title2}}</h2>
           <h5>Title description:{{title2}}</h5>
           <h5> Who publicated: {{post.typeUser}}</h5>
-          <div class="fakeimg" style="height:200px;"></div>
+          <div class="fakeimg" style="height:200px;"> </div>
           <p>{{post.post}}</p>
         </div>
       </div>
       <div class="rightcolumn">
         <div class="card">
           <h2>About Me</h2>
-          <div class="fakeimg" style="height:100px;">Image</div>
+          <div class="fakeimg" style="height:100px;"> </div>
           <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
         </div>
         <div class="card">
@@ -90,6 +91,16 @@ export default {
        })
   },
   methods: {
+
+    onChange: function () {
+      var reader = new FileReader();
+      var fileToRead = document.querySelector('input').files[0];
+
+      reader.addEventListener("loadend", function() {
+        document.getElementById('file').innerText = reader.result;
+      });
+      reader.readAsText(fileToRead);
+    },
     addPosts: function () {
       console.log(this.title)
       sessionStorage.setItem("title", this.title)
