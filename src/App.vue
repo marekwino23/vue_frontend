@@ -12,7 +12,7 @@
           <router-link v-show="logged" to="/info">User information</router-link>
         </li>
         <li>
-          <router-link to="/blog">Blog</router-link>
+          <router-link v-show="logged" to="/blog">Blog</router-link>
         </li>
         <li v-show='status === "Admin"'>
           <router-link to="/list">User list</router-link>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+
 
 
 export default {
@@ -78,6 +79,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #62ac62;
   margin-top: 60px;
 }
 .menu{

@@ -11,16 +11,16 @@
           <h5> Who publicated: </h5>
           <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
           <br>
-          <input type="file" @click="onChange">
           <textarea v-model="text"></textarea>
           <input type="button" value="addPost" @click="addPosts">
         </div>
         <div class="card">
-          <h2>Title: {{title2}}</h2>
-          <h5>Title description:{{title2}}</h5>
-          <h5> Who publicated: {{post.typeUser}}</h5>
+          <h2>Title: {{post.postTitle}}</h2>
+          <h5>Title description:{{post.postTitle}}</h5>
+          <h5> Who publicated: </h5>
+          <h5> Date: </h5>
           <div class="fakeimg" style="height:200px;"> </div>
-          <p>{{post.post}}</p>
+          <p>{{post.postContent}}</p>
         </div>
       </div>
       <div class="rightcolumn">
@@ -68,8 +68,6 @@ export default {
     }
   },
   mounted() {
-    this.status = sessionStorage.getItem("type")
-    this.title2 = sessionStorage.getItem("title")
     this.date = new Date();
    fetch("http://localhost:8000/updateBlog",{
      method: "GET",
@@ -91,16 +89,6 @@ export default {
        })
   },
   methods: {
-
-    onChange: function () {
-      var reader = new FileReader();
-      var fileToRead = document.querySelector('input').files[0];
-
-      reader.addEventListener("loadend", function() {
-        document.getElementById('file').innerText = reader.result;
-      });
-      reader.readAsText(fileToRead);
-    },
     addPosts: function () {
       console.log(this.title)
       sessionStorage.setItem("title", this.title)
@@ -114,6 +102,8 @@ export default {
         body: JSON.stringify({
           "text": this.text,
           "id": this.id,
+          "title": this.title,
+          "date": this.date,
         })
       })
           .then(response => response.json())
@@ -171,14 +161,13 @@ img{
 
 /* Fake image */
 .fakeimg {
-  background-color: #aaa;
+  background-color: white;
   width: 100%;
   padding: 20px;
 }
 
 /* Add a card effect for articles */
 .card {
-  background-color: white;
   padding: 20px;
   margin-top: 20px;
 }

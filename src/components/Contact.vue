@@ -1,29 +1,21 @@
 <template>
-<div>
-<div>
-  <div class="container">
-    <form>
-      <label for="fname">First Name</label>
-      <input type="text" id="fname" name="firstname" placeholder="Your name..">
+  <div>
+    <div>
+      <div class="container">
+        <form @submit="createMessage">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" name="firstname" v-model="firstName" placeholder="Your name..">
 
-      <label for="lname">Last Name</label>
-      <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" name="lastname" v-model="lastName" placeholder="Your last name..">
+          <label for="subject">Subject</label>
+          <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
 
-      <label for="country">Country</label>
-      <select id="country" name="country">
-        <option value="australia">Australia</option>
-        <option value="canada">Canada</option>
-        <option value="usa">USA</option>
-      </select>
-
-      <label for="subject">Subject</label>
-      <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-
-      <input type="submit" value="Submit">
-    </form>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 </template>
 
 
@@ -38,12 +30,41 @@ export default {
   },
   data() {
     return {
-
+      firstName: '',
+      lastName: '',
+      text: '',
     }
   },
+  methods: {
+    createMessage: function () {
+      this.id = sessionStorage.getItem("id")
+       fetch("http://localhost:8000/createMessage", {
+        method: "POST",
+        body: JSON.stringify({
+          "firstName": this.firstName,
+          "lastName": this.lastName,
+          "text": this.text,
 
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+            if (data.status === "success") {
+              alert("Message is created")
+              console.log("done")
+              this.$router.push('login')
+            } else if (data.error === "Message is wrong") {
+              this.$router.push('home')
+
+            }
+          });
+    }
+  }
 }
-
 
 
 </script>
@@ -51,8 +72,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 input[type=text], select, textarea {
   width: 100%;
