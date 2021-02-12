@@ -1,34 +1,21 @@
 <template>
   <div>
     <div class="header">
-      <h2>My Blog</h2>
+      <h2>Add post</h2>
     </div>
     <div class="row">
-      <div class="rightcolumn">
-        <div class="card">
-          <h2>List Subject:</h2>
-          <ul v-for="list in lists" :key="list.id">
-<!--             <li class="title">{{list.postTitle}}</li> <input type="button" value="choose" @click="chooseSubject(list.id,list)">-->
-            <router-link :to="{name:'post', params:{id:list.id}}"> <li class="title">{{list.postTitle}}</li> </router-link>
-          </ul>
+      <div class="leftcolumn">
+          <h2> Title: <input type="text" v-model="title"> </h2>
+          <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
           <br>
-          <br>
-          <br>
-          <br>
+          <textarea v-model="text"></textarea>
+          <input type="button" value="addPost" @click="addPosts">
+        <br>
+        <br>
+        <router-link to="/blog">Back</router-link>
         </div>
-        <div class="card">
-          <h3>Popular Post</h3>
-          <div class="fakeimg">Image</div><br>
-          <div class="fakeimg">Image</div><br>
-          <div class="fakeimg">Image</div>
         </div>
-        <div class="card">
-          <router-link to="/addPost">Add Post</router-link>
-          <h3>Follow Me</h3>
-          <p>Some text..</p>
-        </div>
-      </div>
-    </div>
+
     </div>
 </template>
 
@@ -54,27 +41,38 @@ export default {
       date:''
     }
   },
-  mounted() {
-    this.date = new Date();
-   fetch("http://localhost:8000/updateSubject",{
-     method: "GET",
-     headers: {
-       "Content-Type": "application/json",
-     },
-   })
-       .then(response => {
-         if (response.status === 200) {
-           return response.json();
-         }
-       })
-       .then(data => {
-         console.log(data)
-         for(let i=0;i<data.post.length;i++) {
-         this.lists.push(data.post[i])
-           console.log(this.lists)
-         }
-       })
-  },
+  methods: {
+    addPosts: function () {
+      console.log(this.title)
+      this.id = sessionStorage.getItem("id")
+      this.type = sessionStorage.getItem("type")
+      fetch('http://localhost:8000/addPost', {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "text": this.text,
+          "id": this.id,
+          "title": this.title,
+          "date": this.date,
+          "type": this.type,
+        })
+      })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data)
+            if(data.status === "success"){
+              alert("Post created successful")
+              this.$router.push('blog')
+            }
+            else{
+              console.error("failed")
+            }
+
+          })
+    },
+  }
 }
 
 </script>
@@ -90,9 +88,6 @@ img{
   width: 100px;
   height: 100px;
   float:left;
-}
-
-.title{
 }
 
 /* Header/Blog Title */

@@ -10,8 +10,10 @@ import Blog from "@/components/Blog";
 import listUsers from "@/components/listUsers";
 import addUser from "@/components/addUser";
 import editUser from "@/components/editUser";
-
+import addPost from "@/components/addPost";
+import Post from "@/components/Post";
 Vue.use(VueRouter);
+
 
 const router =  new VueRouter({
     mode: 'history',
@@ -49,10 +51,23 @@ const router =  new VueRouter({
             component: addUser,
         },
 
+
+        {
+            path: '/addPost',
+            name: 'addPost',
+            component: addPost,
+        },
+
         {
             path: '/edit',
             name: 'edit',
             component: editUser,
+        },
+
+        {
+            path: '/post',
+            name: 'post',
+            component: Post,
         },
 
         {

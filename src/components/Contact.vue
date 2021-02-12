@@ -2,16 +2,20 @@
   <div>
     <div>
       <div class="container">
-        <form @submit="createMessage">
-          <label for="fname">First Name</label>
-          <input type="text" id="fname" name="firstname" v-model="firstName" placeholder="Your name..">
-
-          <label for="lname">Last Name</label>
-          <input type="text" id="lname" name="lastname" v-model="lastName" placeholder="Your last name..">
-          <label for="subject">Subject</label>
-          <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-
-          <input type="submit" value="Submit">
+        <form action="http://localhost:8000/createMessage" @submit="createMessage()">
+          <label>Your Email </label>
+          <input type="email" class="email" name="email" required id="email">
+          <br>
+          <br>
+          <label>Message </label>
+          <input type="text" class="text" name="text" required min="8" id="text">
+          <br>
+          <br>
+          <div class="btn-submit">
+            <input type="submit" class="button" value="submit">
+          </div>
+          <br>
+          <br>
         </form>
       </div>
     </div>
@@ -30,35 +34,33 @@ export default {
   },
   data() {
     return {
-      firstName: '',
-      lastName: '',
-      text: '',
+
     }
   },
   methods: {
     createMessage: function () {
-      this.id = sessionStorage.getItem("id")
-       fetch("http://localhost:8000/createMessage", {
+      // const date = new Date();
+      // const id = sessionStorage.getItem("id")
+      const email = document.getElementById("email").value
+      const message = document.getElementById("text").value
+      fetch('http://localhost:8000/createMessage',{
         method: "POST",
-        body: JSON.stringify({
-          "firstName": this.firstName,
-          "lastName": this.lastName,
-          "text": this.text,
-
-        }),
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          email, message
+        }),
       })
           .then(response => response.json())
           .then(data => {
             console.log('Success:', data);
-            if (data.status === "success") {
-              alert("Message is created")
+            if (data.message === "success") {
+              alert("Create message successful")
               console.log("done")
-              this.$router.push('login')
-            } else if (data.error === "Message is wrong") {
               this.$router.push('home')
+            } else if (data.error === "error") {
+              alert("failed")
 
             }
           });

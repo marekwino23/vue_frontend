@@ -51,7 +51,7 @@ export default {
 
     Forgot: function(){
       const email = document.getElementById("username").value
-      this.data = fetch('http://localhost:8000/forgot', {
+       fetch('http://localhost:8000/forgot', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

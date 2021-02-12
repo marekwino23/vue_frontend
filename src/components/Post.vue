@@ -6,12 +6,12 @@
     <div class="row">
       <div class="rightcolumn">
         <div class="card">
-          <h2>List Subject:</h2>
-          <ul v-for="list in lists" :key="list.id">
-<!--             <li class="title">{{list.postTitle}}</li> <input type="button" value="choose" @click="chooseSubject(list.id,list)">-->
-            <router-link :to="{name:'post', params:{id:list.id}}"> <li class="title">{{list.postTitle}}</li> </router-link>
+          <h2>List Post:</h2>
+          <ul id="example-2">
+            <li v-for="(list, index) of lists" :key="list.post.post.postContent">
+              {{ index }} - {{ list.postTitle }}
+            </li>
           </ul>
-          <br>
           <br>
           <br>
           <br>
@@ -23,6 +23,9 @@
           <div class="fakeimg">Image</div>
         </div>
         <div class="card">
+          <router-link to="/blog"> Back </router-link>
+          <br>
+          <br>
           <router-link to="/addPost">Add Post</router-link>
           <h3>Follow Me</h3>
           <p>Some text..</p>
@@ -37,7 +40,7 @@
 
 
 export default {
-  name: 'blog',
+  name: 'post',
   components: {},
   updated() {
 
@@ -56,7 +59,9 @@ export default {
   },
   mounted() {
     this.date = new Date();
-   fetch("http://localhost:8000/updateSubject",{
+    console.log(this.$route.params.id)
+    this.id = this.$route.params.id
+   fetch("http://localhost:8000/updateBlog/"+this.id,{
      method: "GET",
      headers: {
        "Content-Type": "application/json",
@@ -69,10 +74,10 @@ export default {
        })
        .then(data => {
          console.log(data)
-         for(let i=0;i<data.post.length;i++) {
-         this.lists.push(data.post[i])
+         this.lists = data
            console.log(this.lists)
-         }
+
+
        })
   },
 }
