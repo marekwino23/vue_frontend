@@ -6,11 +6,15 @@ import Register from './components/Register';
 import Contact from "@/components/Contact";
 import Information from "@/components/Information";
 import Valid from "@/components/Valid";
-import Book from "@/components/Book";
+import Blog from "@/components/Blog";
 import listUsers from "@/components/listUsers";
+import addUser from "@/components/addUser";
 import editUser from "@/components/editUser";
-
+import addPost from "@/components/addPost";
+import Post from "@/components/Post";
+import Received from "@/components/Received";
 Vue.use(VueRouter);
+
 
 const router =  new VueRouter({
     mode: 'history',
@@ -36,6 +40,14 @@ const router =  new VueRouter({
             name: 'contact',
             component: Contact,
         },
+
+
+        {
+            path: '/received',
+            name: 'received',
+            component: Received,
+        },
+
         {
             path: '/info',
             name: 'information',
@@ -43,17 +55,17 @@ const router =  new VueRouter({
         },
 
         {
-            path: '/book',
-            name: 'book',
-            component: Book,
+            path: '/add',
+            name: 'add',
+            component: addUser,
         },
+
 
         {
-            path: '/list',
-            name: 'list',
-            component: listUsers,
+            path: '/addPost',
+            name: 'addPost',
+            component: addPost,
         },
-
 
         {
             path: '/edit',
@@ -61,6 +73,23 @@ const router =  new VueRouter({
             component: editUser,
         },
 
+        {
+            path: '/post',
+            name: 'post',
+            component: Post,
+        },
+
+        {
+            path: '/blog',
+            name: 'blog',
+            component: Blog,
+        },
+
+        {
+            path: '/list',
+            name: 'list',
+            component: listUsers,
+        },
 
         {
             path: '/valid',

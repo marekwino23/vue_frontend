@@ -4,18 +4,23 @@
     <br>
     <form action="http://localhost:8000/login" @submit="onAuth()">
       <label>Username </label>
-      <input type="text" name="username" required id="username" v-model="username">
+      <input type="text" class="login" name="username" required id="username" v-model="username">
       <br>
       <br>
       <label>Password </label>
-      <input type="password" name="password" required min="8" id="password" v-model="password">
+      <input type="password" class="login" name="password" required min="8" id="password" v-model="password">
       <br>
       <br>
       <br>
-      <input type="button" value="Forgotten password" v-on:click="Forgot" >
+      <div class="btn-login">
+      <input type="button" class="button" value="Forgotten password" v-on:click="Forgot">
+      </div>
+        <br>
+        <div class="btn-submit">
+        <input type="submit" class="button" value="submit">
+        </div>
       <br>
       <br>
-      <input type="submit" value="submit">
     </form>
   </div>
 </template>
@@ -46,7 +51,7 @@ export default {
 
     Forgot: function(){
       const email = document.getElementById("username").value
-      this.data = fetch('http://localhost:8000/forgot', {
+       fetch('http://localhost:8000/forgot', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -144,6 +149,45 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
+
+.btn-login .button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  margin-left: 640px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+}
+
+.btn-login .button:hover {
+  background-color: #3e8e41;
+}
+
+.btn-submit .button {
+  background-color: #4CAF50;
+  border: none;
+  margin-left: 690px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+}
+
+.btn-submit .button:hover {
+  background-color: #3e8e41;
+}
+
+
 
 ul {
   list-style-type: none;

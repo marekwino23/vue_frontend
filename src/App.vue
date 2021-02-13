@@ -1,18 +1,21 @@
 <template>
   <div>
     <div>
-      <ul>
+      <ul class="menu">
         <li>
-          <router-link to="/home">Home</router-link>
+          <router-link class="active" to="/home">Home</router-link>
         </li>
         <li>
-          <router-link to="/contact">Contact</router-link>
+          <router-link v-show="logged" to="/contact">Contact</router-link>
         </li>
         <li>
-          <router-link to="/info">User information</router-link>
+          <router-link v-show="logged" to="/received">MessageReceived</router-link>
         </li>
         <li>
-          <router-link to="/book">Blog</router-link>
+          <router-link v-show="logged" to="/info">User information</router-link>
+        </li>
+        <li>
+          <router-link v-show="logged" to="/blog">Blog</router-link>
         </li>
         <li v-show='status === "Admin"'>
           <router-link to="/list">User list</router-link>
@@ -23,12 +26,13 @@
         <li v-show="!logged">
           <router-link to="/login">Login</router-link>
         </li>
-        <input v-show="logged" type="button" @click="Logout" value="Wyloguj">
+        <div class="btn-group">
+        <input type="button" class="button" v-show="logged" @click="Logout" value="Wyloguj">
+        </div>
       </ul>
     </div>
     <div id="app">
       <router-view></router-view>
-      <img alt="Vue logo" src="./assets/logo.png">
     </div>
     <div id="home">
       <br>
@@ -38,6 +42,7 @@
 </template>
 
 <script>
+
 
 
 export default {
@@ -57,12 +62,14 @@ export default {
   methods: {
     Logout: function(){
       sessionStorage.clear();
+      localStorage.clear()
         this.$router.push('/login')
     }
   },
   mounted(){
     this.logged = sessionStorage.getItem("loggedin")
     this.status = sessionStorage.getItem("type")
+    console.log(this.status)
   }
 }
 
@@ -75,8 +82,54 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #62ac62;
   margin-top: 60px;
 }
+.menu{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
 
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+
+.btn-group .button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 13px 20px;
+  margin-top: -19px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+}
+
+.btn-group .button:hover {
+  background-color: #3e8e41;
+}
+
+.active {
+  background-color: #4CAF50;
+}
 
 </style>
