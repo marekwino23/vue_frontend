@@ -12,15 +12,15 @@
           <router-link to="/info">User information</router-link>
         </li>
         <li>
-          <router-link  to="/book">Blog</router-link>
+          <router-link to="/book">Blog</router-link>
         </li>
-        <li v-show='status === "Administrator"'>
+        <li v-show='status === "Admin"'>
           <router-link to="/list">User list</router-link>
         </li>
         <li v-show='logged === null'>
           <router-link to="/register">Register</router-link>
         </li>
-        <li>
+        <li v-show="!logged">
           <router-link to="/login">Login</router-link>
         </li>
         <input v-show="logged" type="button" @click="Logout" value="Wyloguj">
