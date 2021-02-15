@@ -4,35 +4,32 @@
       <img alt="Vue logo" src="../assets/logo.png">
     </div>
     <div id="create">
-      <p>Register</p>
+      <p style="color:white">Register</p>
       <br>
       <form @submit="onsubmit" method="post">
         <div id="name">
-          <label>Name</label>
+          <label class="place">Name</label>
           <input type="text" class="field" name="name" required value="name" v-model="name">
         </div>
         <br>
         <br>
-        <label>Surname </label>
+        <label class="place">Surname </label>
         <input type="text" name="surname" class="field" required value="surname" v-model="surname">
         <br>
         <br>
-        <label>Email </label>
+        <label class="place">Email </label>
         <input type="email" name="email" id="email" class="field" required v-model="username">
         <br>
         <br>
-        <label>Check email</label>
+        <label class="place">Check email</label>
         <input type="button" v-on:click="onCheck" v-model="check"/>
         <br>
         <br>
-        <label>Password</label>
+        <label class="place">Password</label>
         <input type="password" name="password" class="field" required min="8" value="password" v-model="password">
         <br>
-        <label>Phone number</label>
-        <input type="text" name="password" class="field" required min="8" value="password" v-model="phone">
         <br>
-        <br>
-        <label> Validation</label>
+        <label class="place"> Validation</label>
         <input type="button" v-on:click="checkform" v-model="validation"/>
         <br>
         <br>
@@ -181,6 +178,10 @@ input[type=submit]:hover {
 div {
   border-radius: 5px;
   padding: 20px;
+}
+.place{
+  color:white;
+  font-weight: bold;
 }
 
 

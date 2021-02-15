@@ -13,6 +13,7 @@ import editUser from "@/components/editUser";
 import addPost from "@/components/addPost";
 import Post from "@/components/Post";
 import Received from "@/components/Received";
+import Sended from "@/components/Sended";
 Vue.use(VueRouter);
 
 
@@ -72,6 +73,14 @@ const router =  new VueRouter({
             name: 'edit',
             component: editUser,
         },
+
+        {
+            path: '/sended',
+            name: 'sended',
+            component: Sended,
+        },
+
+
 
         {
             path: '/post',

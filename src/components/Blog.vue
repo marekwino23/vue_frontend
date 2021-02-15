@@ -5,11 +5,11 @@
     </div>
     <div class="row">
       <div class="rightcolumn">
+        <addSubject></addSubject>
         <div class="card">
-          <h2>List Subject:</h2>
+          <h2 style="color:white">List Subject:</h2>
           <ul v-for="list in lists" :key="list.id">
-<!--             <li class="title">{{list.postTitle}}</li> <input type="button" value="choose" @click="chooseSubject(list.id,list)">-->
-            <router-link :to="{name:'post', params:{id:list.id}}"> <li class="title">{{list.postTitle}}</li> </router-link>
+            <router-link :to="{name:'post', params:{id:list.id}}">{{list.postTitle}}</router-link>
           </ul>
           <br>
           <br>
@@ -17,14 +17,13 @@
           <br>
         </div>
         <div class="card">
-          <h3>Popular Post</h3>
+          <h3 style="color:white">Popular Post</h3>
           <div class="fakeimg">Image</div><br>
           <div class="fakeimg">Image</div><br>
           <div class="fakeimg">Image</div>
         </div>
         <div class="card">
-          <router-link to="/addPost">Add Post</router-link>
-          <h3>Follow Me</h3>
+          <h3 style="color:white">Follow Me</h3>
           <p>Some text..</p>
         </div>
       </div>
@@ -32,13 +31,13 @@
     </div>
 </template>
 
-
 <script>
 
+import addSubject from "@/components/addSubject";
 
 export default {
   name: 'blog',
-  components: {},
+  components: {addSubject},
   updated() {
 
   },
@@ -47,8 +46,7 @@ export default {
       lists: [],
       text: '',
       title:'',
-      title2: '',
-      status: '',
+      title2:'',
       typeUser: '',
       id: '',
       date:''
@@ -56,6 +54,10 @@ export default {
   },
   mounted() {
     this.date = new Date();
+    this.typeUser = sessionStorage.getItem("type")
+    console.log(this.$route.params.title)
+    this.title2 = this.$route.params.title
+    console.log(this.typeUser)
    fetch("http://localhost:8000/updateSubject",{
      method: "GET",
      headers: {
@@ -68,11 +70,13 @@ export default {
          }
        })
        .then(data => {
-         console.log(data)
          for(let i=0;i<data.post.length;i++) {
          this.lists.push(data.post[i])
-           console.log(this.lists)
          }
+         this.lists.forEach(function(list){
+           console.log(list.postTitle)
+           sessionStorage.setItem("title", list.postTitle)
+         })
        })
   },
 }
@@ -90,9 +94,6 @@ img{
   width: 100px;
   height: 100px;
   float:left;
-}
-
-.title{
 }
 
 /* Header/Blog Title */

@@ -9,6 +9,9 @@
           <router-link v-show="logged" to="/contact">Contact</router-link>
         </li>
         <li>
+          <router-link v-show="logged" to="/sended">MessageSended</router-link>
+        </li>
+        <li>
           <router-link v-show="logged" to="/received">MessageReceived</router-link>
         </li>
         <li>

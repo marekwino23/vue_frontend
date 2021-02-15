@@ -8,8 +8,9 @@
         <div class="card">
           <h2>List Post:</h2>
           <ul id="example-2">
-            <li v-for="(list, index) of lists" :key="list.post.post.postContent">
-              {{ index }} - {{ list.postTitle }}
+            <li v-for="list of lists" :key="list.postContent">
+              Title: <input type="text" v-model="list.postTitle">  Date: <input type="text" v-model="list.date">   Content: <input type="text" v-model="list.postContent"> <br>  Who publicated: <input type="text" v-model="list.typeUser">
+            <input type="button" value="delete" @click="deletePost(list,list.id)">
             </li>
           </ul>
           <br>
@@ -26,7 +27,7 @@
           <router-link to="/blog"> Back </router-link>
           <br>
           <br>
-          <router-link to="/addPost">Add Post</router-link>
+          <router-link :v-show ='typeUser !== "User"' to="/addPost">Add Post</router-link>
           <h3>Follow Me</h3>
           <p>Some text..</p>
         </div>
@@ -54,13 +55,45 @@ export default {
       status: '',
       typeUser: '',
       id: '',
+      post_id:"",
       date:''
     }
   },
+
+  methods:{
+    deletePost: function (list) {
+      console.log(list.id)
+      this.id = list.id
+      fetch("http://localhost:8000/deletePost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({"id": this.id})
+      })
+          .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            }
+          })
+          .then(data => {
+            console.log(data.message)
+            if (data.message === "delete success") {
+              this.$router.push('home')
+            } else {
+              alert("failed")
+            }
+          })
+    },
+  },
+
   mounted() {
-    this.date = new Date();
+    this.dateFormat = new Date();
     console.log(this.$route.params.id)
-    this.id = this.$route.params.id
+    sessionStorage.setItem("post_id", this.$route.params.id)
+    this.date = new Date(this.dateFormat)
+    this.typeUser = sessionStorage.getItem("type")
+    this.id = sessionStorage.getItem("post_id")
    fetch("http://localhost:8000/updateBlog/"+this.id,{
      method: "GET",
      headers: {
@@ -73,10 +106,14 @@ export default {
          }
        })
        .then(data => {
-         console.log(data)
-         this.lists = data
-           console.log(this.lists)
+         for(let i = 0; i<data.post.length;i++) {
+           this.lists.push(data.post[i])
+         }
+         this.lists.forEach(function(list){
+           console.log(list.id)
+           sessionStorage.setItem("post_id", list.id)
 
+         })
 
        })
   },
@@ -127,6 +164,17 @@ img{
   background-color: white;
   width: 100%;
   padding: 20px;
+}
+input{
+  text-align:center;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
 }
 
 /* Add a card effect for articles */

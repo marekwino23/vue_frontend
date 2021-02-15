@@ -43,16 +43,18 @@ export default {
       message: '',
       receiver:'',
       sender:'',
+      id:'',
     }
   },
   methods: {
     createMessage: function (e) {
       e.preventDefault();
       this.sender = sessionStorage.getItem("type")
+      this.email = sessionStorage.getItem("email")
       console.log(this.email)
       console.log(this.message)
       const date = new Date();
-      const id = sessionStorage.getItem("id")
+      this.id = sessionStorage.getItem("id")
       fetch('http://localhost:8000/createMessage', {
         method: "POST",
         headers: {
@@ -62,7 +64,7 @@ export default {
           "email": this.email,
           "message": this.message,
           "date": date,
-          "id": id,
+          "id": this.id,
           "sender": this.sender,
           "receiver": this.receiver
         }),

@@ -1,28 +1,28 @@
 <template>
   <div>
     <div>
-      <p>User data
+      <p style="color: white">User data
       <p/>
       <br>
       <br>
       <form @submit="addEmail" action="http://localhost:8000/onchangeEmail">
       <ul>
-        <li> Name: {{ name }}</li>
+        <li class="info"> Name: {{ name }}</li>
         <br>
-        <li> Surname:{{ surname }}</li>
+        <li class="info"> Surname:{{ surname }}</li>
         <br>
-        <li> Email: {{email}}</li>
+        <li class="info"> Email: {{email}}</li>
         <br>
-        <li>Second Email: {{oldEmail}} </li>
+        <li class="info">Second Email: {{oldEmail}} </li>
         <br>
-          <li> <input type="text" v-model="secondEmail" id="newEmail"> <input type="submit" value="change"> </li>
+          <li class="info"> <input type="text" v-model="secondEmail" id="newEmail"> <input type="submit" value="change"> </li>
         <br>
         <br>
-   <li> Password: <input type="text" id="newPassword"> <input type="button" value="change password" @click="onchangePassword">
+   <li class="info"> Password: <input type="text" id="newPassword"> <input type="button" value="change password" @click="onchangePassword">
       </li>
         <br>
         <br>
-        <li>Typeofaccount: {{type}} </li>
+        <li class="info">Typeofaccount: {{type}} </li>
       </ul>
         </form>
     </div>
@@ -136,6 +136,11 @@ export default {
 <style scoped>
 ul{
   margin-left:383px;
+}
+
+.info{
+  color:white;
+  font-weight: bold;
 }
 
 </style>

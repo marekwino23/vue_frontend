@@ -1,26 +1,17 @@
 <template>
   <div>
     <div>
-      <p style="color:white">Received message<p/>
+      <p style="color:white">Sended message<p/>
       <table id="users">
         <th> email</th>
-        <th> sender</th>
         <th> message </th>
         <th>dateSend</th>
-        <th>answer</th>
-        <th>dateAnswer</th>
-        <th>personAnswer</th>
+        <th>To</th>
         <tr v-for="message in messages" :key="message.email">
           <td>{{message.email}}</td>
-          <td>{{message.sender}}</td>
           <td>{{message.message}}</td>
           <td>{{message.date_send}}</td>
-          <td>{{message.answer}}</td>
-          <td>{{message.date_answer}}</td>
           <td>{{message.personAnswer}}</td>
-          <input type="text" :disabled='message.answer !== "brak"' v-model="answer">
-          <input type="button" :disabled='message.answer !== "brak"' @click="answerMessage(message,message.id)" value="send">
-          <input type="button" value="Delete message" @click="deleteMessage(message,message.id)">
         </tr>
       </table>
     </div>
@@ -78,15 +69,15 @@ export default {
           })
     },
 
-    deleteMessage: function (message) {
-      console.log(message.id)
-      this.id = message.id
-      fetch("http://localhost:8000/deleteMessage", {
+    deleteMessage: function (list) {
+      const id = list.id
+      console.log(id)
+      fetch("http://localhost:8000/deleteRow", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({"id": this.id})
+        body: JSON.stringify({id})
       })
           .then(response => {
             if (response.status === 200) {
@@ -142,6 +133,10 @@ export default {
 #users td, #users th {
   border: 1px solid #ddd;
   padding: 8px;
+}
+
+tr{
+  background-color:white;
 }
 
 #users tr:nth-child(even){background-color: #f2f2f2;}

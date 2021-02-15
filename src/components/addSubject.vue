@@ -1,15 +1,13 @@
 <template>
   <div>
     <div class="header">
-      <h2>Add post</h2>
+      <h2>Add Subject</h2>
     </div>
     <div class="row">
       <div class="leftcolumn">
-          <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
+          <h2> Title: <input type="text" v-model="title"> </h2>
           <br>
-          <textarea v-model="text"></textarea>
-        <br>
-        <input type="button"  value="addPost" @click="addPosts">
+          <input type="button"  value="addSubject" @click="addSubject">
         <br>
         <br>
         <router-link to="/blog">Back</router-link>
@@ -24,7 +22,7 @@
 
 
 export default {
-  name: 'post',
+  name: 'subject',
   components: {},
   updated() {
 
@@ -32,19 +30,21 @@ export default {
   data() {
     return {
       lists: [],
-      text: '',
       title:'',
-      title2: '',
-      status: '',
+      title2:'',
       type: '',
       id: '',
-      email:'',
       date:''
     }
   },
 
   mounted() {
-    fetch("http://localhost:8000/updateSelect",{
+    this.date = new Date();
+    this.typeUser = sessionStorage.getItem("type")
+    console.log(this.$route.params.title)
+    this.title2 = this.$route.params.title
+    console.log(this.typeUser)
+    fetch("http://localhost:8000/updateSubject/"+this.id,{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -67,22 +67,24 @@ export default {
   },
 
   methods: {
-    addPosts: function () {
+    addSubject: function () {
+      if(this.title2 === this.title){
+        alert("This subject is used")
+      }
+      else {
         console.log(this.title)
         this.date = new Date()
         this.title2 = sessionStorage.getItem("title")
-        this.email = sessionStorage.getItem("email")
         this.id = sessionStorage.getItem("id")
         this.type = sessionStorage.getItem("type")
-        fetch('http://localhost:8000/addPost', {
+        fetch('http://localhost:8000/addSubject', {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            "text": this.text,
             "id": this.id,
-            "title2": this.title2,
+            "title": this.title,
             "date": this.date,
             "type": this.type,
           })
@@ -92,8 +94,7 @@ export default {
             .then(data => {
               console.log('Success:', data)
               if (data.status === "success") {
-                alert("Post created successful")
-                this.$router.push({name: 'blog', params: {title: this.title}})
+                alert("Title created successful")
               } else {
                 console.error("failed")
               }
@@ -101,6 +102,7 @@ export default {
             })
       }
     },
+  }
 }
 
 

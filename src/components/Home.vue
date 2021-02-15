@@ -29,13 +29,14 @@
         </div>
         <div class="card">
           <h3>Follow Me</h3>
-          <p>Some text..</p>
+          <p>marekw1996@gmail.com</p>
         </div>
       </div>
     </div>
 
     <div class="footer">
-      <h2>Footer</h2>
+      <h2>email: marekw1996@gmail.com</h2>
+      <h2>phone number: 505530072</h2>
     </div>
   </div>
 </template>
