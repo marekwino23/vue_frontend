@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="app">
-      <img alt="Vue logo" src="../assets/logo.png">
+      <img alt="Vue logo" src="../../assets/logo.png">
     </div>
     <div id="create">
       <p>Add new user</p>

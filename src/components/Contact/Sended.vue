@@ -8,10 +8,10 @@
         <th>dateSend</th>
         <th>To</th>
         <tr v-for="message in messages" :key="message.email">
-          <td>{{message.email}}</td>
-          <td>{{message.message}}</td>
-          <td>{{message.date_send}}</td>
           <td>{{message.personAnswer}}</td>
+          <td>{{message.answer}}</td>
+          <td>{{message.date_send}}</td>
+          <td>{{message.email}}</td>
         </tr>
       </table>
     </div>
@@ -96,8 +96,8 @@ export default {
   },
 
   mounted() {
-    this.type = sessionStorage.getItem("type")
-    fetch("http://localhost:8000/listMessage/"+this.type, {
+    this.email = sessionStorage.getItem("email")
+    fetch("http://localhost:8000/listMessage/"+this.email, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

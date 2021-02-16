@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>My Website</h1>
-    <h1>{{status}}</h1>
+    <h1>{{ status }}</h1>
     <br>
     <br>
     <div>
@@ -12,13 +12,13 @@
         <div class="card">
           <h2>TITLE HEADING</h2>
           <h5>Title description, Sep 2, 2017</h5>
-          <div class="fakeimg" style="height:200px;"> <img src="../assets/photo-1607117982290-686bb46893df.jpeg"></div>
+          <div class="fakeimg" style="height:200px;"><img src="../assets/photo-1607117982290-686bb46893df.jpeg"></div>
         </div>
       </div>
       <div class="rightcolumn">
         <div class="card">
           <h2>About Me</h2>
-          <div class="fakeimg" style="height:100px;"> <img src="../assets/pexels-pixabay-220762.jpg" height="80px"> </div>
+          <div class="fakeimg" style="height:100px;"><img src="../assets/pexels-pixabay-220762.jpg" height="80px"></div>
           <p>Zwykły praktykant</p>
         </div>
         <div class="card">
@@ -46,6 +46,7 @@
 
 
 import Slider from "@/components/Slider";
+
 export default {
   name: 'home',
   components: {Slider},
@@ -55,18 +56,47 @@ export default {
   data() {
     return {
       status: '',
+      email: '',
+      messages: '',
     }
   },
 
   mounted() {
-   this.status = sessionStorage.getItem("type");
+    this.status = sessionStorage.getItem("type");
+    this.email = sessionStorage.getItem("email")
+    fetch("http://localhost:8000/getMessage/" + this.email, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          }
+        })
+        .then(data => {
+          console.log(data)
+          if (data.status === "new messages") {
+            this.$swal.fire({
+              title: 'You have new messages!!!',
+              showCancelButton: true,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.$router.push('received')
+              } else if (result.isDenied) {
+                console.log("later")
+              }
+            })
+
+          } else if (data.status === "lack messages") {
+            this.$swal('Hello!!!');
+          }
+        })
   },
 
-  methods: {
-
-  },
+  methods: {},
 }
-
 
 
 </script>
@@ -155,17 +185,17 @@ h1 {
   padding: 20px;
 }
 
-img{
+img {
   margin-left: 3px;
   margin-top: -8px;
   width: 100%;
-  border:2px solid black;
+  border: 2px solid black;
 }
 
 /* Add a card effect for articles */
 .card {
   padding: 20px;
-  color:white;
+  color: white;
   margin-top: 20px;
 }
 

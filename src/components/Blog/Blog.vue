@@ -33,7 +33,7 @@
 
 <script>
 
-import addSubject from "@/components/addSubject";
+import addSubject from "@/components/Blog/addSubject";
 
 export default {
   name: 'blog',

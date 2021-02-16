@@ -1,19 +1,19 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
-import Contact from "@/components/Contact";
-import Information from "@/components/Information";
-import Valid from "@/components/Valid";
-import Blog from "@/components/Blog";
-import listUsers from "@/components/listUsers";
-import addUser from "@/components/addUser";
-import editUser from "@/components/editUser";
-import addPost from "@/components/addPost";
-import Post from "@/components/Post";
-import Received from "@/components/Received";
-import Sended from "@/components/Sended";
+import Login from './components/Data Users/Login';
+import Register from './components/Data Users/Register';
+import Contact from "@/components/Contact/Contact";
+import Information from "@/components/Data Users/Information";
+import Valid from "@/components/Data Users/Valid";
+import Blog from "@/components/Blog/Blog";
+import listUsers from "@/components/Data Users/listUsers";
+import addUser from "@/components/Data Users/addUser";
+import editUser from "@/components/Data Users/editUser";
+import addPost from "@/components/Blog/addPost";
+import Post from "@/components/Blog/Post";
+import Received from "@/components/Contact/Received";
+import Sended from "@/components/Contact/Sended";
 Vue.use(VueRouter);
 
 

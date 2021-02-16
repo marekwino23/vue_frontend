@@ -18,6 +18,7 @@
     "vue-facebook-login-component": "^4.0.0",
     "vue-router": "^3.5.1",
     "vue-session": "^1.0.0",
+    "vue-sweetalert2": "^4.2.0",
     "vue2-datepicker": "^3.8.2",
     "vue2-timepicker": "^1.1.6",
     "vuejs-datatable": "^2.0.0-alpha.7"

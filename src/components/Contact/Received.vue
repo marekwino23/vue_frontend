@@ -10,6 +10,7 @@
         <th>answer</th>
         <th>dateAnswer</th>
         <th>personAnswer</th>
+        <th>Status</th>
         <tr v-for="message in messages" :key="message.email">
           <td>{{message.email}}</td>
           <td>{{message.sender}}</td>
@@ -17,10 +18,11 @@
           <td>{{message.date_send}}</td>
           <td>{{message.answer}}</td>
           <td>{{message.date_answer}}</td>
-          <td>{{message.personAnswer}}</td>
+          <td>{{message.status}}</td>
           <input type="text" :disabled='message.answer !== "brak"' v-model="answer">
           <input type="button" :disabled='message.answer !== "brak"' @click="answerMessage(message,message.id)" value="send">
           <input type="button" value="Delete message" @click="deleteMessage(message,message.id)">
+          <input type="button" value="change status" @click="changeStatus(message,message.id)">
         </tr>
       </table>
     </div>
@@ -78,6 +80,32 @@ export default {
           })
     },
 
+    changeStatus: function (message) {
+      console.log(message.id)
+      this.id = message.id
+      fetch("http://localhost:8000/changeStatus/"+this.id, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({"id": this.id})
+      })
+          .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            }
+          })
+          .then(data => {
+            console.log(data.message)
+            if (data.status === "done") {
+              this.$router.push('home')
+            } else {
+              alert("failed")
+            }
+          })
+    },
+
+
     deleteMessage: function (message) {
       console.log(message.id)
       this.id = message.id
@@ -105,8 +133,8 @@ export default {
   },
 
   mounted() {
-    this.type = sessionStorage.getItem("type")
-    fetch("http://localhost:8000/listMessage/"+this.type, {
+    this.email = sessionStorage.getItem("email")
+    fetch("http://localhost:8000/listMessage/"+this.email, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
