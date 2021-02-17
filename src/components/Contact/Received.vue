@@ -9,7 +9,6 @@
         <th>dateSend</th>
         <th>answer</th>
         <th>dateAnswer</th>
-        <th>personAnswer</th>
         <th>Status</th>
         <tr v-for="message in messages" :key="message.email">
           <td>{{message.email}}</td>

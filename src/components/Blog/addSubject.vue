@@ -5,9 +5,10 @@
     </div>
     <div class="row">
       <div class="leftcolumn">
-        <h2> Title: <input type="text" v-model="title"></h2>
-        <br>
-        <input type="button" value="addSubject" @click="addSubject">
+        <form @submit="addSubject">
+          <h2> Title: <input type="text" v-model="title"></h2>
+          <input type="button" value="addSubject" @click="addSubject">
+        </form>
         <br>
         <br>
         <router-link to="/blog">Back</router-link>
@@ -38,46 +39,13 @@ export default {
     }
   },
 
-  mounted() {
-    this.date = new Date();
-    this.typeUser = sessionStorage.getItem("type")
-    console.log(this.$route.params.title)
-    this.title2 = this.$route.params.title
-    console.log(this.typeUser)
-    fetch("http://localhost:8000/updateSubject/" + this.id, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-        .then(response => {
-          if (response.status === 200) {
-            return response.json();
-          }
-        })
-        .then(data => {
-          for (let i = 0; i < data.post.length; i++) {
-            this.lists.push(data.post[i])
-          }
-          this.lists.forEach(function (list) {
-            console.log(list.postTitle)
-            sessionStorage.setItem("title", list.postTitle)
-          })
-        })
-  },
-
   methods: {
     addSubject: function () {
-      if (this.title2 === this.title) {
-        alert("This subject is used")
-      } else {
-        console.log(this.title)
         this.date = new Date()
-        this.title2 = sessionStorage.getItem("title")
         this.id = sessionStorage.getItem("id")
         this.type = sessionStorage.getItem("type")
         fetch('http://localhost:8000/addSubject', {
-          method: "PATCH",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -94,6 +62,7 @@ export default {
               console.log('Success:', data)
               if (data.status === "success") {
                 alert("Title created successful")
+                sessionStorage.setItem("newtitle", data.title)
               } else if (data.status === "error") {
                 this.$swal.fire("this subject is used")
               } else {
@@ -103,7 +72,6 @@ export default {
             })
       }
     },
-  }
 }
 
 

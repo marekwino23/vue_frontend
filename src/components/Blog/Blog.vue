@@ -9,7 +9,8 @@
         <div class="card">
           <h2 style="color:white">List Subject:</h2>
           <ul v-for="list in lists" :key="list.id">
-            <router-link :to="{name:'post', params:{id:list.id}}">{{list.postTitle}}</router-link>
+            <router-link :to="{name:'post', params:{id:list.id, title:list.subject }}">{{ list.subject }}<input type="button" value="delete" @click="deleteSubject(list,list.id)">
+            </router-link>
           </ul>
           <br>
           <br>
@@ -18,8 +19,10 @@
         </div>
         <div class="card">
           <h3 style="color:white">Popular Post</h3>
-          <div class="fakeimg">Image</div><br>
-          <div class="fakeimg">Image</div><br>
+          <div class="fakeimg">Image</div>
+          <br>
+          <div class="fakeimg">Image</div>
+          <br>
           <div class="fakeimg">Image</div>
         </div>
         <div class="card">
@@ -28,7 +31,7 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -45,39 +48,68 @@ export default {
     return {
       lists: [],
       text: '',
-      title:'',
-      title2:'',
+      title: '',
+      title2: '',
       typeUser: '',
       id: '',
-      date:''
+      date: ''
     }
   },
+
+  methods: {
+    deleteSubject: function (list) {
+      console.log(list.id)
+      this.id = list.id
+      fetch("http://localhost:8000/deletePost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({"id": this.id})
+      })
+          .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            }
+          })
+          .then(data => {
+            console.log(data.message)
+            if (data.message === "delete success") {
+              this.$router.push('home')
+            } else {
+              alert("failed")
+            }
+          })
+    },
+  },
+
   mounted() {
     this.date = new Date();
     this.typeUser = sessionStorage.getItem("type")
-    console.log(this.$route.params.title)
-    this.title2 = this.$route.params.title
+    this.title2 = sessionStorage.getItem("newtitle")
     console.log(this.typeUser)
-   fetch("http://localhost:8000/updateSubject",{
-     method: "GET",
-     headers: {
-       "Content-Type": "application/json",
-     },
-   })
-       .then(response => {
-         if (response.status === 200) {
-           return response.json();
-         }
-       })
-       .then(data => {
-         for(let i=0;i<data.post.length;i++) {
-         this.lists.push(data.post[i])
-         }
-         this.lists.forEach(function(list){
-           console.log(list.postTitle)
-           sessionStorage.setItem("title", list.postTitle)
-         })
-       })
+    fetch("http://localhost:8000/updateSubject", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          }
+        })
+        .then(data => {
+          for (let i = 0; i < data.post.length; i++) {
+            this.lists.push(data.post[i])
+
+          }
+          this.lists.forEach(function (list) {
+            console.log(list.subject)
+            // sessionStorage.setItem("title", list.postTitle)
+            // sessionStorage.setItem("title_id", list.id)
+          })
+        })
   },
 }
 
@@ -90,10 +122,11 @@ body {
   padding: 20px;
   background: #f1f1f1;
 }
-img{
+
+img {
   width: 100px;
   height: 100px;
-  float:left;
+  float: left;
 }
 
 /* Header/Blog Title */

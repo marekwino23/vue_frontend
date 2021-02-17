@@ -34,7 +34,7 @@ export default {
       lists: [],
       text: '',
       title:'',
-      title2: '',
+      title_id: '',
       status: '',
       type: '',
       id: '',
@@ -68,9 +68,9 @@ export default {
 
   methods: {
     addPosts: function () {
-        console.log(this.title)
         this.date = new Date()
-        this.title2 = sessionStorage.getItem("title")
+        this.title_id = sessionStorage.getItem("title_id")
+        this.title = sessionStorage.getItem("title")
         this.email = sessionStorage.getItem("email")
         this.id = sessionStorage.getItem("id")
         this.type = sessionStorage.getItem("type")
@@ -82,7 +82,8 @@ export default {
           body: JSON.stringify({
             "text": this.text,
             "id": this.id,
-            "title2": this.title2,
+            "title": this.title,
+            "title_id": this.title_id,
             "date": this.date,
             "type": this.type,
           })

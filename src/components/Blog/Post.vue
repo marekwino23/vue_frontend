@@ -9,7 +9,7 @@
           <h2>List Post:</h2>
           <ul id="example-2">
             <li v-for="list of lists" :key="list.postContent">
-              Title: <input type="text" v-model="list.postTitle">  Date: <input type="text" v-model="list.date">   Content: <input type="text" v-model="list.postContent"> <br>  Who publicated: <input type="text" v-model="list.typeUser">
+              Title: <input type="text" v-model="title">  Date: <input type="text" v-model="list.date">   Content: <input type="text" v-model="list.postContent"> <br>  Who publicated: <input type="text" v-model="list.typeUser">
             <input type="button" value="delete" @click="deletePost(list,list.id)">
             </li>
           </ul>
@@ -24,7 +24,7 @@
           <div class="fakeimg">Image</div>
         </div>
         <div class="card">
-          <router-link to="/blog"> Back </router-link>
+          <input type="button" value="back" @click="onBack">
           <br>
           <br>
           <router-link :v-show ='typeUser !== "User"' to="/addPost">Add Post</router-link>
@@ -61,11 +61,16 @@ export default {
   },
 
   methods:{
+    onBack: function(){
+      sessionStorage.removeItem("title")
+    this.$router.push('blog')
+    },
+
     deletePost: function (list) {
       console.log(list.id)
       this.id = list.id
       fetch("http://localhost:8000/deletePost", {
-        method: "POST",
+        method: "Patch",
         headers: {
           "Content-Type": "application/json",
         },
@@ -89,12 +94,12 @@ export default {
 
   mounted() {
     this.dateFormat = new Date();
-    console.log(this.$route.params.id)
+    sessionStorage.setItem("title",this.$route.params.title )
     sessionStorage.setItem("post_id", this.$route.params.id)
     this.date = new Date(this.dateFormat)
     this.typeUser = sessionStorage.getItem("type")
-    this.id = sessionStorage.getItem("post_id")
-   fetch("http://localhost:8000/updateBlog/"+this.id,{
+    this.title = sessionStorage.getItem("title")
+   fetch("http://localhost:8000/updateBlog/"+this.title,{
      method: "GET",
      headers: {
        "Content-Type": "application/json",
@@ -106,12 +111,13 @@ export default {
          }
        })
        .then(data => {
+         console.log(data)
          for(let i = 0; i<data.post.length;i++) {
            this.lists.push(data.post[i])
          }
-         this.lists.forEach(function(list){
-           console.log(list.id)
-           sessionStorage.setItem("post_id", list.id)
+         this.lists.forEach(function(post){
+           console.log(post.id)
+           sessionStorage.setItem("post_id", post.id)
 
          })
 
