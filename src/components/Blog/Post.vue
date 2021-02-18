@@ -9,8 +9,12 @@
           <h2>List Post:</h2>
           <ul id="example-2">
             <li v-for="list of lists" :key="list.postContent">
-              Title: <input type="text" v-model="title">  Date: <input type="text" v-model="list.date">   Content: <input type="text" v-model="list.postContent"> <br>  Who publicated: <input type="text" v-model="list.typeUser">
+              Date: <input readonly type="text" v-model="list.date">   Content: <input readonly type="text"> <br>  typeUser: <input readonly type="text" v-model="typeUser"> <br>  Who publicated: <input readonly type="text" v-model="list.email">
             <input type="button" value="delete" @click="deletePost(list,list.id)">
+              <input type="button" value="edit" @click="EditPost(list,list.id)">
+              <input type="text" v-model="text">  <input type="button" @click="addComment" value="add comment">
+                <h3>List comments</h3>
+              <p>1. {{list.comment}}</p>
             </li>
           </ul>
           <br>
@@ -27,7 +31,7 @@
           <input type="button" value="back" @click="onBack">
           <br>
           <br>
-          <router-link :v-show ='typeUser !== "User"' to="/addPost">Add Post</router-link>
+          <router-link :v-show ='typeUser !== "User"' :to = "{name:'addPost', params:{id:this.title_id }}">Add Post</router-link>
           <h3>Follow Me</h3>
           <p>Some text..</p>
         </div>
@@ -49,28 +53,70 @@ export default {
   data() {
     return {
       lists: [],
+      comments:[],
       text: '',
-      title:'',
+      comment:'',
+      title: '',
       title2: '',
+      email: '',
       status: '',
       typeUser: '',
       id: '',
-      post_id:"",
-      date:''
+      post_id: '',
+      title_id: "",
+      date: ''
     }
   },
 
-  methods:{
-    onBack: function(){
-      sessionStorage.removeItem("title")
-    this.$router.push('blog')
+  methods: {
+    onBack: function () {
+      sessionStorage.removeItem("subject_id")
+      this.$router.push('blog')
     },
 
+    EditPost: function (list) {
+      console.log(list.id)
+      this.$router.push({name: 'editPost', params: {id: list.id}})
+    },
+
+
+    addComment: function () {
+      this.id = sessionStorage.getItem("id")
+      this.post_id = sessionStorage.getItem("post_id")
+      this.date = new Date()
+      this.email = sessionStorage.getItem("email")
+      fetch("http://localhost:8000/addComment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "id": this.id,
+          "text": this.text,
+          "date": this.date,
+          "email": this.email,
+          "post_id": this.post_id
+        })
+      })
+          .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            }
+          })
+          .then(data => {
+            console.log(data.message)
+            if (data.message === "delete success") {
+              this.$router.push('blog')
+            } else {
+              alert("failed")
+            }
+          })
+    },
     deletePost: function (list) {
       console.log(list.id)
       this.id = list.id
       fetch("http://localhost:8000/deletePost", {
-        method: "Patch",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -84,7 +130,7 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.message === "delete success") {
-              this.$router.push('home')
+              this.$router.push('blog')
             } else {
               alert("failed")
             }
@@ -94,12 +140,38 @@ export default {
 
   mounted() {
     this.dateFormat = new Date();
-    sessionStorage.setItem("title",this.$route.params.title )
-    sessionStorage.setItem("post_id", this.$route.params.id)
+    sessionStorage.setItem("subject_id", this.$route.params.id)
+    this.title_id = sessionStorage.getItem("subject_id")
     this.date = new Date(this.dateFormat)
     this.typeUser = sessionStorage.getItem("type")
-    this.title = sessionStorage.getItem("title")
-   fetch("http://localhost:8000/updateBlog/"+this.title,{
+    fetch("http://localhost:8000/updateBlog/" + this.title_id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          }
+        })
+        .then(data => {
+          console.log(data)
+          for (let i = 0; i < data.post.length; i++) {
+            this.lists.push(data.post[i])
+          }
+          this.lists.forEach(function (list) {
+            console.log(list.id)
+            console.log(list.postContent)
+            sessionStorage.setItem("post_id", list.id)
+            sessionStorage.setItem("text", list.postContent)
+            sessionStorage.setItem("status", list.typeUser)
+            this.comment = sessionStorage.getItem("text")
+            this.typeUser = sessionStorage.getItem("status")
+          })
+        })
+    this.post_id = sessionStorage.getItem("post_id")
+   fetch("http://localhost:8000/updateComment/" + this.post_id,{
      method: "GET",
      headers: {
        "Content-Type": "application/json",
@@ -112,13 +184,12 @@ export default {
        })
        .then(data => {
          console.log(data)
-         for(let i = 0; i<data.post.length;i++) {
-           this.lists.push(data.post[i])
+         for(let i = 0; i<data.comment.length;i++) {
+           this.lists.push(data.comment[i])
          }
-         this.lists.forEach(function(post){
-           console.log(post.id)
-           sessionStorage.setItem("post_id", post.id)
-
+         this.lists.forEach(function(list){
+           console.log(list.id)
+           sessionStorage.setItem("post_id", list.id)
          })
 
        })

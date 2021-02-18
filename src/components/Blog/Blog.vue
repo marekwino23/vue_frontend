@@ -9,7 +9,7 @@
         <div class="card">
           <h2 style="color:white">List Subject:</h2>
           <ul v-for="list in lists" :key="list.id">
-            <router-link :to="{name:'post', params:{id:list.id, title:list.subject }}">{{ list.subject }}<input type="button" value="delete" @click="deleteSubject(list,list.id)">
+            <router-link :to="{name:'post', params:{id:list.id, title:list.subject }}"> {{ list.subject }} <br> <input type="button" value="delete" @click="deleteSubject(list,list.id)">
             </router-link>
           </ul>
           <br>
@@ -60,7 +60,7 @@ export default {
     deleteSubject: function (list) {
       console.log(list.id)
       this.id = list.id
-      fetch("http://localhost:8000/deletePost", {
+      fetch("http://localhost:8000/deleteSubject", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -105,9 +105,7 @@ export default {
 
           }
           this.lists.forEach(function (list) {
-            console.log(list.subject)
-            // sessionStorage.setItem("title", list.postTitle)
-            // sessionStorage.setItem("title_id", list.id)
+            console.log(list.id)
           })
         })
   },

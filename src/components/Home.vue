@@ -90,7 +90,7 @@ export default {
             })
 
           } else if (data.status === "lack messages") {
-            this.$swal('Hello!!!');
+            console.log("hello")
           }
         })
   },

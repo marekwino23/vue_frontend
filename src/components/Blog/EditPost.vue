@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <h2>Add post</h2>
+      <h2>Edit post</h2>
     </div>
     <div class="row">
       <div class="leftcolumn">
@@ -9,7 +9,7 @@
           <br>
           <textarea v-model="text"></textarea>
         <br>
-        <input type="button"  value="addPost" @click="addPosts">
+        <input type="button"  value="edit" @click="EditPost">
         <br>
         <br>
         <router-link to="/blog">Back</router-link>
@@ -24,18 +24,16 @@
 
 
 export default {
-  name: 'post',
+  name: 'editPost',
   components: {},
   updated() {
 
   },
   data() {
     return {
-      lists: [],
       text: '',
       title:'',
-      title_id: '',
-      status: '',
+      post_id: '',
       type: '',
       id: '',
       email:'',
@@ -45,15 +43,16 @@ export default {
 
 
   methods: {
-    addPosts: function () {
+    EditPost: function () {
       console.log(this.$route.params.id)
-      this.title_id = this.$route.params.id
+      this.post_id = this.$route.params.id
+      console.log(this.post_id)
         this.date = new Date()
         this.email = sessionStorage.getItem("email")
         this.id = sessionStorage.getItem("id")
         this.type = sessionStorage.getItem("type")
-        fetch('http://localhost:8000/addPost', {
-          method: "POST",
+        fetch('http://localhost:8000/EditPost', {
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -62,7 +61,7 @@ export default {
             "id": this.id,
             "date": this.date,
             "type": this.type,
-            "title_id": this.title_id,
+            "post_id": this.post_id,
             "email": this.email,
           })
         })
@@ -70,9 +69,9 @@ export default {
             .then(response => response.json())
             .then(data => {
               console.log('Success:', data)
-              if (data.status === "success") {
-                alert("Post created successful")
-                this.$router.push({name: 'blog', params: {title: this.title}})
+              if (data.status === "Update success") {
+                alert("Update successful")
+                this.$router.push('blog')
               } else {
                 console.error("failed")
               }

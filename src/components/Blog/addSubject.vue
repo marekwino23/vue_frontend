@@ -32,10 +32,10 @@ export default {
     return {
       lists: [],
       title: '',
-      title2: '',
       type: '',
       id: '',
-      date: ''
+      date: '',
+      email:'',
     }
   },
 
@@ -44,6 +44,7 @@ export default {
         this.date = new Date()
         this.id = sessionStorage.getItem("id")
         this.type = sessionStorage.getItem("type")
+        this.email = sessionStorage.getItem("email")
         fetch('http://localhost:8000/addSubject', {
           method: "POST",
           headers: {
@@ -54,6 +55,7 @@ export default {
             "title": this.title,
             "date": this.date,
             "type": this.type,
+            "email": this.email,
           })
         })
 
