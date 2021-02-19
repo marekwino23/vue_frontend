@@ -7,10 +7,14 @@
       <div class="rightcolumn">
         <addSubject></addSubject>
         <div class="card">
-          <h2 style="color:white">List Subject:</h2>
+          <h2 style="color:white">List Subject: </h2>
           <ul v-for="list in lists" :key="list.id">
-            <router-link :to="{name:'post', params:{id:list.id, title:list.subject }}"> {{ list.subject }} <br> <input type="button" value="delete" @click="deleteSubject(list,list.id)">
-            </router-link>
+            <div class="row">
+            <div class="column" style="background-color:white;">
+              <router-link :to="{name:'post', params:{id:list.id, title:list.subject }}">  <h2 style="color: black;">{{list.subject}}</h2> </router-link>
+              <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deleteSubject(list,list.id)">
+            </div>
+        </div>
           </ul>
           <br>
           <br>
@@ -154,6 +158,17 @@ img {
   background-color: white;
   width: 100%;
   padding: 20px;
+}
+
+.button{
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
 
 /* Add a card effect for articles */

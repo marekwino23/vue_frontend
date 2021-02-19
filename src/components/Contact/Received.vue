@@ -2,6 +2,7 @@
   <div>
     <div>
       <p style="color:white">Received message<p/>
+      <br>
       <table id="users">
         <th> email</th>
         <th> sender</th>
@@ -10,6 +11,9 @@
         <th>answer</th>
         <th>dateAnswer</th>
         <th>Status</th>
+        <th> Write Answer</th>
+        <th> Action</th>
+
         <tr v-for="message in messages" :key="message.email">
           <td>{{message.email}}</td>
           <td>{{message.sender}}</td>
@@ -18,10 +22,10 @@
           <td>{{message.answer}}</td>
           <td>{{message.date_answer}}</td>
           <td>{{message.status}}</td>
-          <input type="text" :disabled='message.answer !== "brak"' v-model="answer">
-          <input type="button" :disabled='message.answer !== "brak"' @click="answerMessage(message,message.id)" value="send">
-          <input type="button" value="Delete message" @click="deleteMessage(message,message.id)">
-          <input type="button" value="change status" @click="changeStatus(message,message.id)">
+          <td><input type="text" :disabled='message.answer !== "brak"' v-model="answer">
+          <input type="button" class="button" :disabled='message.answer !== "brak"' @click="answerMessage(message,message.id)" value="send"> </td>
+            <input type="button" class="button" value="Delete message" @click="deleteMessage(message,message.id)">
+            <input type="button" class="button" value="Change status" @click="changeStatus(message,message.id)">
         </tr>
       </table>
     </div>
@@ -171,6 +175,19 @@ export default {
   padding: 8px;
 }
 
+
+input {
+  text-align: center;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
 #users tr:nth-child(even){background-color: #f2f2f2;}
 
 #users tr:hover {background-color: #ddd;}
@@ -178,9 +195,19 @@ export default {
 #users th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
+  text-align: center;
   background-color: #4CAF50;
   color: white;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
 
 .btn-group .button {

@@ -4,7 +4,7 @@
       <img alt="Vue logo" src="../../assets/logo.png">
     </div>
     <div id="create">
-      <p style="color:white">Register</p>
+      <p style="color:white; font-weight: bold">Register</p>
       <br>
       <form @submit="onsubmit" method="post">
         <div id="name">

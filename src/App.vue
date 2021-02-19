@@ -3,7 +3,7 @@
     <div>
       <ul class="menu">
         <li>
-          <router-link class="active" to="/home">Home</router-link>
+          <router-link to="/home">Home</router-link>
         </li>
         <li>
           <router-link v-show="logged" to="/contact">Contact</router-link>
@@ -31,6 +31,9 @@
         </li>
         <div class="btn-group">
         <input type="button" class="button" v-show="logged" @click="Logout" value="Wyloguj">
+          <li style="color: white; margin-left: 20px; font-size: 16px;" v-show="logged">
+            Logged as {{status}}
+          </li>
         </div>
       </ul>
     </div>

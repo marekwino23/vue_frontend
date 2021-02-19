@@ -1,13 +1,13 @@
 <template>
   <div class="login">
-    <p>Logowanie</p>
+    <p style="color:white;font-weight: bold">Logowanie</p>
     <br>
     <form action="http://localhost:8000/login" @submit="onAuth()">
-      <label>Username </label>
+      <label style="color:white">Username </label>
       <input type="text" class="login" name="username" required id="username" v-model="username">
       <br>
       <br>
-      <label>Password </label>
+      <label style="color:white">Password </label>
       <input type="password" class="login" name="password" required min="8" id="password" v-model="password">
       <br>
       <br>
@@ -151,10 +151,21 @@ h3 {
 }
 
 
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+
 .btn-login .button {
-  background-color: #4CAF50; /* Green */
+  background-color: green;
   border: none;
-  margin-left: 640px;
   color: white;
   padding: 15px 32px;
   text-align: center;
@@ -170,9 +181,8 @@ h3 {
 }
 
 .btn-submit .button {
-  background-color: #4CAF50;
+  background-color: green;
   border: none;
-  margin-left: 690px;
   color: white;
   padding: 15px 32px;
   text-align: center;

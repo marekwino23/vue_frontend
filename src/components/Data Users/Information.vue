@@ -1,29 +1,38 @@
 <template>
   <div>
-    <div>
-      <p style="color: white">User data
-      <p/>
+    <div style="border: 3px solid white">
+      <h1 style="color: white; font-weight: bold">User data:
+      </h1>
       <br>
       <br>
-      <form @submit="addEmail" action="http://localhost:8000/onchangeEmail">
-      <ul>
-        <li class="info"> Name: {{ name }}</li>
-        <br>
-        <li class="info"> Surname:{{ surname }}</li>
-        <br>
-        <li class="info"> Email: {{email}}</li>
-        <br>
-        <li class="info">Second Email: {{oldEmail}} </li>
-        <br>
-          <li class="info"> <input type="text" v-model="secondEmail" id="newEmail"> <input type="submit" value="change"> </li>
-        <br>
-        <br>
-   <li class="info"> Password: <input type="text" id="newPassword"> <input type="button" value="change password" @click="onchangePassword">
-      </li>
-        <br>
-        <br>
-        <li class="info">Typeofaccount: {{type}} </li>
-      </ul>
+      <form>
+        <div class="row">
+          <div class="column" style="background-color:#aaa;">
+            <h2>Name</h2>
+            <p>{{name}}</p>
+          </div>
+          <div class="column" style="background-color:#bbb;">
+            <h2>Surname</h2>
+            <p>{{surname}}</p>
+          </div>
+          <div class="column" style="background-color:#ccc;">
+            <h2>Email</h2>
+            <p>{{email}}</p>
+          </div>
+          <div class="column" style="background-color:#ddd;">
+            <h2>Second email</h2>
+            <p>{{oldEmail}}</p>
+            <input type="text" required class="oldEmail" v-model="secondEmail" id="newEmail"> <input type="button" :disabled='secondEmail === "" ' class="button" @click="addEmail" value="add new Email">
+          </div>
+          <div class="column" style="background-color:#ddd;">
+            <h2>Password</h2>
+            <input type="text" required class="password" id="newPassword"> <input type="button" class = "button" value="change password" @click="onchangePassword">
+          </div>
+          <div class="column" style="background-color:#ddd;">
+            <h2>typeUser</h2>
+            <p>{{type}}</p>
+          </div>
+        </div>
         </form>
     </div>
   </div>
@@ -34,7 +43,7 @@
 
 
 export default {
-  name: 'contact',
+  name: 'info',
   components: {},
   updated() {
 
@@ -91,10 +100,9 @@ export default {
       })
           .then(response => response.json())
           .then(data => {
-            if (data.status === 200) {
+            if (data.info === "update success") {
               this.oldEmail = data.file
-              console.log("done")
-              this.$router.push('home')
+              this.$swal.fire("Second email success")
             } else if(data.error === "error") {
               alert("Error: you can t duplicate emails")
             }
@@ -117,10 +125,9 @@ export default {
       })
           .then(response => response.json())
           .then(data => {
-            if (data.status === 200) {
+            if (data.info === "update success") {
               sessionStorage.setItem("newPassword",data.file);
-              console.log("done")
-              this.$router.push('home')
+              this.$swal.fire("Password changed")
             } else {
               console.log("failed")
             }
@@ -138,9 +145,29 @@ ul{
   margin-left:383px;
 }
 
-.info{
-  color:white;
-  font-weight: bold;
+
+.button{
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
+
+.oldEmail, .password {
+  text-align: center;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
 
 </style>

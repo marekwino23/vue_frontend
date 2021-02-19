@@ -3,41 +3,66 @@
     <div class="header">
       <h2>My Blog</h2>
     </div>
+    <h2 style="color:white;text-align: center">List Posts:</h2>
     <div class="row">
       <div class="rightcolumn">
         <div class="card">
-          <h2>List Post:</h2>
-          <ul id="example-2">
-            <li v-for="list of lists" :key="list.postContent">
-              Date: <input readonly type="text" v-model="list.date">   Content: <input readonly type="text"> <br>  typeUser: <input readonly type="text" v-model="typeUser"> <br>  Who publicated: <input readonly type="text" v-model="list.email">
-            <input type="button" value="delete" @click="deletePost(list,list.id)">
-              <input type="button" value="edit" @click="EditPost(list,list.id)">
-              <input type="text" v-model="text">  <input type="button" @click="addComment" value="add comment">
-                <h3>List comments</h3>
-              <p>1. {{list.comment}}</p>
-            </li>
-          </ul>
-          <br>
-          <br>
-          <br>
+          <div class="row">
+            <div v-for="list of lists" :key="list.postContent" class="column" style="background-color:white;">
+              <h2>typeUser:</h2>
+              <p>{{list.typeUser}}</p>
+              <h2>Who publicated:</h2>
+              <p>{{list.email}}</p>
+            </div>
+          </div>
         </div>
+          <div style="background-color:white" v-for="list of lists" :key="list.postContent" class="post">
+            <div>
+              <p> Date: {{list.date}}</p>
+            </div>
+            <h2>Content:</h2>
+            <p>{{list.postContent}}</p>
+            <h2>Edit post:</h2>
+                          <input type="button" style="background-color:green; color:white;" value="Edit" @click="EditPost(list,list.id)">
+                          <h2>Delete post:</h2>
+                          <input type="button" style="background-color:green; color:white;" value="delete" @click="deletePost(list,list.id)">
+          </div>
+
+              <h3>List comments</h3>
+          <div class="card">
+            <div v-for="comment in comments" :key="comment.id" class="column" style="background-color:white;">
+              <h2>Date</h2>
+              <p>{{comment.date}}</p>
+              <h2>Who comment</h2>
+              <p>{{comment.email}}</p>
+              <br>
+              <h2>Content</h2>
+              <p>{{comment.comment}}</p>
+            </div>
+            </div>
+          <br>
+          <br>
+          <br>
         <div class="card">
           <h3>Popular Post</h3>
-          <div class="fakeimg">Image</div><br>
-          <div class="fakeimg">Image</div><br>
+          <div class="fakeimg">Image</div>
+          <br>
+          <div class="fakeimg">Image</div>
+          <br>
           <div class="fakeimg">Image</div>
         </div>
         <div class="card">
           <input type="button" value="back" @click="onBack">
           <br>
           <br>
-          <router-link :v-show ='typeUser !== "User"' :to = "{name:'addPost', params:{id:this.title_id }}">Add Post</router-link>
+          <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:this.title_id }}">Add Post
+          </router-link>
           <h3>Follow Me</h3>
           <p>Some text..</p>
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 
@@ -53,9 +78,8 @@ export default {
   data() {
     return {
       lists: [],
-      comments:[],
+      comments: [],
       text: '',
-      comment:'',
       title: '',
       title2: '',
       email: '',
@@ -112,6 +136,7 @@ export default {
             }
           })
     },
+
     deletePost: function (list) {
       console.log(list.id)
       this.id = list.id
@@ -166,33 +191,27 @@ export default {
             sessionStorage.setItem("post_id", list.id)
             sessionStorage.setItem("text", list.postContent)
             sessionStorage.setItem("status", list.typeUser)
-            this.comment = sessionStorage.getItem("text")
-            this.typeUser = sessionStorage.getItem("status")
           })
         })
     this.post_id = sessionStorage.getItem("post_id")
-   fetch("http://localhost:8000/updateComment/" + this.post_id,{
-     method: "GET",
-     headers: {
-       "Content-Type": "application/json",
-     },
-   })
-       .then(response => {
-         if (response.status === 200) {
-           return response.json();
-         }
-       })
-       .then(data => {
-         console.log(data)
-         for(let i = 0; i<data.comment.length;i++) {
-           this.lists.push(data.comment[i])
-         }
-         this.lists.forEach(function(list){
-           console.log(list.id)
-           sessionStorage.setItem("post_id", list.id)
-         })
+    fetch("http://localhost:8000/updateComment/" + this.post_id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          }
+        })
+        .then(data => {
+          console.log(data)
+          for (let i = 0; i < data.comment.length; i++) {
+            this.comments.push(data.comment[i])
+          }
 
-       })
+        })
   },
 }
 
@@ -205,13 +224,18 @@ body {
   padding: 20px;
   background: #f1f1f1;
 }
-img{
+
+img {
   width: 100px;
   height: 100px;
-  float:left;
+  float: left;
 }
 
-.title{
+.post {
+  margin-left:345px;
+  margin-right: 6px;
+  margin-top: -269px;
+  width: 100%;
 }
 
 /* Header/Blog Title */
@@ -242,8 +266,9 @@ img{
   width: 100%;
   padding: 20px;
 }
-input{
-  text-align:center;
+
+input {
+  text-align: center;
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;

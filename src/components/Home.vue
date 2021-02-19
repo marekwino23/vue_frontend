@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>My Website</h1>
-    <h1>{{ status }}</h1>
     <br>
     <br>
     <div>
@@ -10,9 +9,12 @@
     <div class="row">
       <div class="leftcolumn">
         <div class="card">
-          <h2>TITLE HEADING</h2>
-          <h5>Title description, Sep 2, 2017</h5>
           <div class="fakeimg" style="height:200px;"><img src="../assets/photo-1607117982290-686bb46893df.jpeg"></div>
+          <br>
+          <div class="fakeimg" style="height:200px;"><img src="../assets/photo-1558004294-897f1d522c97.jpeg"></div>
+          <br>
+          <div class="fakeimg" style="height:200px;"><img src="../assets/photo-1568805711746-65416e6d180b.jpeg"></div>
+          <br>
         </div>
       </div>
       <div class="rightcolumn">
@@ -29,14 +31,16 @@
         </div>
         <div class="card">
           <h3>Follow Me</h3>
-          <p>marekw1996@gmail.com</p>
+          <p style="text-align: center">email: marekw1996@gmail.com</p>
+          <p style="text-align: center">number: 505530072</p>
+          <br>
+          <img style='width:100px' src="../assets/logo5.png">
+          <img style='width:100px' src="../assets/logo2.png">
         </div>
       </div>
     </div>
 
     <div class="footer">
-      <h2>email: marekw1996@gmail.com</h2>
-      <h2>phone number: 505530072</h2>
     </div>
   </div>
 </template>

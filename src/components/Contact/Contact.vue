@@ -8,7 +8,8 @@
           <br>
           <br>
           <label>Message </label>
-          <input type="text" class="text" name="text" v-model="message" required min="8" id="text">
+          <input type="text" class="message" name="text" v-model="message" required min="8" id="text">
+          <br>
           <br>
           <label>To </label>
           <select v-model="receiver">
@@ -17,7 +18,7 @@
           </select>
           <br>
           <div class="btn-submit">
-            <input type="submit" class="button" value="submit">
+            <input type="submit" class="button" value="send">
           </div>
           <br>
           <br>
@@ -99,7 +100,17 @@ body {
   box-sizing: border-box;
 }
 
-input[type=text], select, textarea {
+input[type=text] select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+.email,.message{
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
