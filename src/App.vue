@@ -88,7 +88,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #62ac62;
+  background-color: #456939;;
   margin-top: 60px;
 }
 .menu{
@@ -134,8 +134,5 @@ li a:hover:not(.active) {
   background-color: #3e8e41;
 }
 
-.active {
-  background-color: #4CAF50;
-}
 
 </style>

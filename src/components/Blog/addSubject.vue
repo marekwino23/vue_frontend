@@ -1,17 +1,13 @@
 <template>
   <div>
-    <div class="header">
-      <h2>Add Subject</h2>
-    </div>
     <div class="row">
       <div class="leftcolumn">
         <form @submit="addSubject">
           <h2> Title: <input type="text" v-model="title"></h2>
-          <input type="button" value="addSubject" @click="addSubject">
+          <input style="color:black" type="button" value="addSubject" @click="addSubject">
         </form>
         <br>
         <br>
-        <router-link to="/blog">Back</router-link>
       </div>
     </div>
   </div>
@@ -92,39 +88,17 @@ img {
   float: left;
 }
 
-/* Header/Blog Title */
-.header {
-  padding: 30px;
-  font-size: 40px;
-  text-align: center;
-  background: white;
-}
+
 
 /* Create two unequal columns that floats next to each other */
 /* Left column */
 .leftcolumn {
   float: left;
   width: 75%;
-}
-
-/* Right column */
-.rightcolumn {
-  float: left;
-  width: 25%;
-  padding-left: 20px;
-}
-
-/* Fake image */
-.fakeimg {
-  background-color: white;
-  width: 100%;
-  padding: 20px;
-}
-
-/* Add a card effect for articles */
-.card {
-  padding: 20px;
-  margin-top: 20px;
+  margin-left: 84px;
+  background-color: #407940;
+  border: 1px solid white;
+  color:white;
 }
 
 /* Clear floats after the columns */
@@ -134,13 +108,6 @@ img {
   clear: both;
 }
 
-/* Footer */
-.footer {
-  padding: 20px;
-  text-align: center;
-  background: #ddd;
-  margin-top: 20px;
-}
 
 input {
   text-align: center;
@@ -156,7 +123,7 @@ input {
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
-  .leftcolumn, .rightcolumn {
+  .leftcolumn{
     width: 100%;
     padding: 0;
   }

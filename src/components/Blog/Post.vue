@@ -3,221 +3,220 @@
     <div class="header">
       <h2>My Blog</h2>
     </div>
-    <h2 style="color:white;text-align: center">List Posts:</h2>
-    <div class="row">
-      <div class="rightcolumn">
-        <div class="card">
-          <div class="row">
-            <div v-for="list of lists" :key="list.postContent" class="column" style="background-color:white;">
-              <h2>typeUser:</h2>
-              <p>{{list.typeUser}}</p>
-              <h2>Who publicated:</h2>
-              <p>{{list.email}}</p>
-            </div>
+    <br>
+    <article>
+      <section class="hero">
+        <div class="text">
+          <h1 style="font-weight: bold">Welcome in my Blog</h1>
+          <p> Subject:  </p>
+          <button>Read more</button>
+        </div>
+        <img class="hero_img" src="../../assets/photo-1568805711746-65416e6d180b.jpeg">
+      </section>
+    </article>
+    <article class="main-content">
+      <section>
+      </section>
+      <section class="card-list">
+        <div class="row">
+          <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
+            <p>{{list.email}}</p>
+            <p>{{list.typeUser}}</p>
+            <img width="50%" src="../../assets/icon4.jpg">
           </div>
         </div>
-          <div style="background-color:white" v-for="list of lists" :key="list.postContent" class="post">
-            <div>
-              <p> Date: {{list.date}}</p>
-            </div>
-            <h2>Content:</h2>
-            <p>{{list.postContent}}</p>
-            <h2>Edit post:</h2>
-                          <input type="button" style="background-color:green; color:white;" value="Edit" @click="EditPost(list,list.id)">
-                          <h2>Delete post:</h2>
-                          <input type="button" style="background-color:green; color:white;" value="delete" @click="deletePost(list,list.id)">
+        <div v-for="list in lists" :key="list.id" class="card">
+          <div class="content" style="background-color:#bbb;">
+            {{list.date}}
+            <p style="color: white">{{list.postContent}}</p>
           </div>
-
-              <h3>List comments</h3>
-          <div class="card">
-            <div v-for="comment in comments" :key="comment.id" class="column" style="background-color:white;">
-              <h2>Date</h2>
-              <p>{{comment.date}}</p>
-              <h2>Who comment</h2>
-              <p>{{comment.email}}</p>
-              <br>
-              <h2>Content</h2>
-              <p>{{comment.comment}}</p>
-            </div>
-            </div>
-          <br>
-          <br>
-          <br>
-        <div class="card">
-          <h3>Popular Post</h3>
-          <div class="fakeimg">Image</div>
-          <br>
-          <div class="fakeimg">Image</div>
-          <br>
-          <div class="fakeimg">Image</div>
+          <img class="card_img" src="../../assets/photo-1598625456132-bb6cb433e42e.jpeg"/>
+          <div class="card-details">
+          </div>
         </div>
-        <div class="card">
-          <input type="button" value="back" @click="onBack">
-          <br>
-          <br>
-          <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:this.title_id }}">Add Post
-          </router-link>
-          <h3>Follow Me</h3>
-          <p>Some text..</p>
+        <div style="background-color: black" class="row">
+          <h2 style="color:white">List comments</h2>
+          <div v-for="comment in comments" :key="comment.comment" class="column" style="background-color:#aaa;">
+            <p>{{comment.email}} - {{comment.comment}}</p>
+          </div>
         </div>
-      </div>
-    </div>
+        <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:title_id }}">Add Post
+        </router-link>
+        <br>
+        <router-link to = "/blog">Back to subject</router-link>
+      </section>
+      <input type="button" style="width:50%; height: 50%" value="add comment" @click="addComment">
+      <input type="text" style="width:50%; height: 50%" v-model="text">
+      <aside />
+    </article>
+    <footer class="footer">
+      <p/>
+      <nav>
+        <ul class="nav">
+          <li></li>
+        </ul>
+      </nav>
+      <ul class="social">
+        <li/>
+      </ul>
+    </footer>
   </div>
-</template>
+   </template>
 
 
-<script>
+    <script>
 
 
-export default {
-  name: 'post',
-  components: {},
-  updated() {
+    export default {
+      name: 'post',
+      components: {},
+      updated() {
 
-  },
-  data() {
-    return {
-      lists: [],
-      comments: [],
-      text: '',
-      title: '',
-      title2: '',
-      email: '',
-      status: '',
-      typeUser: '',
-      id: '',
-      post_id: '',
-      title_id: "",
-      date: ''
+      },
+      data() {
+        return {
+          lists: [],
+          comments: [],
+          text: '',
+          title: '',
+          title2: '',
+          email: '',
+          status: '',
+          typeUser: '',
+          id: '',
+          post_id: '',
+          title_id: "",
+          date: ''
+        }
+      },
+
+      methods: {
+        onBack: function () {
+          sessionStorage.removeItem("subject_id")
+          this.$router.push('blog')
+        },
+
+        EditPost: function (list) {
+          console.log(list.id)
+          this.$router.push({name: 'editPost', params: {id: list.id}})
+        },
+
+
+        addComment: function () {
+          this.id = sessionStorage.getItem("id")
+          this.post_id = sessionStorage.getItem("post_id")
+          this.date = new Date()
+          this.email = sessionStorage.getItem("email")
+          fetch("http://localhost:8000/addComment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              "id": this.id,
+              "text": this.text,
+              "date": this.date,
+              "email": this.email,
+              "post_id": this.post_id
+            })
+          })
+              .then(response => {
+                if (response.status === 200) {
+                  return response.json();
+                }
+              })
+              .then(data => {
+                console.log(data.message)
+                if (data.message === "delete success") {
+                  this.$router.push('blog')
+                } else {
+                  alert("failed")
+                }
+              })
+        },
+
+        deletePost: function (list) {
+          console.log(list.id)
+          this.id = list.id
+          fetch("http://localhost:8000/deletePost", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({"id": this.id})
+          })
+              .then(response => {
+                if (response.status === 200) {
+                  return response.json();
+                }
+              })
+              .then(data => {
+                console.log(data.message)
+                if (data.message === "delete success") {
+                  this.$router.push('blog')
+                } else {
+                  alert("failed")
+                }
+              })
+        },
+      },
+
+      mounted() {
+        this.dateFormat = new Date();
+        sessionStorage.setItem("subject_id", this.$route.params.id)
+        this.title_id = sessionStorage.getItem("subject_id")
+        this.date = new Date(this.dateFormat)
+        this.typeUser = sessionStorage.getItem("type")
+        fetch("http://localhost:8000/updateBlog/" + this.title_id, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+            .then(response => {
+              if (response.status === 200) {
+                return response.json();
+              }
+            })
+            .then(data => {
+              console.log(data)
+              for (let i = 0; i < data.post.length; i++) {
+                this.lists.push(data.post[i])
+              }
+              this.lists.forEach(function (list) {
+                console.log(list.id)
+                console.log(list.postContent)
+                sessionStorage.setItem("post_id", list.id)
+                sessionStorage.setItem("text", list.postContent)
+                sessionStorage.setItem("status", list.typeUser)
+              })
+            })
+          this.post_id = sessionStorage.getItem("post_id")
+        this.title_id = sessionStorage.getItem("subject_id")
+          fetch("http://localhost:8000/updateComment/" + this.post_id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+              .then(response => {
+                if (response.status === 200) {
+                  return response.json();
+                }
+              })
+              .then(data => {
+                console.log(data)
+                for (let i = 0; i < data.comment.length; i++) {
+                  this.comments.push(data.comment[i])
+                }
+
+              })
+        },
     }
-  },
 
-  methods: {
-    onBack: function () {
-      sessionStorage.removeItem("subject_id")
-      this.$router.push('blog')
-    },
+    </script>
 
-    EditPost: function (list) {
-      console.log(list.id)
-      this.$router.push({name: 'editPost', params: {id: list.id}})
-    },
-
-
-    addComment: function () {
-      this.id = sessionStorage.getItem("id")
-      this.post_id = sessionStorage.getItem("post_id")
-      this.date = new Date()
-      this.email = sessionStorage.getItem("email")
-      fetch("http://localhost:8000/addComment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "id": this.id,
-          "text": this.text,
-          "date": this.date,
-          "email": this.email,
-          "post_id": this.post_id
-        })
-      })
-          .then(response => {
-            if (response.status === 200) {
-              return response.json();
-            }
-          })
-          .then(data => {
-            console.log(data.message)
-            if (data.message === "delete success") {
-              this.$router.push('blog')
-            } else {
-              alert("failed")
-            }
-          })
-    },
-
-    deletePost: function (list) {
-      console.log(list.id)
-      this.id = list.id
-      fetch("http://localhost:8000/deletePost", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({"id": this.id})
-      })
-          .then(response => {
-            if (response.status === 200) {
-              return response.json();
-            }
-          })
-          .then(data => {
-            console.log(data.message)
-            if (data.message === "delete success") {
-              this.$router.push('blog')
-            } else {
-              alert("failed")
-            }
-          })
-    },
-  },
-
-  mounted() {
-    this.dateFormat = new Date();
-    sessionStorage.setItem("subject_id", this.$route.params.id)
-    this.title_id = sessionStorage.getItem("subject_id")
-    this.date = new Date(this.dateFormat)
-    this.typeUser = sessionStorage.getItem("type")
-    fetch("http://localhost:8000/updateBlog/" + this.title_id, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-        .then(response => {
-          if (response.status === 200) {
-            return response.json();
-          }
-        })
-        .then(data => {
-          console.log(data)
-          for (let i = 0; i < data.post.length; i++) {
-            this.lists.push(data.post[i])
-          }
-          this.lists.forEach(function (list) {
-            console.log(list.id)
-            console.log(list.postContent)
-            sessionStorage.setItem("post_id", list.id)
-            sessionStorage.setItem("text", list.postContent)
-            sessionStorage.setItem("status", list.typeUser)
-          })
-        })
-    this.post_id = sessionStorage.getItem("post_id")
-    fetch("http://localhost:8000/updateComment/" + this.post_id, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-        .then(response => {
-          if (response.status === 200) {
-            return response.json();
-          }
-        })
-        .then(data => {
-          console.log(data)
-          for (let i = 0; i < data.comment.length; i++) {
-            this.comments.push(data.comment[i])
-          }
-
-        })
-  },
-}
-
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+    <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 body {
   font-family: Arial;
@@ -225,18 +224,53 @@ body {
   background: #f1f1f1;
 }
 
-img {
-  width: 100px;
-  height: 100px;
-  float: left;
+.hero_img {
+  width: 1000px;
+  height: 500px;
+  /*opacity:0.6;*/
 }
 
-.post {
-  margin-left:345px;
-  margin-right: 6px;
-  margin-top: -269px;
-  width: 100%;
+
+.card_img {
+  width: 79%;
+  height: 68%;
+  margin-left: 38px;
+  /*opacity:0.6;*/
 }
+
+
+.hero {
+  min-height: 50vh;
+  display:grid;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.rightcolumn{
+  background-color: black;
+  color: white;
+}
+
+main-content section {
+  min-width: 70%;
+  width: calc((48em - 100%) * 1000);
+  max-width: 100%;
+}
+
+
+.main-content aside {
+  min-width: 25%;
+  width: calc((48em - 100%) * 1000);
+  max-width: 100%;
+}
+
+main-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content:space-between;
+  padding: 0 5vw 0 5vw;}
 
 /* Header/Blog Title */
 .header {
@@ -246,25 +280,69 @@ img {
   background: white;
 }
 
-/* Create two unequal columns that floats next to each other */
-/* Left column */
-.leftcolumn {
-  float: left;
-  width: 75%;
+.card-list {
+  display:grid;
+  grid-gap: 14px;
+  grid-template-columns: repeat(auto-fit,
+  minmax(300px , 1fr));
 }
 
-/* Right column */
-.rightcolumn {
-  float: left;
+.card {
+  display: grid;
+  grid-template-columns:	1fr;
+}
+
+a{
+  text-decoration: none;
+  color:white;
+}
+
+button{
+  background-color: white; /* Green */
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.content{
+  background-color: rgb(14 14 14);
+  width: 80%;
+  margin-left: 38px;
+}
+.text{
+  position: absolute;
+  margin-left: 338px;
+  margin-top:290px;
   width: 25%;
+  background-color: black;
+  color: white;
   padding-left: 20px;
+  padding-right: 20px;
+  opacity: 0.8;
 }
 
-/* Fake image */
-.fakeimg {
-  background-color: white;
-  width: 100%;
-  padding: 20px;
+.card-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.card-details a {
+  align-self: flex-start;
+}
+
+.footer {
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.social {
+  justify-self: end;
 }
 
 input {
@@ -279,32 +357,10 @@ input {
   resize: vertical;
 }
 
-/* Add a card effect for articles */
-.card {
-  padding: 20px;
-  margin-top: 20px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Footer */
-.footer {
-  padding: 20px;
-  text-align: center;
-  background: #ddd;
-  margin-top: 20px;
-}
-
-/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 800px) {
-  .leftcolumn, .rightcolumn {
-    width: 100%;
-    padding: 0;
-  }
-}
+/*!* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other *!*/
+/*@media screen and (max-width: 800px) {*/
+/*  .leftcolumn, .rightcolumn {*/
+/*    width: 100%;*/
+/*    padding: 0;*/
+/*  }*/
 </style>
