@@ -97,6 +97,37 @@ export default {
             console.log("hello")
           }
         })
+    this.email = sessionStorage.getItem("email")
+    fetch("http://localhost:8000/getComment/" + this.email, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          }
+        })
+        .then(data => {
+          console.log(data)
+          if (data.status === "new comments") {
+            this.$swal.fire(data.comments[0].email +  "added new comment to your post")
+          .then((result) => {
+      if (result.isConfirmed) {
+        this.$router.push('post')
+      } else if (result.isDenied) {
+        console.log("later")
+      }
+    })
+
+
+          }
+
+  else if (data.status === "lack messages") {
+            console.log("hello")
+          }
+        })
   },
 
   methods: {},

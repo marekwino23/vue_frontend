@@ -76,6 +76,7 @@
       <img width="25%" style="margin-left: 551px" src="../../assets/example.jpg">
       <nav>
         <ul class="nav">
+          <h2>{{title3}}</h2>
         </ul>
       </nav>
       <ul class="social">
@@ -90,10 +91,8 @@ import addSubject from "@/components/Blog/addSubject";
 
 export default {
   name: 'blog',
+  props: ['title3'],
   components: {addSubject},
-  updated() {
-
-  },
   data() {
     return {
       lists: [],
@@ -102,7 +101,7 @@ export default {
       title2: '',
       typeUser: '',
       id: '',
-      date: ''
+      subject:'',
     }
   },
 
@@ -285,6 +284,13 @@ button{
 }
 h1{
   color:white;
+}
+
+@media screen and (max-width: 600px) {
+  div.text {
+    font-size: 20px;
+    width: 25%;
+  }
 }
 
 input {

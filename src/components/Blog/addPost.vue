@@ -72,7 +72,7 @@ export default {
               console.log('Success:', data)
               if (data.status === "success") {
                 alert("Post created successful")
-                this.$router.push({name: 'blog', params: {title: this.title}})
+                window.location.href = '/post'
               } else {
                 console.error("failed")
               }

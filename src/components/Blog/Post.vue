@@ -22,42 +22,44 @@
           <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
             <p>{{list.email}}</p>
             <p>{{list.typeUser}}</p>
-            <img width="50%" src="../../assets/icon4.jpg">
+            <img alt="User" width = 50% src="../../assets/obrazek.png">
+            <div class="field">
+              <p>{{list.date}}</p>
+              <img class="card_img" src="../../assets/photo-1598625456132-bb6cb433e42e.jpeg"/>
+              <p style="color: white">{{list.content}}</p>
+              <input type="button" style="width:50%; height: 50%" value="delete post" @click="deletePost(list,list.id)">
+              <router-link :v-show='typeUser !== "User"' :to="{name:'editPost', params:{id:list.id }}">Edit Post
+              </router-link>
+              <br>
+              <input type="button" style="width:50%; height: 50%" value="add comment" @click="addComment(list,list.id)">
+              <input type="text" style="width:50%; height: 50%" v-model="text">
+            </div>
           </div>
-        </div>
         <div v-for="list in lists" :key="list.id" class="card">
-          <div class="content" style="background-color:#bbb;">
-            {{list.date}}
-            <p style="color: white">{{list.postContent}}</p>
-          </div>
-          <img class="card_img" src="../../assets/photo-1598625456132-bb6cb433e42e.jpeg"/>
           <div class="card-details">
           </div>
         </div>
-        <div style="background-color: black" class="row">
+        </div>
+        <div class="row">
           <h2 style="color:white">List comments</h2>
           <div v-for="comment in comments" :key="comment.comment" class="column" style="background-color:#aaa;">
             <p>{{comment.email}} - {{comment.comment}}</p>
           </div>
         </div>
-        <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:title_id }}">Add Post
-        </router-link>
         <br>
-        <router-link to = "/blog">Back to subject</router-link>
+        <input type="button" @click="onBack" value="back">
       </section>
-      <input type="button" style="width:50%; height: 50%" value="add comment" @click="addComment">
-      <input type="text" style="width:50%; height: 50%" v-model="text">
+      <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:title_id }}">Add Post
+      </router-link>
       <aside />
     </article>
     <footer class="footer">
       <p/>
       <nav>
         <ul class="nav">
-          <li></li>
         </ul>
       </nav>
       <ul class="social">
-        <li/>
       </ul>
     </footer>
   </div>
@@ -66,10 +68,11 @@
 
     <script>
 
+    // import Blog from "@/components/Blog/Blog";
 
     export default {
       name: 'post',
-      components: {},
+      // components: {Blog},
       updated() {
 
       },
@@ -91,9 +94,10 @@
       },
 
       methods: {
-        onBack: function () {
-          sessionStorage.removeItem("subject_id")
+
+        onBack: function (){
           this.$router.push('blog')
+          localStorage.clear()
         },
 
         EditPost: function (list) {
@@ -127,8 +131,8 @@
               })
               .then(data => {
                 console.log(data.message)
-                if (data.message === "delete success") {
-                  this.$router.push('blog')
+                if (data.status === "success") {
+                  window.location.href = '/post'
                 } else {
                   alert("failed")
                 }
@@ -163,8 +167,11 @@
 
       mounted() {
         this.dateFormat = new Date();
-        sessionStorage.setItem("subject_id", this.$route.params.id)
-        this.title_id = sessionStorage.getItem("subject_id")
+        localStorage.setItem("subject_id", this.$route.params.id)
+        this.title_id = localStorage.getItem("subject_id")
+        if(localStorage == null){
+          localStorage.setItem('subject_id', (this.title.id));
+        }
         this.date = new Date(this.dateFormat)
         this.typeUser = sessionStorage.getItem("type")
         fetch("http://localhost:8000/updateBlog/" + this.title_id, {
@@ -183,17 +190,9 @@
               for (let i = 0; i < data.post.length; i++) {
                 this.lists.push(data.post[i])
               }
-              this.lists.forEach(function (list) {
-                console.log(list.id)
-                console.log(list.postContent)
-                sessionStorage.setItem("post_id", list.id)
-                sessionStorage.setItem("text", list.postContent)
-                sessionStorage.setItem("status", list.typeUser)
-              })
             })
-          this.post_id = sessionStorage.getItem("post_id")
         this.title_id = sessionStorage.getItem("subject_id")
-          fetch("http://localhost:8000/updateComment/" + this.post_id, {
+          fetch("http://localhost:8000/updateComment", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -248,7 +247,6 @@ body {
 }
 
 .rightcolumn{
-  background-color: black;
   color: white;
 }
 
@@ -348,6 +346,7 @@ button{
 input {
   text-align: center;
   width: 100%;
+  color:black;
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;

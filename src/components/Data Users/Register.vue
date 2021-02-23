@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="app">
-      <img alt="Vue logo" src="../../assets/logo.png">
+      <img alt="Register" width = 50% src="../../assets/obrazek.png">
     </div>
     <div id="create">
       <p style="color:white; font-weight: bold">Register</p>
@@ -22,21 +22,22 @@
         <br>
         <br>
         <label class="place">Check email</label>
-        <input type="button" v-on:click="onCheck" v-model="check"/>
+        <br>
+        <input type="button" class="button" v-on:click="onCheck" v-model="check"/>
         <br>
         <br>
         <label class="place">Password</label>
         <input type="password" name="password" class="field" required min="8" value="password" v-model="password">
         <br>
         <br>
-        <label class="place"> Validation</label>
-        <input type="button" v-on:click="checkform" v-model="validation"/>
-        <br>
-        <br>
         <select v-model="type">
           <option>User</option>
           <option>Creator</option>
         </select>
+        <br>
+        <label class="place"> Validation</label>
+        <br>
+        <input type="button" class="button" v-on:click="checkform" v-model="validation"/>
         <br>
         <br>
         <br>
@@ -60,7 +61,6 @@ export default {
       surname: "",
       username: "",
       password: "",
-      phone:'',
       response: '',
       data: '',
       check: "busy",
@@ -107,7 +107,6 @@ export default {
           "username": this.username,
           "password": this.password,
           "type": this.type,
-          "phone": this.phone,
         }),
         headers: {
           "Content-Type": "application/json"
@@ -117,13 +116,13 @@ export default {
           .then(data => {
             console.log('Success:', data);
             if(data.status === "success"){
-              alert("User is created")
+              this.$swal.fire("User is created")
               console.log("done")
               this.$router.push('login')
             }
             else if(data.error === "Email is in database"){
-              alert("Register failed: Email is in database")
-              this.$router.push('home')
+              this.$swal.fire("Register failed: Email is in database")
+              this.$router.push('register')
 
             }
           });
@@ -159,6 +158,14 @@ export default {
   box-sizing: border-box;
 }
 
+input[type=email], [type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
 .sub[type=submit] {
   width: 100%;
   background-color: #4CAF50;
@@ -168,6 +175,17 @@ export default {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.button{
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
 
 input[type=submit]:hover {

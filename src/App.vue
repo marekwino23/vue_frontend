@@ -69,7 +69,7 @@ export default {
     Logout: function(){
       sessionStorage.clear();
       localStorage.clear()
-        this.$router.push('/login')
+      window.location.href = '/login'
     }
   },
   mounted(){
@@ -112,7 +112,7 @@ li a {
 }
 
 li a:hover:not(.active) {
-  background-color: #111;
+  background-color: green;
 }
 
 

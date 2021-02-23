@@ -103,6 +103,7 @@ export default {
             if (data.info === "update success") {
               this.oldEmail = data.file
               this.$swal.fire("Second email success")
+              window.location.href = '/info'
             } else if(data.error === "error") {
               alert("Error: you can t duplicate emails")
             }

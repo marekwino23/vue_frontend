@@ -60,6 +60,7 @@ export default {
               if (data.status === "success") {
                 alert("Title created successful")
                 sessionStorage.setItem("newtitle", data.title)
+                window.location.href = '/blog'
               } else if (data.status === "error") {
                 this.$swal.fire("this subject is used")
               } else {

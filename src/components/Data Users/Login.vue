@@ -1,5 +1,8 @@
 <template>
   <div class="login">
+    <img alt="Login" width = 20% src="../../assets/obrazek.png">
+    <br>
+    <br>
     <p style="color:white;font-weight: bold">Logowanie</p>
     <br>
     <form action="http://localhost:8000/login" @submit="onAuth()">
@@ -94,7 +97,7 @@ export default {
            .then(response => response.json())
            .then(data => {
              console.log('Success:', data);
-             if(data.status === "Login complete" || data.type === "admin" ){
+             if(data.status === "Login complete" || data.type === "Admin" ){
                sessionStorage.setItem("loggedin",true);
                sessionStorage.setItem("name",data.name);
                sessionStorage.setItem("surname",data.surname);
@@ -104,8 +107,10 @@ export default {
                sessionStorage.setItem("type",data.type);
                sessionStorage.setItem("oldEmail",data.secondEmail);
                console.log(data.type)
-               alert(`Success Login` + "Hello" + data.type )
-               this.$router.push("home")
+               this.$swal.fire(`Success Login` + "Hello" + data.type )
+               window.location.href = '/home'
+               console.log("*********")
+               return true;
              }
              else if(data.status === "Login complete" || data.type === "Creator"){
                sessionStorage.setItem("loggedin",true);
@@ -117,7 +122,8 @@ export default {
                sessionStorage.setItem("type",data.type);
                sessionStorage.setItem("secondEmail",data.secondEmail);
                console.log(data.type)
-               alert(`Success Login` + "Hello" + data.type )
+               window.location.href = '/home'
+               this.$swal.fire(`Success Login` + "Hello" + data.type )
              }
              else if(data.status === "Login complete" || data.type === "User"){
                sessionStorage.setItem("loggedin",true);
@@ -129,10 +135,11 @@ export default {
                sessionStorage.setItem("type",data.type);
                sessionStorage.setItem("secondEmail",data.secondEmail);
                console.log(data.type)
-               alert(`Success Login` + "Hello" + data.type )
+               window.location.href = '/home'
+               this.$swal.fire(`Success Login` + "Hello" + data.type )
              }
              else if(data.error === "failed" ) {
-               alert("Wrong password or email")
+               this.$swal.fire("Wrong password or email")
                this.$router.push("register")
 
              }
@@ -164,7 +171,7 @@ input {
 
 
 .btn-login .button {
-  background-color: green;
+  background-color: #507351;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -181,7 +188,7 @@ input {
 }
 
 .btn-submit .button {
-  background-color: green;
+  background-color:#507351;
   border: none;
   color: white;
   padding: 15px 32px;
