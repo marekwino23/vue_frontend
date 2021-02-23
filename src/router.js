@@ -64,19 +64,19 @@ const router =  new VueRouter({
 
 
         {
-            path: '/addPost',
+            path: '/addPost/:id',
             name: 'addPost',
             component: addPost,
         },
 
         {
-            path: '/editPost',
+            path: '/editPost/:id',
             name: 'editPost',
             component: EditPost,
         },
 
         {
-            path: '/edit',
+            path: '/edit/:id',
             name: 'edit',
             component: editUser,
         },
@@ -90,7 +90,7 @@ const router =  new VueRouter({
 
 
         {
-            path: '/post',
+            path: '/post/:id',
             name: 'post',
             component: Post,
         },

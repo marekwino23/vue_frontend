@@ -50,7 +50,7 @@
     <h1>List of subject</h1>
     <article v-for="list in lists" :key="list.subject"  class="main-content">
       <section>
-        <router-link :to="{name:'post', params:{id:list.id, title:list.subject }}">  <h2 style="color: white;">{{list.subject}}</h2> </router-link>
+        <router-link :to="{name:'post', params:{id:list.id }}">  <h2 style="color: white;">{{list.subject}}</h2> </router-link>
         <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deleteSubject(list,list.id)">
       </section>
       <section class="card-list">
@@ -76,7 +76,6 @@
       <img width="25%" style="margin-left: 551px" src="../../assets/example.jpg">
       <nav>
         <ul class="nav">
-          <h2>{{title3}}</h2>
         </ul>
       </nav>
       <ul class="social">
@@ -91,7 +90,6 @@ import addSubject from "@/components/Blog/addSubject";
 
 export default {
   name: 'blog',
-  props: ['title3'],
   components: {addSubject},
   data() {
     return {

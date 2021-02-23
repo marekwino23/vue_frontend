@@ -71,7 +71,7 @@ export default {
               console.log('Success:', data)
               if (data.status === "Update success") {
                 alert("Update successful")
-                this.$router.push('blog')
+                window.location.href = '/post/' + this.id
               } else {
                 console.error("failed")
               }

@@ -26,7 +26,7 @@
             <div class="field">
               <p>{{list.date}}</p>
               <img class="card_img" src="../../assets/photo-1598625456132-bb6cb433e42e.jpeg"/>
-              <p style="color: white">{{list.content}}</p>
+              <p style="color: white">{{list.postContent}}</p>
               <input type="button" style="width:50%; height: 50%" value="delete post" @click="deletePost(list,list.id)">
               <router-link :v-show='typeUser !== "User"' :to="{name:'editPost', params:{id:list.id }}">Edit Post
               </router-link>
@@ -43,7 +43,7 @@
         <div class="row">
           <h2 style="color:white">List comments</h2>
           <div v-for="comment in comments" :key="comment.comment" class="column" style="background-color:#aaa;">
-            <p>{{comment.email}} - {{comment.comment}}</p>
+            <p>{{comment.email}} - {{comment.comment}}</p> <input type="button" style="width:50%; height: 50%" value="delete comment" @click="deleteComment(comment,comment.id)">
           </div>
         </div>
         <br>
@@ -68,11 +68,8 @@
 
     <script>
 
-    // import Blog from "@/components/Blog/Blog";
-
     export default {
       name: 'post',
-      // components: {Blog},
       updated() {
 
       },
@@ -96,7 +93,7 @@
       methods: {
 
         onBack: function (){
-          this.$router.push('blog')
+          this.$router.push('/blog')
           localStorage.clear()
         },
 
@@ -132,7 +129,33 @@
               .then(data => {
                 console.log(data.message)
                 if (data.status === "success") {
-                  window.location.href = '/post'
+                  window.location.href = '/post/'+ this.post_id
+                } else {
+                  alert("failed")
+                }
+              })
+        },
+
+        deleteComment: function (list) {
+          console.log(list.id)
+          this.id = list.id
+          fetch("http://localhost:8000/deleteComment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({"id": this.id})
+          })
+              .then(response => {
+                if (response.status === 200) {
+                  return response.json();
+                }
+              })
+              .then(data => {
+                console.log(data.message)
+                if (data.message === "delete success") {
+                  sessionStorage.removeItem("post_id")
+                  window.location.href = '/blog'
                 } else {
                   alert("failed")
                 }
@@ -157,7 +180,7 @@
               .then(data => {
                 console.log(data.message)
                 if (data.message === "delete success") {
-                  this.$router.push('blog')
+                  this.$router.push('/blog')
                 } else {
                   alert("failed")
                 }
@@ -167,11 +190,9 @@
 
       mounted() {
         this.dateFormat = new Date();
+        console.log(this.$route.params.id)
         localStorage.setItem("subject_id", this.$route.params.id)
         this.title_id = localStorage.getItem("subject_id")
-        if(localStorage == null){
-          localStorage.setItem('subject_id', (this.title.id));
-        }
         this.date = new Date(this.dateFormat)
         this.typeUser = sessionStorage.getItem("type")
         fetch("http://localhost:8000/updateBlog/" + this.title_id, {
@@ -190,6 +211,10 @@
               for (let i = 0; i < data.post.length; i++) {
                 this.lists.push(data.post[i])
               }
+              this.lists.forEach(function (list) {
+                console.log(list.id)
+                sessionStorage.setItem("post_id", list.id)
+              })
             })
         this.title_id = sessionStorage.getItem("subject_id")
           fetch("http://localhost:8000/updateComment", {
@@ -345,7 +370,8 @@ button{
 
 input {
   text-align: center;
-  width: 100%;
+  width: 50%;
+  height: 20%;
   color:black;
   padding: 12px;
   border: 1px solid #ccc;
