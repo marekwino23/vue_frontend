@@ -113,6 +113,7 @@ img {
 input {
   text-align: center;
   width: 100%;
+  color:black;
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;

@@ -8,6 +8,7 @@
         <th> sender</th>
         <th> message </th>
         <th>dateSend</th>
+        <th>receiver</th>
         <th>answer</th>
         <th>dateAnswer</th>
         <th>Status</th>
@@ -19,6 +20,7 @@
           <td>{{message.sender}}</td>
           <td>{{message.message}}</td>
           <td>{{message.date_send}}</td>
+          <td>{{message.receiver}}</td>
           <td>{{message.answer}}</td>
           <td>{{message.date_answer}}</td>
           <td>{{message.status}}</td>
@@ -76,7 +78,7 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.message === "answer success") {
-              this.$router.push('home')
+              this.$router.push('received')
             } else {
               alert("failed")
             }
@@ -127,7 +129,8 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.message === "delete success") {
-              this.$router.push('home')
+              this.$swal.fire("delete message success")
+              this.$router.push('/received')
             } else {
               alert("failed")
             }
@@ -137,7 +140,7 @@ export default {
 
   mounted() {
     this.email = sessionStorage.getItem("email")
-    fetch("http://localhost:8000/listMessage/"+this.email, {
+    fetch("http://localhost:8000/receivedMessage/"+this.email, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -168,6 +171,8 @@ export default {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  color:white;
+  background-color: #4c824c;
 }
 
 #users td, #users th {
@@ -190,7 +195,7 @@ input {
 
 #users tr:nth-child(even){background-color: #f2f2f2;}
 
-#users tr:hover {background-color: #ddd;}
+#users tr:hover {background-color: green;}
 
 #users th {
   padding-top: 12px;

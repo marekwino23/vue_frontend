@@ -1,13 +1,10 @@
 <template>
   <div>
     <div id="app">
-      <img alt="Vue logo" src="../../assets/logo.png">
+      <img alt="Vue logo" width="25%" src="../../assets/obrazek.png">
     </div>
     <div id="create">
-      <p>Edit user</p>
-      <li>
-        <router-link to="/list">Back</router-link>
-      </li>
+      <h2 style="color: white">Edit user</h2>
       <br>
       <form @submit="updateData" method="post">
         <div id="name">
@@ -25,7 +22,7 @@
         <br>
         <br>
         <label>Check email</label>
-        <input type="button" v-on:click="onCheck" v-model="check"/>
+        <input type="button"  class="button"  v-on:click="onCheck" v-model="check"/>
         <br>
         <br>
         <label>Password</label>
@@ -33,7 +30,7 @@
         <br>
         <br>
         <label> Validation</label>
-        <input type="button" v-on:click="checkform" v-model="validation"/>
+        <input type="button" class="button" v-on:click="checkform" v-model="validation"/>
         <br>
         <br>
         <select v-model="type">
@@ -147,8 +144,8 @@ export default {
           .then(data => {
             console.log('Success:', data);
             if (data.message === "update success") {
-              alert("User updated")
-              this.$router.push('list')
+              this.$swal.fire("User updated")
+              this.$router.push('/list')
               localStorage.clear()
             } else {
               console.error("failed")
@@ -176,6 +173,60 @@ export default {
 
 #name {
   margin-left: 29px;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+input[type=email], [type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #467b48;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+label{
+  color:white;
+}
+
+.button{
+  background-color: #467b48; /* Green */
+  border: none;
+  color: white;
+  margin-left: 9px;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+input[type=button]:hover {
+  background-color: #45a049;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  padding: 20px;
 }
 
 

@@ -19,21 +19,42 @@
       <section class="card-list">
         <div class="row">
           <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
+            <p>{{list.email}}</p>
+            <p>{{list.typeUser}}</p>
+            <img alt="User" width = 50% src="../../assets/obrazek.png">
             <div class="field">
-               <router-link :v-show='typeUser !== "User"' :to="{name:'showPost', params:{id:list.id }}"> <p style="color: white">{{list.id}}-{{list.postContent}}</p>
-            </router-link>
+              <p>id:{{list.id}}</p>
+              <p>{{list.date}}</p>
+              <img class="card_img" src="../../assets/photo-1598625456132-bb6cb433e42e.jpeg"/>
+              <p style="color: white">{{list.postContent}}</p>
+              <input type="button" style="width:50%; height: 50%" value="add comment" @click="addComment(list,list.id)">
+              <div v-if="typeUser !== 'User'">
+                <input type="button" style="width:50%; height: 50%" value="delete post" @click="deletePost(list,list.id)">
+                <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editPost', params:{id:list.id }}">Edit Post
+                </router-link>
               </div>
+              <br>
+              <br>
             </div>
           </div>
+        <div v-for="list in lists" :key="list.id" class="card">
+          <div class="card-details">
+          </div>
+        </div>
+        </div>
         <div class="row">
+          <h2 style="color:white">List comments</h2>
+          <div v-for="comment in comments" :key="comment.comment" class="column" style="background-color:#aaa;">
+            <p>id:{{comment.post_id}} - {{comment.email}} - {{comment.comment}}</p>  <div v-if="typeUser !== 'User'"><input type="button" style="width:50%; height: 50%" value="delete comment" @click="deleteComment(comment,comment.id)">
+          </div>
+          </div>
         </div>
         <br>
       </section>
+      <input type="button" value="Back" @click="onBack">
       <aside />
     </article>
     <footer class="footer">
-      <button> <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:title_id }}">Add Post
-      </router-link></button>
       <nav>
         <ul class="nav">
         </ul>
@@ -48,7 +69,7 @@
     <script>
 
     export default {
-      name: 'post',
+      name: 'showPost',
       updated() {
 
       },
@@ -57,22 +78,30 @@
           lists: [],
           comments: [],
           text: '',
-          title: '',
-          title2: '',
           email: '',
           status: '',
+          title_id:'',
           typeUser: '',
           id: '',
-          title_id: "",
+          post_id: "",
           date: ''
         }
       },
 
       methods: {
-        deletePost: function (list) {
+        onBack: function (){
+          sessionStorage.removeItem("post_id")
+          window.location.href = '/post/' + this.title_id
+        },
+        addComment: function (list) {
+          console.log(list.id)
+          this.$router.push({name: 'addComment', params: {id: list.id}})
+        },
+
+        deleteComment: function (list) {
           console.log(list.id)
           this.id = list.id
-          fetch("http://localhost:8000/deletePost", {
+          fetch("http://localhost:8000/deleteComment", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -87,21 +116,22 @@
               .then(data => {
                 console.log(data.message)
                 if (data.message === "delete success") {
-                  this.$router.push('/blog')
+                  sessionStorage.removeItem("post_id")
+                  window.location.href = '/blog'
                 } else {
                   alert("failed")
                 }
               })
         },
       },
-
       mounted() {
         this.date = new Date();
-        console.log(this.$route.params.id)
-        sessionStorage.setItem("subject_id", this.$route.params.id)
         this.title_id = sessionStorage.getItem("subject_id")
+        console.log(this.$route.params.id)
+        sessionStorage.setItem("post_id", this.$route.params.id)
+        this.post_id = sessionStorage.getItem("post_id")
         this.typeUser = sessionStorage.getItem("type")
-        fetch("http://localhost:8000/updateBlog/" + this.title_id, {
+        fetch("http://localhost:8000/showPost/" + this.post_id, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -124,8 +154,26 @@
                 sessionStorage.setItem("post_id", list.id)
               })
             })
+        this.post_id = sessionStorage.getItem("post_id")
+          fetch("http://localhost:8000/updateComment/" + this.post_id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+              .then(response => {
+                if (response.status === 200) {
+                  return response.json();
+                }
+              })
+              .then(data => {
+                console.log(data)
+                for (let i = 0; i < data.comment.length; i++) {
+                  this.comments.push(data.comment[i])
+                }
 
-      }
+              })
+        },
     }
 
     </script>

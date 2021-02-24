@@ -15,6 +15,7 @@
           <select v-model="receiver">
             <option>Admin</option>
             <option>Creator</option>
+            <option>User</option>
           </select>
           <br>
           <div class="btn-submit">
@@ -74,11 +75,11 @@ export default {
           .then(data => {
             console.log('Success:', data);
             if (data.message === "success") {
-              alert("Create message successful")
+              this.$swal.fire("Create message successful")
               console.log("done")
-              this.$router.push('home')
+              this.$router.push('/sended')
             } else if (data.error === "error") {
-              alert("failed")
+              this.$swal.fire("failed")
 
             }
           });
@@ -122,7 +123,7 @@ input[type=text] select, textarea {
 }
 
 input[type=submit] {
-  background-color: #4CAF50;
+  background-color: #446345;
   color: white;
   padding: 12px 20px;
   border: none;

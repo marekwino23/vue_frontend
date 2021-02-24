@@ -7,11 +7,13 @@
         <th> message </th>
         <th>dateSend</th>
         <th>To</th>
+        <th>Action</th>
         <tr v-for="message in messages" :key="message.email">
-          <td>{{message.personAnswer}}</td>
-          <td>{{message.answer}}</td>
-          <td>{{message.date_send}}</td>
           <td>{{message.email}}</td>
+          <td>{{message.message}}</td>
+          <td>{{message.date_send}}</td>
+          <td>{{message.receiver}}</td>
+          <input type="button" class="button" value="Delete message" @click="deleteMessage(message,message.id)">
         </tr>
       </table>
     </div>
@@ -72,7 +74,7 @@ export default {
     deleteMessage: function (list) {
       const id = list.id
       console.log(id)
-      fetch("http://localhost:8000/deleteRow", {
+      fetch("http://localhost:8000/deleteMessage", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +89,8 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.message === "delete success") {
-              this.$router.push('home')
+              this.$swal.fire("delete message success")
+              this.$router.push('/sended')
             } else {
               alert("failed")
             }
@@ -146,7 +149,7 @@ tr{
 #users th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
+  text-align: center;
   background-color: #4CAF50;
   color: white;
 }

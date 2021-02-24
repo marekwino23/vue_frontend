@@ -62,6 +62,7 @@ export default {
       status: '',
       email: '',
       messages: '',
+      lists: [],
     }
   },
 
@@ -110,28 +111,32 @@ export default {
           }
         })
         .then(data => {
-          console.log(data)
-          if (data.status === "new comments") {
-            this.$swal.fire(data.comments[0].email +  "added new comment to your post")
-          .then((result) => {
-      if (result.isConfirmed) {
-        this.$router.push('post')
-      } else if (result.isDenied) {
-        console.log("later")
-      }
-    })
+              console.log(data)
+              for (let i = 0; i < data.comments.length; i++) {
+                this.lists.push(data.comments[i])
 
+              }
+                if (data.status === "new comments") {
+                  this.$swal.fire({text: data.comments[0].email +  "added new comment to your post",
+                      showCancelButton: true,})
+                      .then((result) => {
+                        if (result.isConfirmed) {
+                          this.lists.forEach(function (list) {
+                            console.log(list.subject_id)
+                            window.location.href = '/post/' + list.subject_id
+                          })
+                          console.log('hello')
+                        } else if (result.isDenied) {
+                          console.log("later")
+                        }
+                      })
 
-          }
-
-  else if (data.status === "lack messages") {
-            console.log("hello")
-          }
-        })
-  },
-
-  methods: {},
-}
+                } else if (data.status === "lack messages") {
+                  console.log("hello")
+                }
+              })
+            },
+  }
 
 
 </script>
@@ -166,12 +171,6 @@ body {
   background: #f1f1f1;
 }
 
-/* Header/Blog Title */
-.header {
-  padding: 30px;
-  text-align: center;
-  background: white;
-}
 
 h1 {
   font-size: 50px;
@@ -223,7 +222,7 @@ h1 {
 img {
   margin-left: 3px;
   margin-top: -8px;
-  width: 100%;
+  width: 94%;
   border: 2px solid black;
 }
 

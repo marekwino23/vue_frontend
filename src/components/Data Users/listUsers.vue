@@ -1,7 +1,8 @@
 <template>
   <div>
     <div>
-      <p>Panel Admina<p/>
+      <h2 style="color: white">Panel Admina</h2>
+      <br>
       <table id="users">
         <th> id</th>
         <th> name</th>
@@ -10,6 +11,7 @@
         <th>secondEmail</th>
         <th>code</th>
         <th>typeUser</th>
+        <th>Action</th>
         <tr v-for="list in lists" :key="list.id">
          <td>{{list.id}}</td>
           <td>{{list.name}}</td>
@@ -21,9 +23,9 @@
           <div class="btn-group">
           <input type="button" class="button" value="delete" @click="deleteRow(list, list.id)">
           <input type="button" class="button" value="edit" @click="editUser(list)">
-        <input type="button" class="button" value="add user" @click="addUser">
           </div>
         </tr>
+        <input type="button" class="button" value="add user" @click="addUser">
       </table>
     </div>
   </div>
@@ -75,7 +77,8 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.message === "delete success") {
-              this.$router.push('home')
+              this.$swal.fire("Delete user success")
+              window.location.href = '/list'
             } else {
               alert("failed")
             }
@@ -115,6 +118,8 @@ export default {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  color:white;
+  background-color: #345834;
 }
 
 #users td, #users th {
@@ -122,20 +127,19 @@ export default {
   padding: 8px;
 }
 
-#users tr:nth-child(even){background-color: #f2f2f2;}
 
-#users tr:hover {background-color: #ddd;}
+#users tr:hover {background-color: green;}
 
 #users th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
+  text-align: center;
   background-color: #4CAF50;
   color: white;
 }
 
 .btn-group .button {
-  background-color: #4CAF50; /* Green */
+  background-color: #426944; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;

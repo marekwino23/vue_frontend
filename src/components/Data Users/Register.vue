@@ -83,16 +83,16 @@ export default {
       console.log(data.status)
       if (data.status === "success") {
         check = "free"
-        alert("email is free")
+        this.$swal.fire("email is free")
         console.log(check)
       } else {
-        alert("email is busy")
+        this.$swal.fire("email is busy")
       }
     },
 
     checkform() {
       if (this.username === "" || this.password === "" || this.name === "" || this.surname === "" || this.type === "" ) {
-        alert("please to complete your form or check your email")
+        this.$swal.fire("please to complete your form or check your email")
       } else {
         this.validation = "on"
       }
@@ -168,7 +168,7 @@ input[type=email], [type=password] {
 
 .sub[type=submit] {
   width: 100%;
-  background-color: #4CAF50;
+  background-color: #467b48;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -178,7 +178,7 @@ input[type=email], [type=password] {
 }
 
 .button{
-  background-color: #4CAF50; /* Green */
+  background-color: #467b48; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -187,11 +187,13 @@ input[type=email], [type=password] {
   display: inline-block;
   font-size: 16px;
 }
+input[type=button]:hover {
+  background-color: #45a049;
+}
 
 input[type=submit]:hover {
   background-color: #45a049;
 }
-
 
 div {
   border-radius: 5px;

@@ -1,37 +1,37 @@
 <template>
   <div>
     <div>
-      <ul class="menu">
+      <ul class="topnav">
         <li>
           <router-link to="/home">Home</router-link>
         </li>
-        <li>
-          <router-link v-show="logged" to="/contact">Contact</router-link>
-        </li>
-        <li>
-          <router-link v-show="logged" to="/sended">MessageSended</router-link>
-        </li>
-        <li>
-          <router-link v-show="logged" to="/received">MessageReceived</router-link>
-        </li>
-        <li>
-          <router-link v-show="logged" to="/info">User information</router-link>
-        </li>
-        <li>
-          <router-link v-show="logged" to="/blog">Blog</router-link>
-        </li>
-        <li v-show='status === "Admin"'>
-          <router-link to="/list">User list</router-link>
-        </li>
-        <li v-show='logged === null'>
-          <router-link to="/register">Register</router-link>
-        </li>
-        <li v-show="!logged">
-          <router-link to="/login">Login</router-link>
-        </li>
+          <li>
+            <router-link v-show="logged" to="/contact">Contact</router-link>
+          </li>
+          <li>
+            <router-link v-show="logged" to="/sended">MessageSended</router-link>
+          </li>
+          <li>
+            <router-link v-show="logged" to="/received">MessageReceived</router-link>
+          </li>
+          <li>
+            <router-link v-show="logged" to="/info">User information</router-link>
+          </li>
+          <li>
+            <router-link v-show="logged" to="/blog">Blog</router-link>
+          </li>
+          <li v-show='status === "Admin"'>
+            <router-link to="/list">User list</router-link>
+          </li>
+          <li v-show='logged === null'>
+            <router-link to="/register">Register</router-link>
+          </li>
+          <li v-show="!logged">
+            <router-link to="/login">Login</router-link>
+          </li>
         <div class="btn-group">
         <input type="button" class="button" v-show="logged" @click="Logout" value="Wyloguj">
-          <li style="color: white; margin-left: 20px; font-size: 16px;" v-show="logged">
+          <li style="color: white; margin-left: 134px; font-size: 16px;" v-show="logged">
             Logged as {{status}}
           </li>
         </div>
@@ -117,7 +117,6 @@ li a:hover:not(.active) {
 
 
 .btn-group .button {
-  background-color: #4CAF50; /* Green */
   border: none;
   color: white;
   padding: 13px 20px;
@@ -130,8 +129,39 @@ li a:hover:not(.active) {
   float: left;
 }
 
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  height: 47px;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: white;
+}
+
 .btn-group .button:hover {
-  background-color: #3e8e41;
+  background-color: #46b646;
+}
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+  .topnav a {
+    float: none;
+    width: 100%;
+  }
 }
 
 

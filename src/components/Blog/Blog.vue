@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <h2>My Blog</h2>
+      <h2 style="color:white;">My Blog</h2>
     </div>
     <br>
     <article>
@@ -40,14 +40,16 @@
           </a>
         </div>
 <!--        <img class="hero_img" src="../../assets/photo-1558004294-897f1d522c97.jpeg">-->
-        <div class="text">
-          <h1 style="font-weight: bold">Welcome in my Blog</h1>
-          <button>Read more</button>
-        </div>
+<!--        <div class="text">-->
+<!--          <h1 style="font-weight: bold">Welcome in my Blog</h1>-->
+<!--          <button>Read more</button>-->
+<!--        </div>-->
       </section>
     </article>
-    <add-subject></add-subject>
-    <h1>List of subject</h1>
+    <div v-if="typeUser !== 'User'">
+      <add-subject :v-show ="typeUser !== 'User'"></add-subject>
+    </div>
+    <h1 style="text-align: center">List of subject</h1>
     <article v-for="list in lists" :key="list.subject"  class="main-content">
       <section>
         <router-link :to="{name:'post', params:{id:list.id }}">  <h2 style="color: white;">{{list.subject}}</h2> </router-link>
@@ -166,12 +168,6 @@ body {
   font-family: Arial;
   padding: 20px;
 }
-.hero_img {
-  width: 1000px;
-  height: 500px;
-  /*opacity:0.6;*/
-}
-
 
 .hero {
   min-height: 50vh;
@@ -182,7 +178,6 @@ body {
 }
 
 .rightcolumn{
-  background-color: black;
   color: white;
 }
 
@@ -219,7 +214,7 @@ main-content {
   padding: 30px;
   font-size: 40px;
   text-align: center;
-  background: #d5e2cc;
+  background: #8fad7a;
 }
 .carousel-inner{
   background-color: white;
@@ -247,8 +242,8 @@ button{
 
 .text{
   position: absolute;
-  margin-left: 338px;
-  margin-top:330px;
+  margin-left: 450px;
+  margin-top:591px;
   width: 25%;
   background-color: black;
   color: white;

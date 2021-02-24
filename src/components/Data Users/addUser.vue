@@ -1,13 +1,10 @@
 <template>
   <div>
     <div id="app">
-      <img alt="Vue logo" src="../../assets/logo.png">
+      <img alt="Vue logo" width="25%" src="../../assets/obrazek.png">
     </div>
     <div id="create">
-      <p>Add new user</p>
-      <li>
-        <router-link to="/list">Back</router-link>
-      </li>
+      <h2 style="color: white">Add new user</h2>
       <br>
       <form @submit="onsubmit" method="post">
         <div id="name">
@@ -25,15 +22,13 @@
         <br>
         <br>
         <label>Check email</label>
-        <input type="button" v-on:click="onCheck" v-model="check"/>
+        <input type="button" class="button" v-on:click="onCheck" v-model="check"/>
         <br>
         <br>
         <label>Password</label>
         <input type="password" name="password" required min="8" value="password" v-model="password">
         <br>
         <br>
-        <label> Validation</label>
-        <input type="button" v-on:click="checkform" v-model="validation"/>
         <br>
         <br>
         <select v-model="type">
@@ -41,6 +36,9 @@
           <option>Creator</option>
         </select>
         <br>
+        <br>
+        <label> Validation</label>
+        <input type="button" class="button" v-on:click="checkform" v-model="validation"/>
         <br>
         <br>
         <input type="submit" class="check" value="addUser" :disabled='validation === "off"'>
@@ -85,10 +83,10 @@ export default {
       console.log(data.status)
       if (data.status === "success") {
         check = "free"
-        alert("email is free")
+        this.$swal.fire("email is free")
         console.log(check)
       } else {
-        alert("email is busy")
+        this.$swal.fire("email is busy")
       }
     },
 
@@ -118,12 +116,12 @@ export default {
           .then(data => {
             console.log('Success:', data);
             if(data.status === "success"){
-              alert("User is created")
+              this.$swal.fire("User is created")
               console.log("done")
               this.$router.push('list')
             }
             else if(data.error === "Email is in database"){
-              alert("Register failed: Email is in database")
+              this.$swal.fire("Register failed: Email is in database")
               this.$router.push('home')
 
             }
@@ -148,6 +146,17 @@ export default {
   margin-top: 60px;
 }
 
+.button{
+  background-color: #467b48; /* Green */
+  border: none;
+  color: white;
+  margin-left: 9px;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
 #name {
   margin-left: 29px;
 }
