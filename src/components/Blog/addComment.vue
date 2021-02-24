@@ -73,7 +73,7 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.status === "success") {
-              window.location.href = '/blog'
+              window.location.href = '/showPost/' + this.post_id
             } else {
               alert("failed")
             }

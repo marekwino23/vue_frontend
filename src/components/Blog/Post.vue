@@ -20,12 +20,13 @@
         <div class="row">
           <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
             <div class="field">
-               <router-link :v-show='typeUser !== "User"' :to="{name:'showPost', params:{id:list.id }}"> <p style="color: white">{{list.id}}-{{list.postContent}}</p>
+               <router-link :v-show='typeUser !== "User"' :to="{name:'showPost', params:{id:list.id }}"> <h2 style="color: white">{{list.postContent}}</h2>
             </router-link>
               </div>
             </div>
           </div>
         <div class="row">
+          <input type="button" value="Back" @click="onBack">
         </div>
         <br>
       </section>
@@ -69,6 +70,10 @@
       },
 
       methods: {
+        onBack: function (){
+          sessionStorage.removeItem("subject_id")
+          window.location.href = '/blog'
+        },
         deletePost: function (list) {
           console.log(list.id)
           this.id = list.id
@@ -257,7 +262,7 @@ button{
 input {
   text-align: center;
   width: 50%;
-  height: 4%;
+  height: 50px;
   color:black;
   padding: 12px;
   border: 1px solid #ccc;

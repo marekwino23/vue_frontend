@@ -63,6 +63,8 @@ export default {
       email: '',
       messages: '',
       lists: [],
+      type:'',
+      post_id:'',
     }
   },
 
@@ -98,8 +100,9 @@ export default {
             console.log("hello")
           }
         })
-    this.email = sessionStorage.getItem("email")
-    fetch("http://localhost:8000/getComment/" + this.email, {
+    this.type = sessionStorage.getItem("type")
+    this.post_id = sessionStorage.getItem('post_id')
+    fetch("http://localhost:8000/getComment/" + this.type + "/" + this.post_id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -117,13 +120,13 @@ export default {
 
               }
                 if (data.status === "new comments") {
-                  this.$swal.fire({text: data.comments[0].email +  "added new comment to your post",
+                  this.$swal.fire({text: data.comments[0].email +  "added new comment to your post:" + data.comments[0].post_id ,
                       showCancelButton: true,})
                       .then((result) => {
                         if (result.isConfirmed) {
                           this.lists.forEach(function (list) {
-                            console.log(list.subject_id)
-                            window.location.href = '/post/' + list.subject_id
+                            console.log(list.post_id)
+                            window.location.href = '/showPost/' + list.post_id
                           })
                           console.log('hello')
                         } else if (result.isDenied) {
