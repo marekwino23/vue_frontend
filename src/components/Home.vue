@@ -63,11 +63,34 @@ export default {
       email: '',
       messages: '',
       lists: [],
-      type:'',
-      post_id:'',
+      type: '',
+      id: '',
+      boxes: '',
+      post_id: '',
     }
   },
 
+  // beforeMount() {
+  //   this.id = sessionStorage.getItem('id')
+  //   fetch("http://localhost:8000/getId/" + this.id, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //       .then(response => {
+  //         if (response.status === 200) {
+  //           return response.json();
+  //         }
+  //       })
+  //       .then(data => {
+  //         console.log(data)
+  //         for (let i = 0; i < data.id.length; i++) {
+  //           console.log(data.id[i].id)
+  //           sessionStorage.setItem('post_id', data.id[i].id)
+  //         }
+  //       })
+  // },
   mounted() {
     this.status = sessionStorage.getItem("type");
     this.email = sessionStorage.getItem("email")
@@ -100,9 +123,9 @@ export default {
             console.log("hello")
           }
         })
-    this.type = sessionStorage.getItem("type")
-    this.post_id = sessionStorage.getItem('post_id')
-    fetch("http://localhost:8000/getComment/" + this.type + "/" + this.post_id, {
+    this.email = sessionStorage.getItem("email")
+    this.id = sessionStorage.getItem('id')
+    fetch("http://localhost:8000/notificationComment/" + this.email + "/" + this.id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -114,32 +137,85 @@ export default {
           }
         })
         .then(data => {
-              console.log(data)
-              for (let i = 0; i < data.comments.length; i++) {
-                this.lists.push(data.comments[i])
+          console.log(data)
+          if(data.status === "lack change"){
+            console.log("hello")
+          }
+          else if(data.status === "deleted comments"){
+              alert("Admin deleted your comment")
+          }
+        })
+    // this.email = sessionStorage.getItem("email")
+    // this.post_id = sessionStorage.getItem('post_id')
+    // fetch("http://localhost:8000/getComment/" + this.email + "/" + this.post_id, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //     .then(response => {
+    //       if (response.status === 200) {
+    //         return response.json();
+    //       }
+    //     })
+    //     .then(data => {
+    //       console.log(data)
+    //       for (let i = 0; i < data.comments.length; i++) {
+    //         this.lists.push(data.comments[i])
+    //       }
+    //       this.lists.forEach(function (list) {
+    //         console.log(list.post_id)
+    //         if (data.status === "new comments") {
+    //           let field = confirm(list.email + "\n" + "added new comment to Post:" + "\n" + list.postContent + ":" + "\n" + "comment:" + list.comment)
+    //           if (field === true) {
+    //             fetch("http://localhost:8000/acceptComment/" + list.id, {
+    //               method: "PATCH",
+    //               headers: {
+    //                 "Content-Type": "application/json",
+    //               },
+    //             })
+    //                 .then(response => {
+    //                   if (response.status === 200) {
+    //                     return response.json();
+    //                   }
+    //                 })
+    //                 .then(data => {
+    //                   console.log(data)
+    //                   if (data.status === "This comment is accepted") {
+    //                     window.location.href = '/showPost/' + list.post_id
+    //                     console.log("good")
+    //                   }
+    //                 })
+    //           } else {
+    //             fetch("http://localhost:8000/deleteComment", {
+    //               method: "POST",
+    //               headers: {
+    //                 "Content-Type": "application/json",
+    //               },
+    //               body: JSON.stringify({
+    //                 "id": list.id,
+    //               })
+    //             })
+    //                 .then(response => {
+    //                   if (response.status === 200) {
+    //                     return response.json();
+    //                   }
+    //                 })
+    //                 .then(data => {
+    //                   console.log(data)
+    //                   if (data.status === "This comment is deleted") {
+    //                     alert("delete comment succeess")
+    //                   } else {
+    //                     console.log("error")
+    //                   }
+    //                 })
+    //           }
+    //         }
+    //       })
 
-              }
-                if (data.status === "new comments") {
-                  this.$swal.fire({text: data.comments[0].email +  "added new comment to your post:" + data.comments[0].post_id ,
-                      showCancelButton: true,})
-                      .then((result) => {
-                        if (result.isConfirmed) {
-                          this.lists.forEach(function (list) {
-                            console.log(list.post_id)
-                            window.location.href = '/showPost/' + list.post_id
-                          })
-                          console.log('hello')
-                        } else if (result.isDenied) {
-                          console.log("later")
-                        }
-                      })
-
-                } else if (data.status === "lack messages") {
-                  console.log("hello")
-                }
-              })
-            },
+        // })
   }
+}
 
 
 </script>

@@ -51,6 +51,7 @@ export default {
       this.id = sessionStorage.getItem("id")
       this.post_id = this.$route.params.id
       this.date = new Date()
+      this.dateFormat = this.date.toJSON().slice(0,10).replace(/-/g,'-')
       this.email = sessionStorage.getItem("email")
       fetch("http://localhost:8000/addComment", {
         method: "POST",
@@ -60,7 +61,7 @@ export default {
         body: JSON.stringify({
           "id": this.id,
           "text": this.text,
-          "date": this.date,
+          "date": this.dateFormat,
           "email": this.email,
           "post_id": this.post_id
         })

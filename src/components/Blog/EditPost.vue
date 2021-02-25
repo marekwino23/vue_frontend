@@ -71,7 +71,7 @@ export default {
               console.log('Success:', data)
               if (data.status === "Update success") {
                 alert("Update successful")
-                window.location.href = '/blog'
+                window.location.href = '/showPost/' + this.post_id
               } else {
                 console.error("failed")
               }

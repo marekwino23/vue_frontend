@@ -2,37 +2,38 @@
   <div>
     <div>
       <ul class="topnav">
+        <img src="./assets/1827349.svg" style="margin-bottom: 19px" width="2%" @click="onRing">
         <li>
           <router-link to="/home">Home</router-link>
         </li>
-          <li>
-            <router-link v-show="logged" to="/contact">Contact</router-link>
-          </li>
-          <li>
-            <router-link v-show="logged" to="/sended">MessageSended</router-link>
-          </li>
-          <li>
-            <router-link v-show="logged" to="/received">MessageReceived</router-link>
-          </li>
-          <li>
-            <router-link v-show="logged" to="/info">User information</router-link>
-          </li>
-          <li>
-            <router-link v-show="logged" to="/blog">Blog</router-link>
-          </li>
-          <li v-show='status === "Admin"'>
-            <router-link to="/list">User list</router-link>
-          </li>
-          <li v-show='logged === null'>
-            <router-link to="/register">Register</router-link>
-          </li>
-          <li v-show="!logged">
-            <router-link to="/login">Login</router-link>
-          </li>
+        <li>
+          <router-link v-show="logged" to="/contact">Contact</router-link>
+        </li>
+        <li>
+          <router-link v-show="logged" to="/sended">MessageSended</router-link>
+        </li>
+        <li>
+          <router-link v-show="logged" to="/received">MessageReceived</router-link>
+        </li>
+        <li>
+          <router-link v-show="logged" to="/info">User information</router-link>
+        </li>
+        <li>
+          <router-link v-show="logged" to="/blog">Blog</router-link>
+        </li>
+        <li v-show='status === "Admin"'>
+          <router-link to="/list">User list</router-link>
+        </li>
+        <li v-show='logged === null'>
+          <router-link to="/register">Register</router-link>
+        </li>
+        <li v-show="!logged">
+          <router-link to="/login">Login</router-link>
+        </li>
         <div class="btn-group">
-        <input type="button" class="button" v-show="logged" @click="Logout" value="Wyloguj">
+          <input type="button" class="button" v-show="logged" @click="Logout" value="Wyloguj">
           <li style="color: white; margin-left: 134px; font-size: 16px;" v-show="logged">
-            Logged as {{status}}
+            Logged as {{ status }}
           </li>
         </div>
       </ul>
@@ -50,7 +51,6 @@
 <script>
 
 
-
 export default {
   names: 'App',
   components:
@@ -61,18 +61,115 @@ export default {
   data() {
     return {
       status: "",
-      logged:''
+      field: '',
+      logged: ''
     }
   },
 
+  beforeMount() {
+    this.id = sessionStorage.getItem('id')
+    fetch("http://localhost:8000/getId/" + this.id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          }
+        })
+        .then(data => {
+          console.log(data)
+          for (let i = 0; i < data.id.length; i++) {
+            console.log(data.id[i].id)
+            sessionStorage.setItem('post_id', data.id[i].id)
+          }
+        })
+  },
+
   methods: {
-    Logout: function(){
+    Logout: function () {
       sessionStorage.clear();
       localStorage.clear()
       window.location.href = '/login'
+    },
+    onRing: function () {
+      this.email = sessionStorage.getItem("email")
+      this.post_id = sessionStorage.getItem('post_id')
+      fetch("http://localhost:8000/getComment/" + this.email + "/" + this.post_id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+          .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            }
+          })
+          .then(data => {
+            console.log(data)
+            if (data.status === "lack comments") {
+              alert("lack new comments")
+            } else if (data.status === "new comments") {
+                data.comments.map(function (list,item)  {
+                      console.log(item)
+                      this.field = confirm(list.email + "\n" + "added new comment to" + "\n" + "Post:" + list.postContent + "\n" + "comment:" + list.comment)
+                      if (this.field === true) {
+                        fetch("http://localhost:8000/acceptComment/" + list.id, {
+                          method: "PATCH",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                        })
+                            .then(response => {
+                              if (response.status === 200) {
+                                return response.json();
+                              }
+                            })
+                            .then(data => {
+                              console.log(data)
+                              if (data.status === "This comment is accepted") {
+                                window.location.href = '/showPost/' + list.post_id
+                                console.log("good")
+                              } else {
+                                console.log("bajlando")
+                              }
+                            })
+
+                      }
+                    }
+                )
+            }
+          })
     }
   },
-  mounted(){
+// } else {
+//   fetch("http://localhost:8000/deleteComment", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       "id": list.id,
+//     })
+//   })
+//       .then(response => {
+//         if (response.status === 200) {
+//           return response.json();
+//         }
+//       })
+//       .then(data => {
+//         console.log(data)
+//         if (data.status === "This comment is deleted") {
+//           alert("delete comment sucsess")
+//         } else {
+//           console.log("error")
+//         }
+//       })
+
+  mounted() {
     this.logged = sessionStorage.getItem("loggedin")
     this.status = sessionStorage.getItem("type")
     console.log(this.status)
@@ -91,7 +188,8 @@ export default {
   background-color: #456939;;
   margin-top: 60px;
 }
-.menu{
+
+.menu {
   list-style-type: none;
   margin: 0;
   padding: 0;

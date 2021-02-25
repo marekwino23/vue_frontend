@@ -21,7 +21,7 @@
           <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
             <div class="field">
                <router-link :v-show='typeUser !== "User"' :to="{name:'showPost', params:{id:list.id }}"> <h2 style="color: white">{{list.postContent}}</h2>
-            </router-link>
+            </router-link> <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deletePost(list,list.id)">
               </div>
             </div>
           </div>
@@ -33,8 +33,10 @@
       <aside />
     </article>
     <footer class="footer">
+      <div v-if="typeUser !== 'User'">
       <button> <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:title_id }}">Add Post
       </router-link></button>
+      </div>
       <nav>
         <ul class="nav">
         </ul>
@@ -57,9 +59,6 @@
         return {
           lists: [],
           comments: [],
-          text: '',
-          title: '',
-          title2: '',
           email: '',
           status: '',
           typeUser: '',
@@ -72,6 +71,7 @@
       methods: {
         onBack: function (){
           sessionStorage.removeItem("subject_id")
+          sessionStorage.removeItem("post_id")
           window.location.href = '/blog'
         },
         deletePost: function (list) {
@@ -92,7 +92,7 @@
               .then(data => {
                 console.log(data.message)
                 if (data.message === "delete success") {
-                  this.$router.push('/blog')
+                  window.location.href = '/post/'+ this.title_id
                 } else {
                   alert("failed")
                 }
@@ -126,7 +126,6 @@
                 console.log(list.id)
                 console.log(list.subject_id)
                 sessionStorage.setItem("subject_id", list.subject_id)
-                sessionStorage.setItem("post_id", list.id)
               })
             })
 

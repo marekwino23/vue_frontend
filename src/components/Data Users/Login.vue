@@ -83,7 +83,6 @@ export default {
     onAuth: function () {
       const email = document.getElementById("username").value
       const password = document.getElementById("password").value
-      sessionStorage.setItem('Current user', email);
        fetch('http://localhost:8000/login', {
         method: "POST",
         headers: {

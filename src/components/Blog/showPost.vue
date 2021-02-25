@@ -23,13 +23,12 @@
             <p>{{list.typeUser}}</p>
             <img alt="User" width = 50% src="../../assets/obrazek.png">
             <div class="field">
-              <p>id:{{list.id}}</p>
               <p>{{list.date}}</p>
               <img class="card_img" src="../../assets/photo-1598625456132-bb6cb433e42e.jpeg"/>
               <p style="color: white">{{list.postContent}}</p>
               <input type="button" style="width:50%; height: 50%" value="add comment" @click="addComment(list,list.id)">
               <div v-if="typeUser !== 'User'">
-                <input type="button" style="width:50%; height: 50%" value="delete post" @click="deletePost(list,list.id)">
+<!--                <input type="button" style="width:50%; height: 50%" value="delete post" @click="deletePost(list,list.id)">-->
                 <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editPost', params:{id:list.id }}">Edit Post
                 </router-link>
               </div>
@@ -45,7 +44,7 @@
         <div class="row">
           <h2 style="color:white">List comments</h2>
           <div v-for="comment in comments" :key="comment.comment" class="column" style="background-color:#aaa;">
-            <p>id:{{comment.post_id}} - {{comment.email}} - {{comment.comment}}</p>  <div v-if="typeUser !== 'User'"><input type="button" style="width:50%; height: 50%" value="delete comment" @click="deleteComment(comment,comment.id)">
+            <p> {{comment.date}} - {{comment.email}} - {{comment.comment}}</p>  <div v-if="typeUser !== 'User'"> <input type="button" style="width:50%; height: 50%" value="delete comment" @click="deleteComment(comment,comment.id)">
           </div>
           </div>
         </div>
@@ -117,7 +116,7 @@
                 console.log(data.message)
                 if (data.message === "delete success") {
                   sessionStorage.removeItem("post_id")
-                  window.location.href = '/blog'
+                  window.location.href = '/showPost/'+ this.post_id
                 } else {
                   alert("failed")
                 }
