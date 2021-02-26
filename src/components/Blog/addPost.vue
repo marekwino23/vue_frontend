@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <h2>Add post</h2>
+      <h2>Add Comment</h2>
     </div>
     <div class="row">
       <div class="leftcolumn">
@@ -9,7 +9,7 @@
           <br>
           <textarea v-model="text"></textarea>
         <br>
-        <input type="button"  value="addPost" @click="addPosts">
+        <input type="button" value="addComment" @click="addComment">
         <br>
         <br>
         <router-link to="/blog">Back</router-link>
@@ -33,56 +33,57 @@ export default {
     return {
       lists: [],
       text: '',
+      title: '',
       title_id: '',
       status: '',
       type: '',
-      subject:'',
       id: '',
-      email:'',
-      date:'',
-      dateFormat:''
+      email: '',
+      date: '',
+      dateFormat: ''
     }
   },
 
 
   methods: {
-    addPosts: function () {
+    addComment: function () {
       console.log(this.$route.params.id)
-      this.title_id = this.$route.params.id
-        this.date = new Date()
-      this.subject = sessionStorage.getItem('subject')
-        this.dateFormat = this.date.toJSON().slice(0,10).replace(/-/g,'-')
-        this.email = sessionStorage.getItem("email")
-        this.id = sessionStorage.getItem("id")
-        this.type = sessionStorage.getItem("type")
-        fetch('http://localhost:8000/addPost', {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            "text": this.text,
-            "id": this.id,
-            "date": this.dateFormat,
-            "type": this.type,
-            "title_id": this.title_id,
-            "email": this.email,
-          })
+      this.id = sessionStorage.getItem("id")
+      this.post_id = this.$route.params.id
+      this.date = new Date()
+      this.title_id = sessionStorage.getItem('subject_id')
+      this.dateFormat = this.date.toJSON().slice(0,10).replace(/-/g,'-')
+      this.email = sessionStorage.getItem("email")
+      fetch("http://localhost:8000/addComment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "id": this.id,
+          "text": this.text,
+          "date": this.dateFormat,
+          "email": this.email,
+          "post_id": this.post_id,
+          "title_id": this.title_id,
+
         })
-
-            .then(response => response.json())
-            .then(data => {
-              console.log('Success:', data)
-              if (data.status === "success") {
-                this.$swal.fire("Post created successful")
-                window.location.href = '/post/'+ this.title_id + '/' + this.subject
-              } else {
-                console.error("failed")
-              }
-
-            })
-      }
+      })
+          .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            }
+          })
+          .then(data => {
+            console.log(data.message)
+            if (data.status === "success") {
+              window.location.href = '/showPost/' + this.post_id
+            } else {
+              alert("failed")
+            }
+          })
     },
+  }
 }
 
 

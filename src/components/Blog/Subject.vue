@@ -7,7 +7,7 @@
     <article>
       <section class="hero">
         <div class="text_post">
-          <h1 style="font-weight: bold">Category: {{subject}}</h1>
+          <h1 style="font-weight: bold">Category: {{category}}</h1>
           <button>Read more</button>
         </div>
         <img class="hero_img" src="../../assets/photo-1568805711746-65416e6d180b.jpeg">
@@ -36,7 +36,7 @@
     </article>
     <footer class="footer">
       <div v-if="typeUser !== 'User'">
-      <button> <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:title_id }}">Add Post
+      <button> <router-link :v-show='typeUser !== "User"' :to="{name:'addSubject', params:{id:category_id }}">Add Subject
       </router-link></button>
         <div class="row">
           <input type="button" value="Back" @click="onBack">
@@ -56,7 +56,7 @@
     <script>
 
     export default {
-      name: 'post',
+      name: 'subject',
       updated() {
 
       },
@@ -66,10 +66,10 @@
           comments: [],
           email: '',
           status: '',
-          subject:'',
+          category:'',
           typeUser: '',
           id: '',
-          title_id: "",
+          category_id: "",
           date: ''
         }
       },
@@ -79,7 +79,7 @@
           sessionStorage.removeItem("subject_id")
           sessionStorage.removeItem("post_id")
           sessionStorage.removeItem("subject")
-          window.location.href = '/blog'
+          window.location.href = '/category'
         },
         deletePost: function (list) {
           console.log(list.id)
@@ -110,12 +110,12 @@
       mounted() {
         this.date = new Date();
         console.log(this.$route.params.id)
-        sessionStorage.setItem("subject_id", this.$route.params.id)
-        sessionStorage.setItem('subject', this.$route.params.title)
-        this.subject = sessionStorage.getItem('subject')
-        this.title_id = sessionStorage.getItem("subject_id")
+        sessionStorage.setItem("category_id", this.$route.params.id)
+        sessionStorage.setItem('category', this.$route.params.category)
+        this.category = sessionStorage.getItem('category')
+        this.category_id = sessionStorage.getItem("category_id")
         this.typeUser = sessionStorage.getItem("type")
-        fetch("http://localhost:8000/updateBlog/" + this.title_id, {
+        fetch("http://localhost:8000/updateSubject/" + this.category_id, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -128,13 +128,12 @@
             })
             .then(data => {
               console.log(data)
-              for (let i = 0; i < data.post.length; i++) {
-                this.lists.push(data.post[i])
+              for (let i = 0; i < data.subject.length; i++) {
+                this.lists.push(data.subject[i])
               }
               this.lists.forEach(function (list) {
                 console.log(list.id)
-                console.log(list.subject_id)
-                sessionStorage.setItem("subject_id", list.subject_id)
+                console.log(list.post_id)
               })
             })
 

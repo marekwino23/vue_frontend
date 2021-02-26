@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="header">
-      <h2>Edit subject</h2>
+      <h2>Edit Category</h2>
     </div>
     <div class="row">
       <div class="leftcolumn">
           <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
           <br>
-          <textarea v-model="text"></textarea>
+          <textarea id="text" v-model="category"> </textarea>
         <br>
-        <input type="button" value="edit" @click="EditSubject">
+        <input type="button" value="edit" @click="editCategory">
         <br>
         <br>
         <router-link to="/blog">Back</router-link>
@@ -24,7 +24,7 @@
 
 
 export default {
-  name: 'editPost',
+  name: 'editCategory',
   components: {},
   updated() {
 
@@ -32,25 +32,28 @@ export default {
   data() {
     return {
       text: '',
-      title_id: '',
       type: '',
+      category:'',
       id: '',
+      category_id:'',
       email:'',
       date:''
     }
   },
 
+  mounted() {
+    this.category = this.$route.params.category
+  },
 
   methods: {
-    EditSubject: function () {
-      console.log(this.$route.params.id)
-      this.title_id = this.$route.params.id
-      console.log(this.title_id)
+    editCategory: function () {
+      this.text = document.getElementById('text').value
+      this.category_id = this.$route.params.id
         this.date = new Date()
         this.email = sessionStorage.getItem("email")
         this.id = sessionStorage.getItem("id")
         this.type = sessionStorage.getItem("type")
-        fetch('http://localhost:8000/editSubject', {
+        fetch('http://localhost:8000/editCategory', {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -60,7 +63,7 @@ export default {
             "id": this.id,
             "date": this.date,
             "type": this.type,
-            "title_id": this.title_id,
+            "category_id": this.category_id,
             "email": this.email,
           })
         })
@@ -70,7 +73,7 @@ export default {
               console.log('Success:', data)
               if (data.status === "Update success") {
                 alert("Update successful")
-                window.location.href = '/blog'
+                window.location.href = '/category'
               } else {
                 console.error("failed")
               }

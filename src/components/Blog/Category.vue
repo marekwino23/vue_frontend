@@ -47,19 +47,19 @@
       </section>
     </article>
     <div v-if="typeUser !== 'User'">
-      <add-subject :v-show ="typeUser !== 'User'"></add-subject>
+      <add-category :v-show ="typeUser !== 'User'"></add-category>
     </div>
     <h1 style="text-align: center">List of Category</h1>
-    <article v-for="list in lists" :key="list.subject"  class="main-content">
+    <article v-for="list in lists" :key="list.category"  class="main-content">
       <section>
         <div class="row">
           <div class="column" style="background-color:white;">
-            <router-link :to="{name:'post', params:{id:list.id, title:list.subject}}">   <h2>{{list.subject}}</h2> </router-link>
+            <router-link :to="{name:'subject', params:{id:list.id, category:list.category}}">   <h2>{{list.category}}</h2> </router-link>
             <p>Read more</p>
           </div>
         </div>
-        <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deleteSubject(list,list.id)">
-        <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editSubject', params:{id:list.id }}">Edit Subject
+        <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deleteCategory(list,list.id)">
+        <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editCategory', params:{id:list.id, category: list.category }}">Edit Category
         </router-link>
       </section>
       <section class="card-list">
@@ -95,11 +95,11 @@
 
 <script>
 
-import addSubject from "@/components/Blog/addSubject";
+import addCategory from "@/components/Blog/addCategory";
 
 export default {
   name: 'blog',
-  components: {addSubject},
+  components: {addCategory},
   data() {
     return {
       lists: [],
@@ -113,10 +113,10 @@ export default {
   },
 
   methods: {
-    deleteSubject: function (list) {
+    deleteCategory: function (list) {
       console.log(list.id)
       this.id = list.id
-      fetch("http://localhost:8000/deleteSubject", {
+      fetch("http://localhost:8000/deleteCategory", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.message === "delete success") {
-              window.location.href = '/blog'
+              window.location.href = '/category'
             } else {
               alert("failed")
             }
@@ -142,9 +142,8 @@ export default {
   mounted() {
     this.date = new Date();
     this.typeUser = sessionStorage.getItem("type")
-    this.title2 = sessionStorage.getItem("newtitle")
     console.log(this.typeUser)
-    fetch("http://localhost:8000/updateSubject", {
+    fetch("http://localhost:8000/updateCategory", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -156,8 +155,8 @@ export default {
           }
         })
         .then(data => {
-          for (let i = 0; i < data.post.length; i++) {
-            this.lists.push(data.post[i])
+          for (let i = 0; i < data.category.length; i++) {
+            this.lists.push(data.category[i])
 
           }
           this.lists.forEach(function (list) {

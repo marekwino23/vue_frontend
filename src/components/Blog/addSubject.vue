@@ -1,16 +1,22 @@
 <template>
   <div>
+    <div class="header">
+      <h2>Add Subject</h2>
+    </div>
     <div class="row">
       <div class="leftcolumn">
-        <form @submit="addSubject">
-          <h2> Title: <input type="text" v-model="title"></h2>
-          <input style="color:black" type="button" value="addSubject" @click="addSubject">
-        </form>
+          <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
+          <br>
+          <textarea v-model="text"></textarea>
+        <br>
+        <input type="button"  value="addSubject" @click="addSubject">
         <br>
         <br>
-      </div>
+        <router-link to="/blog">Back</router-link>
+        </div>
+        </div>
+
     </div>
-  </div>
 </template>
 
 
@@ -18,7 +24,7 @@
 
 
 export default {
-  name: 'subject',
+  name: 'post',
   components: {},
   updated() {
 
@@ -26,30 +32,40 @@ export default {
   data() {
     return {
       lists: [],
-      title: '',
+      text: '',
+      category_id: '',
+      status: '',
       type: '',
+      category:'',
       id: '',
-      date: '',
       email:'',
+      date:'',
+      dateFormat:''
     }
   },
 
+
   methods: {
     addSubject: function () {
-        this.date = new Date()
+      console.log(this.$route.params.id)
+      this.category_id = this.$route.params.id
+      this.date = new Date()
+      this.category = sessionStorage.getItem('subject')
+        this.dateFormat = this.date.toJSON().slice(0,10).replace(/-/g,'-')
+        this.email = sessionStorage.getItem("email")
         this.id = sessionStorage.getItem("id")
         this.type = sessionStorage.getItem("type")
-        this.email = sessionStorage.getItem("email")
         fetch('http://localhost:8000/addSubject', {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            "text": this.text,
             "id": this.id,
-            "title": this.title,
-            "date": this.date,
+            "date": this.dateFormat,
             "type": this.type,
+            "category_id": this.category_id,
             "email": this.email,
           })
         })
@@ -58,10 +74,8 @@ export default {
             .then(data => {
               console.log('Success:', data)
               if (data.status === "success") {
-                this.$swal.fire("Title created successful")
-                window.location.href = '/blog'
-              } else if (data.status === "subject is used") {
-                this.$swal.fire("this subject is used")
+                this.$swal.fire("Post created successful")
+                window.location.href = '/post/'+ this.title_id + '/' + this.subject
               } else {
                 console.error("failed")
               }
@@ -81,24 +95,45 @@ body {
   padding: 20px;
   background: #f1f1f1;
 }
-
-img {
+img{
   width: 100px;
   height: 100px;
-  float: left;
+  float:left;
 }
 
-
+/* Header/Blog Title */
+.header {
+  padding: 30px;
+  font-size: 40px;
+  text-align: center;
+  background: white;
+}
 
 /* Create two unequal columns that floats next to each other */
 /* Left column */
 .leftcolumn {
   float: left;
   width: 75%;
-  margin-left: 84px;
-  background-color: #407940;
-  border: 1px solid white;
-  color:white;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+  padding-left: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+  background-color: white;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+  padding: 20px;
+  margin-top: 20px;
 }
 
 /* Clear floats after the columns */
@@ -108,23 +143,17 @@ img {
   clear: both;
 }
 
-
-input {
+/* Footer */
+.footer {
+  padding: 20px;
   text-align: center;
-  width: 100%;
-  color:black;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 6px;
-  margin-bottom: 16px;
-  resize: vertical;
+  background: #ddd;
+  margin-top: 20px;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
-  .leftcolumn{
+  .leftcolumn, .rightcolumn {
     width: 100%;
     padding: 0;
   }

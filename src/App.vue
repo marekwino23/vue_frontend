@@ -19,7 +19,7 @@
           <router-link v-show="logged" to="/info">User information</router-link>
         </li>
         <li>
-          <router-link v-show="logged" to="/blog">Blog</router-link>
+          <router-link v-show="logged" to="/category">Blog</router-link>
         </li>
         <li v-show='status === "Admin"'>
           <router-link to="/list">User list</router-link>

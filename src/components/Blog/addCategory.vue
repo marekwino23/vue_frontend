@@ -1,22 +1,16 @@
 <template>
   <div>
-    <div class="header">
-      <h2>Edit post</h2>
-    </div>
     <div class="row">
       <div class="leftcolumn">
-          <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
-          <br>
-          <textarea v-model="text"></textarea>
+        <form @submit="addCategory">
+          <h2> Category: <input type="text" required v-model="category"></h2>
+          <input style="color:black" type="button" value="addCategory" @click="addCategory">
+        </form>
         <br>
-        <input type="button"  value="edit" @click="EditPost">
         <br>
-        <br>
-        <router-link to="/blog">Back</router-link>
-        </div>
-        </div>
-
+      </div>
     </div>
+  </div>
 </template>
 
 
@@ -24,44 +18,38 @@
 
 
 export default {
-  name: 'editPost',
+  name: 'category',
   components: {},
   updated() {
 
   },
   data() {
     return {
-      text: '',
-      title:'',
-      post_id: '',
+      lists: [],
+      category: '',
       type: '',
       id: '',
+      date: '',
       email:'',
-      date:''
     }
   },
 
-
   methods: {
-    EditPost: function () {
-      console.log(this.$route.params.id)
-      this.post_id = this.$route.params.id
-      console.log(this.post_id)
+    addCategory: function () {
         this.date = new Date()
-        this.email = sessionStorage.getItem("email")
         this.id = sessionStorage.getItem("id")
         this.type = sessionStorage.getItem("type")
-        fetch('http://localhost:8000/EditPost', {
-          method: "PATCH",
+        this.email = sessionStorage.getItem("email")
+        fetch('http://localhost:8000/addCategory', {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            "text": this.text,
             "id": this.id,
+            "category": this.category,
             "date": this.date,
             "type": this.type,
-            "post_id": this.post_id,
             "email": this.email,
           })
         })
@@ -69,10 +57,11 @@ export default {
             .then(response => response.json())
             .then(data => {
               console.log('Success:', data)
-              if (data.status === "Update success") {
-                alert("Update successful")
-                window.location.href = '/showPost/' + this.post_id
-              } else {
+              if (data.status === "success") {
+                this.$swal.fire("Category created successful")
+                window.location.href = '/category'
+              }
+              else {
                 console.error("failed")
               }
 
@@ -91,45 +80,24 @@ body {
   padding: 20px;
   background: #f1f1f1;
 }
-img{
+
+img {
   width: 100px;
   height: 100px;
-  float:left;
+  float: left;
 }
 
-/* Header/Blog Title */
-.header {
-  padding: 30px;
-  font-size: 40px;
-  text-align: center;
-  background: white;
-}
+
 
 /* Create two unequal columns that floats next to each other */
 /* Left column */
 .leftcolumn {
   float: left;
   width: 75%;
-}
-
-/* Right column */
-.rightcolumn {
-  float: left;
-  width: 25%;
-  padding-left: 20px;
-}
-
-/* Fake image */
-.fakeimg {
-  background-color: white;
-  width: 100%;
-  padding: 20px;
-}
-
-/* Add a card effect for articles */
-.card {
-  padding: 20px;
-  margin-top: 20px;
+  margin-left: 84px;
+  background-color: #407940;
+  border: 1px solid white;
+  color:white;
 }
 
 /* Clear floats after the columns */
@@ -139,17 +107,23 @@ img{
   clear: both;
 }
 
-/* Footer */
-.footer {
-  padding: 20px;
+
+input {
   text-align: center;
-  background: #ddd;
-  margin-top: 20px;
+  width: 100%;
+  color:black;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
-  .leftcolumn, .rightcolumn {
+  .leftcolumn{
     width: 100%;
     padding: 0;
   }
