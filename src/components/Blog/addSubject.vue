@@ -50,7 +50,7 @@ export default {
       console.log(this.$route.params.id)
       this.category_id = this.$route.params.id
       this.date = new Date()
-      this.category = sessionStorage.getItem('subject')
+      this.category = sessionStorage.getItem('category')
         this.dateFormat = this.date.toJSON().slice(0,10).replace(/-/g,'-')
         this.email = sessionStorage.getItem("email")
         this.id = sessionStorage.getItem("id")
@@ -74,8 +74,8 @@ export default {
             .then(data => {
               console.log('Success:', data)
               if (data.status === "success") {
-                this.$swal.fire("Post created successful")
-                window.location.href = '/post/'+ this.title_id + '/' + this.subject
+                this.$swal.fire("Subject created successful")
+                window.location.href = '/subject/'+ this.category_id + '/' + this.category
               } else {
                 console.error("failed")
               }

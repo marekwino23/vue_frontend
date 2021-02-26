@@ -66,27 +66,27 @@ export default {
     }
   },
 
-  beforeMount() {
-    this.id = sessionStorage.getItem('id')
-    fetch("http://localhost:8000/getId/" + this.id, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-        .then(response => {
-          if (response.status === 200) {
-            return response.json();
-          }
-        })
-        .then(data => {
-          console.log(data)
-          for (let i = 0; i < data.id.length; i++) {
-            console.log(data.id[i].id)
-            sessionStorage.setItem('post_id', data.id[i].id)
-          }
-        })
-  },
+  // beforeMount() {
+  //   this.id = sessionStorage.getItem('id')
+  //   fetch("http://localhost:8000/getId/" + this.id, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //       .then(response => {
+  //         if (response.status === 200) {
+  //           return response.json();
+  //         }
+  //       })
+  //       .then(data => {
+  //         console.log(data)
+  //         for (let i = 0; i < data.id.length; i++) {
+  //           console.log(data.id[i].id)
+  //           sessionStorage.setItem('post_id', data.id[i].id)
+  //         }
+  //       })
+  // },
 
   methods: {
     Logout: function () {

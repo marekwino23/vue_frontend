@@ -13,7 +13,7 @@ import addSubject from "@/components/Blog/addSubject";
 import Subject from "@/components/Blog/Subject";
 import Received from "@/components/Contact/Received";
 import Sended from "@/components/Contact/Sended";
-import EditSubject from "@/components/Blog/EditCategory";
+import EditSubject from "@/components/Blog/EditSubject";
 import addPost from "@/components/Blog/addPost";
 import showPost from "@/components/Blog/showPost";
 import EditCategory from "@/components/Blog/EditCategory";
@@ -67,7 +67,7 @@ const router =  new VueRouter({
 
 
         {
-            path: '/addSubject/:id',
+            path: '/addSubject/:id/:category',
             name: 'addSubject',
             component: addSubject,
         },
@@ -79,13 +79,13 @@ const router =  new VueRouter({
         },
 
         {
-            path: '/showPost/:id',
+            path: '/showPost/:id/:subject',
             name: 'showPost',
             component: showPost,
         },
 
         {
-            path: '/editSubject/:id',
+            path: '/editSubject/:id/:subject',
             name: 'editSubject',
             component: EditSubject,
         },

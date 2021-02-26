@@ -58,7 +58,7 @@
             <p>Read more</p>
           </div>
         </div>
-        <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deleteCategory(list,list.id)">
+        <input :v-show ='typeUser !== "User"' class="button" type="button" value="Delete Category" @click="deleteCategory(list,list.id)">
         <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editCategory', params:{id:list.id, category: list.category }}">Edit Category
         </router-link>
       </section>

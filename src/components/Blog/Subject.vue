@@ -18,12 +18,14 @@
       </section>
       <section class="card-list">
         <div class="row">
-          <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
+          <div v-for="list in lists" :key="list.id" class="rightcolumn">
             <div class="field">
               <div class="row">
                 <div class="column" style="background-color:white;width: 500px; border:1px solid black">
-                  <router-link :v-show='typeUser !== "User"' :to="{name:'showPost', params:{id:list.id }}"> <h2>{{list.postContent}}</h2> </router-link>
-                  <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deletePost(list,list.id)">
+                  <router-link :v-show='typeUser !== "User"' :to="{name:'showPost', params:{id:list.id,subject:list.subject }}"> <h2>{{list.subject}}</h2> </router-link>
+                  <input :v-show ='typeUser !== "User"' class="button" type="button" value="Delete Subject" @click="deleteSubject(list,list.id)">
+                 <router-link style="color:black" :v-show='typeUser !== "User"' :to="{name:'editSubject', params:{id:list.id, subject:list.subject }}">Edit Subject
+                  </router-link>
                   <p>Read more</p>
                 </div>
               </div>
@@ -36,7 +38,7 @@
     </article>
     <footer class="footer">
       <div v-if="typeUser !== 'User'">
-      <button> <router-link :v-show='typeUser !== "User"' :to="{name:'addSubject', params:{id:category_id }}">Add Subject
+      <button> <router-link :v-show='typeUser !== "User"' :to="{name:'addSubject', params:{id:category_id,category:this.category }}">Add Subject
       </router-link></button>
         <div class="row">
           <input type="button" value="Back" @click="onBack">
@@ -81,10 +83,10 @@
           sessionStorage.removeItem("subject")
           window.location.href = '/category'
         },
-        deletePost: function (list) {
+        deleteSubject: function (list) {
           console.log(list.id)
           this.id = list.id
-          fetch("http://localhost:8000/deletePost", {
+          fetch("http://localhost:8000/deleteSubject", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -99,7 +101,7 @@
               .then(data => {
                 console.log(data.message)
                 if (data.message === "delete success") {
-                  window.location.href = '/post/'+ this.title_id
+                  window.location.href = '/subject/'+ this.category_id + '/' + this.category
                 } else {
                   alert("failed")
                 }
@@ -133,7 +135,7 @@
               }
               this.lists.forEach(function (list) {
                 console.log(list.id)
-                console.log(list.post_id)
+                console.log(list.category_id)
               })
             })
 

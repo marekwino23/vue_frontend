@@ -25,8 +25,7 @@
             <div class="field">
               <p>{{list.date}}</p>
               <img class="card_img" src="../../assets/photo-1598625456132-bb6cb433e42e.jpeg"/>
-              <p style="color: white">{{list.postContent}}</p>
-              <input type="button" style="width:50%; height: 50%" value="add comment" @click="addComment(list,list.id)">
+              <p style="color: white">{{list.post}}</p>
               <div v-if="typeUser !== 'User'">
                 <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editPost', params:{id:list.id }}">Edit Post
                 </router-link>
@@ -35,21 +34,16 @@
               <br>
             </div>
           </div>
-        <div v-for="list in lists" :key="list.id" class="card">
           <div class="card-details">
-          </div>
-        </div>
-        </div>
-        <div class="row">
-          <h2 style="color:white">List comments</h2>
-          <div v-for="comment in comments" :key="comment.comment" class="column" style="background-color:#aaa;">
-            <p> {{comment.date}} - {{comment.email}} - {{comment.comment}}</p>  <div v-if="typeUser !== 'User'"> <input type="button" style="width:50%; height: 50%" value="delete comment" @click="deleteComment(comment,comment.id)">
-          </div>
           </div>
         </div>
         <br>
       </section>
       <input type="button" value="Back" @click="onBack">
+      <div class="card">
+        <router-link style="color:black" :to="{name:'addPost', params:{id:subject_id }}">Add Post
+        </router-link>
+      </div>
       <aside />
     </article>
     <footer class="footer">
@@ -74,30 +68,26 @@
       data() {
         return {
           lists: [],
-          comments: [],
           text: '',
           email: '',
           status: '',
-          title_id:'',
-          subject:'',
+          subject_id:'',
+          category:'',
+          category_id:'',
           typeUser: '',
           id: '',
-          post_id: "",
           date: ''
         }
       },
 
       methods: {
         onBack: function (){
-          sessionStorage.removeItem("post_id")
-          window.location.href = '/post/' + this.title_id + '/' + this.subject
-        },
-        addComment: function (list) {
-          console.log(list.id)
-          this.$router.push({name: 'addComment', params: {id: list.id}})
+          sessionStorage.removeItem("subject_id")
+          sessionStorage.removeItem("subject")
+          window.location.href="/subject/" + this.category_id + '/' + this.category
         },
 
-        deleteComment: function (list) {
+        deletePost: function (list) {
           console.log(list.id)
           this.id = list.id
           fetch("http://localhost:8000/deleteComment", {
@@ -125,13 +115,15 @@
       },
       mounted() {
         this.date = new Date();
-        this.subject = sessionStorage.getItem('subject')
-        this.title_id = sessionStorage.getItem("subject_id")
+        this.category = sessionStorage.getItem("category")
+        this.category_id = sessionStorage.getItem("category_id")
+        sessionStorage.setItem('subject', this.$route.params.subject)
+        this.id = sessionStorage.getItem('id')
         console.log(this.$route.params.id)
-        sessionStorage.setItem("post_id", this.$route.params.id)
-        this.post_id = sessionStorage.getItem("post_id")
+        sessionStorage.setItem("subject_id", this.$route.params.id)
+        this.subject_id = sessionStorage.getItem("subject_id")
         this.typeUser = sessionStorage.getItem("type")
-        fetch("http://localhost:8000/showPost/" + this.post_id, {
+        fetch("http://localhost:8000/showPost/" + this.subject_id + '/' + this.id, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -151,28 +143,8 @@
                 console.log(list.id)
                 console.log(list.subject_id)
                 sessionStorage.setItem("subject_id", list.subject_id)
-                sessionStorage.setItem("post_id", list.id)
               })
             })
-        this.post_id = sessionStorage.getItem("post_id")
-          fetch("http://localhost:8000/updateComment/" + this.post_id, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-              .then(response => {
-                if (response.status === 200) {
-                  return response.json();
-                }
-              })
-              .then(data => {
-                console.log(data)
-                for (let i = 0; i < data.comment.length; i++) {
-                  this.comments.push(data.comment[i])
-                }
-
-              })
         },
     }
 

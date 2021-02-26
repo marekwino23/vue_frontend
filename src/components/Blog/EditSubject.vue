@@ -1,21 +1,20 @@
 <template>
   <div>
     <div class="header">
-      <h2>Add Post</h2>
+      <h2>Edit Subject</h2>
     </div>
     <div class="row">
       <div class="leftcolumn">
           <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
           <br>
-          <textarea v-model="text"></textarea>
+          <textarea id="text" v-model="subject"> </textarea>
         <br>
-        <input type="button" value="addPost" @click="addPost">
+        <input type="button" value="edit" @click="editSubject">
         <br>
         <br>
         <router-link to="/category">Back</router-link>
         </div>
         </div>
-
     </div>
 </template>
 
@@ -24,64 +23,67 @@
 
 
 export default {
-  name: 'addPost',
+  name: 'editSubject',
   components: {},
   updated() {
 
   },
   data() {
     return {
-      lists: [],
       text: '',
-      subject: '',
-      subject_id: '',
-      status: '',
       type: '',
+      subject:'',
+      category:'',
       id: '',
-      email: '',
-      date: '',
-      dateFormat: ''
+      subject_id:'',
+      category_id:'',
+      email:'',
+      date:''
     }
   },
 
+  mounted() {
+    this.subject = this.$route.params.subject
+    this.category = sessionStorage.getItem('category')
+  },
 
   methods: {
-    addPost: function () {
-      console.log(this.$route.params.id)
-      this.id = sessionStorage.getItem("id")
+    editSubject: function () {
+      this.text = document.getElementById('text').value
       this.subject_id = this.$route.params.id
-      this.date = new Date()
-      this.dateFormat = this.date.toJSON().slice(0,10).replace(/-/g,'-')
-      this.email = sessionStorage.getItem("email")
-      fetch("http://localhost:8000/addPost", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "id": this.id,
-          "text": this.text,
-          "date": this.dateFormat,
-          "email": this.email,
-          "subject_id": this.subject_id,
-
+        this.date = new Date()
+        this.email = sessionStorage.getItem("email")
+        this.id = sessionStorage.getItem("id")
+        this.category_id = sessionStorage.getItem("category_id")
+        this.type = sessionStorage.getItem("type")
+        fetch('http://localhost:8000/editSubject', {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            "text": this.text,
+            "id": this.id,
+            "date": this.date,
+            "type": this.type,
+            "subject_id": this.subject_id,
+            "email": this.email,
+          })
         })
-      })
-          .then(response => {
-            if (response.status === 200) {
-              return response.json();
-            }
-          })
-          .then(data => {
-            console.log(data.message)
-            if (data.status === "success") {
-              window.location.href = '/showPost/' + this.subject_id
-            } else {
-              alert("failed")
-            }
-          })
+
+            .then(response => response.json())
+            .then(data => {
+              console.log('Success:', data)
+              if (data.status === "Update success") {
+                alert("Update successful")
+                window.location.href = '/subject/' + this.category_id + '/' + this.category
+              } else {
+                console.error("failed")
+              }
+
+            })
+      }
     },
-  }
 }
 
 
