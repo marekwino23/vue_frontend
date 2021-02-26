@@ -123,28 +123,28 @@ export default {
             console.log("hello")
           }
         })
-    this.email = sessionStorage.getItem("email")
-    this.id = sessionStorage.getItem('id')
-    fetch("http://localhost:8000/notificationComment/" + this.email + "/" + this.id, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-        .then(response => {
-          if (response.status === 200) {
-            return response.json();
-          }
-        })
-        .then(data => {
-          console.log(data)
-          if(data.status === "lack change"){
-            console.log("hello")
-          }
-          else if(data.status === "deleted comments"){
-              alert("Admin deleted your comment")
-          }
-        })
+    // this.email = sessionStorage.getItem("email")
+    // this.id = sessionStorage.getItem('id')
+    // fetch("http://localhost:8000/notificationComment/" + this.email + "/" + this.id, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //     .then(response => {
+    //       if (response.status === 200) {
+    //         return response.json();
+    //       }
+    //     })
+    //     .then(data => {
+    //       console.log(data)
+    //       if(data.status === "lack change"){
+    //         console.log("hello")
+    //       }
+    //       else if(data.status === "deleted comments"){
+    //           alert("Admin deleted your comment")
+    //       }
+    //     })
     // this.email = sessionStorage.getItem("email")
     // this.post_id = sessionStorage.getItem('post_id')
     // fetch("http://localhost:8000/getComment/" + this.email + "/" + this.post_id, {

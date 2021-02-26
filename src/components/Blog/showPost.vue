@@ -28,7 +28,6 @@
               <p style="color: white">{{list.postContent}}</p>
               <input type="button" style="width:50%; height: 50%" value="add comment" @click="addComment(list,list.id)">
               <div v-if="typeUser !== 'User'">
-<!--                <input type="button" style="width:50%; height: 50%" value="delete post" @click="deletePost(list,list.id)">-->
                 <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editPost', params:{id:list.id }}">Edit Post
                 </router-link>
               </div>
@@ -80,6 +79,7 @@
           email: '',
           status: '',
           title_id:'',
+          subject:'',
           typeUser: '',
           id: '',
           post_id: "",
@@ -90,7 +90,7 @@
       methods: {
         onBack: function (){
           sessionStorage.removeItem("post_id")
-          window.location.href = '/post/' + this.title_id
+          window.location.href = '/post/' + this.title_id + '/' + this.subject
         },
         addComment: function (list) {
           console.log(list.id)
@@ -125,6 +125,7 @@
       },
       mounted() {
         this.date = new Date();
+        this.subject = sessionStorage.getItem('subject')
         this.title_id = sessionStorage.getItem("subject_id")
         console.log(this.$route.params.id)
         sessionStorage.setItem("post_id", this.$route.params.id)

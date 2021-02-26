@@ -49,11 +49,18 @@
     <div v-if="typeUser !== 'User'">
       <add-subject :v-show ="typeUser !== 'User'"></add-subject>
     </div>
-    <h1 style="text-align: center">List of subject</h1>
+    <h1 style="text-align: center">List of Category</h1>
     <article v-for="list in lists" :key="list.subject"  class="main-content">
       <section>
-        <router-link :to="{name:'post', params:{id:list.id }}">  <h2 style="color: white;">{{list.subject}}</h2> </router-link>
+        <div class="row">
+          <div class="column" style="background-color:white;">
+            <router-link :to="{name:'post', params:{id:list.id, title:list.subject}}">   <h2>{{list.subject}}</h2> </router-link>
+            <p>Read more</p>
+          </div>
+        </div>
         <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deleteSubject(list,list.id)">
+        <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editSubject', params:{id:list.id }}">Edit Subject
+        </router-link>
       </section>
       <section class="card-list">
         <div class="row">
@@ -75,7 +82,7 @@
     <footer class="footer">
       <p class="email">Email: marekw1996@gmail.com<p/>
       <p class="number">Phone number: 505530072<p/>
-      <img width="25%" style="margin-left: 551px" src="../../assets/example.jpg">
+<!--      <img width="25%" style="margin-left: 551px" src="../../assets/example.jpg">-->
       <nav>
         <ul class="nav">
         </ul>
@@ -124,7 +131,7 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.message === "delete success") {
-              this.$router.push('home')
+              window.location.href = '/blog'
             } else {
               alert("failed")
             }

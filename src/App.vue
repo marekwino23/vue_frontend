@@ -2,7 +2,7 @@
   <div>
     <div>
       <ul class="topnav">
-        <img src="./assets/1827349.svg" style="margin-bottom: 19px" width="2%" @click="onRing">
+          <img v-show="status !== 'User'" src="./assets/1827349.svg" style="margin-bottom: 19px" width="2%" @click="onRing">
         <li>
           <router-link to="/home">Home</router-link>
         </li>
@@ -163,7 +163,7 @@ export default {
 //       .then(data => {
 //         console.log(data)
 //         if (data.status === "This comment is deleted") {
-//           alert("delete comment sucsess")
+//           alert("delete comment success")
 //         } else {
 //           console.log("error")
 //         }

@@ -7,7 +7,7 @@
     <article>
       <section class="hero">
         <div class="text_post">
-          <h1 style="font-weight: bold">Welcome in my Blog</h1>
+          <h1 style="font-weight: bold">Category: {{subject}}</h1>
           <button>Read more</button>
         </div>
         <img class="hero_img" src="../../assets/photo-1568805711746-65416e6d180b.jpeg">
@@ -20,14 +20,16 @@
         <div class="row">
           <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
             <div class="field">
-               <router-link :v-show='typeUser !== "User"' :to="{name:'showPost', params:{id:list.id }}"> <h2 style="color: white">{{list.postContent}}</h2>
-            </router-link> <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deletePost(list,list.id)">
+              <div class="row">
+                <div class="column" style="background-color:white;width: 500px; border:1px solid black">
+                  <router-link :v-show='typeUser !== "User"' :to="{name:'showPost', params:{id:list.id }}"> <h2>{{list.postContent}}</h2> </router-link>
+                  <input :v-show ='typeUser !== "User"' class="button" type="button" value="delete" @click="deletePost(list,list.id)">
+                  <p>Read more</p>
+                </div>
+              </div>
               </div>
             </div>
           </div>
-        <div class="row">
-          <input type="button" value="Back" @click="onBack">
-        </div>
         <br>
       </section>
       <aside />
@@ -36,6 +38,9 @@
       <div v-if="typeUser !== 'User'">
       <button> <router-link :v-show='typeUser !== "User"' :to="{name:'addPost', params:{id:title_id }}">Add Post
       </router-link></button>
+        <div class="row">
+          <input type="button" value="Back" @click="onBack">
+        </div>
       </div>
       <nav>
         <ul class="nav">
@@ -61,6 +66,7 @@
           comments: [],
           email: '',
           status: '',
+          subject:'',
           typeUser: '',
           id: '',
           title_id: "",
@@ -72,6 +78,7 @@
         onBack: function (){
           sessionStorage.removeItem("subject_id")
           sessionStorage.removeItem("post_id")
+          sessionStorage.removeItem("subject")
           window.location.href = '/blog'
         },
         deletePost: function (list) {
@@ -104,6 +111,8 @@
         this.date = new Date();
         console.log(this.$route.params.id)
         sessionStorage.setItem("subject_id", this.$route.params.id)
+        sessionStorage.setItem('subject', this.$route.params.title)
+        this.subject = sessionStorage.getItem('subject')
         this.title_id = sessionStorage.getItem("subject_id")
         this.typeUser = sessionStorage.getItem("type")
         fetch("http://localhost:8000/updateBlog/" + this.title_id, {

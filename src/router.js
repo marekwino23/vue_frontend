@@ -17,6 +17,7 @@ import Sended from "@/components/Contact/Sended";
 import EditPost from "@/components/Blog/EditPost";
 import addComment from "@/components/Blog/addComment";
 import showPost from "@/components/Blog/showPost";
+import EditSubject from "@/components/Blog/EditSubject";
 Vue.use(VueRouter);
 
 
@@ -101,10 +102,14 @@ const router =  new VueRouter({
             component: Sended,
         },
 
-
+        {
+            path: '/editSubject/:id',
+            name: 'editSubject',
+            component: EditSubject,
+        },
 
         {
-            path: '/post/:id',
+            path: '/post/:id/:title',
             name: 'post',
             component: Post,
         },

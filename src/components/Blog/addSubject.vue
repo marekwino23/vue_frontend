@@ -58,10 +58,9 @@ export default {
             .then(data => {
               console.log('Success:', data)
               if (data.status === "success") {
-                alert("Title created successful")
-                sessionStorage.setItem("newtitle", data.title)
+                this.$swal.fire("Title created successful")
                 window.location.href = '/blog'
-              } else if (data.status === "error") {
+              } else if (data.status === "subject is used") {
                 this.$swal.fire("this subject is used")
               } else {
                 console.error("failed")
