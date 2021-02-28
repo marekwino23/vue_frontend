@@ -170,7 +170,7 @@ input[type=email], [type=password] {
 
 .sub[type=submit] {
   width: 100%;
-  background-color: #83D687;
+  background-color: #62e7ee;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -180,7 +180,7 @@ input[type=email], [type=password] {
 }
 
 .button{
-  background-color: #83D687; /* Green */
+  background-color: #62e7ee; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
