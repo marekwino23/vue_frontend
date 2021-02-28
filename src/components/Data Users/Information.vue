@@ -148,7 +148,7 @@ ul{
 
 
 .button{
-  background-color: #39633a; /* Green */
+  background-color: #EBE3B0; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;

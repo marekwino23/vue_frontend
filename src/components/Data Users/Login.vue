@@ -170,7 +170,7 @@ input {
 
 
 .btn-login .button {
-  background-color: #507351;
+  background-color: #83D687;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -187,7 +187,7 @@ input {
 }
 
 .btn-submit .button {
-  background-color:#507351;
+  background-color:#83D687;
   border: none;
   color: white;
   padding: 15px 32px;

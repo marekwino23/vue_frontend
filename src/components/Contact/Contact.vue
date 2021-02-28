@@ -123,7 +123,7 @@ input[type=text] select, textarea {
 }
 
 input[type=submit] {
-  background-color: #446345;
+  background-color:#54ced7;
   color: white;
   padding: 12px 20px;
   border: none;
@@ -132,12 +132,12 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-  background-color: #45a049;
+  background-color: blue;
 }
 
 .container {
   border-radius: 5px;
-  background-color: #f2f2f2;
+  background-color: #16bfe0;
   padding: 20px;
 }
 </style>

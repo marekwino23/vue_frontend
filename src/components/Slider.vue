@@ -94,7 +94,6 @@ body {
   background: #f1f1f1;
 }
 
-
 .header h1 {
   font-size: 50px;
 }

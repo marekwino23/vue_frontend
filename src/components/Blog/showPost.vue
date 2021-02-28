@@ -41,7 +41,7 @@
       </section>
       <input type="button" value="Back" @click="onBack">
       <div class="card">
-        <router-link style="color:black" :to="{name:'addPost', params:{id:subject_id }}">Add Post
+        <router-link style="color:black" :to="{name:'addPost', params:{id:subject_id, subject:this.subject}}">Add Post
         </router-link>
       </div>
       <aside />
@@ -71,6 +71,7 @@
           text: '',
           email: '',
           status: '',
+          subject:'',
           subject_id:'',
           category:'',
           category_id:'',
@@ -118,6 +119,7 @@
         this.category = sessionStorage.getItem("category")
         this.category_id = sessionStorage.getItem("category_id")
         sessionStorage.setItem('subject', this.$route.params.subject)
+        this.subject = sessionStorage.getItem('subject')
         this.id = sessionStorage.getItem('id')
         console.log(this.$route.params.id)
         sessionStorage.setItem("subject_id", this.$route.params.id)

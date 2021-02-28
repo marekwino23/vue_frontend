@@ -37,6 +37,7 @@ export default {
       subject_id: '',
       status: '',
       type: '',
+      category_id:'',
       id: '',
       email: '',
       date: '',
@@ -50,6 +51,8 @@ export default {
       console.log(this.$route.params.id)
       this.id = sessionStorage.getItem("id")
       this.subject_id = this.$route.params.id
+      this.subject = this.$route.params.subject
+      this.category_id = sessionStorage.getItem('category_id')
       this.date = new Date()
       this.dateFormat = this.date.toJSON().slice(0,10).replace(/-/g,'-')
       this.email = sessionStorage.getItem("email")
@@ -64,6 +67,7 @@ export default {
           "date": this.dateFormat,
           "email": this.email,
           "subject_id": this.subject_id,
+          "category_id": this.category_id,
 
         })
       })
@@ -75,7 +79,7 @@ export default {
           .then(data => {
             console.log(data.message)
             if (data.status === "success") {
-              window.location.href = '/showPost/' + this.subject_id
+              window.location.href = '/showPost/' + this.subject_id + '/' + this.subject
             } else {
               alert("failed")
             }

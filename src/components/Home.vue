@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: #2CD4D4">
     <h1>My Website</h1>
     <br>
     <br>
@@ -123,97 +123,6 @@ export default {
             console.log("hello")
           }
         })
-    // this.email = sessionStorage.getItem("email")
-    // this.id = sessionStorage.getItem('id')
-    // fetch("http://localhost:8000/notificationComment/" + this.email + "/" + this.id, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //     .then(response => {
-    //       if (response.status === 200) {
-    //         return response.json();
-    //       }
-    //     })
-    //     .then(data => {
-    //       console.log(data)
-    //       if(data.status === "lack change"){
-    //         console.log("hello")
-    //       }
-    //       else if(data.status === "deleted comments"){
-    //           alert("Admin deleted your comment")
-    //       }
-    //     })
-    // this.email = sessionStorage.getItem("email")
-    // this.post_id = sessionStorage.getItem('post_id')
-    // fetch("http://localhost:8000/getComment/" + this.email + "/" + this.post_id, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //     .then(response => {
-    //       if (response.status === 200) {
-    //         return response.json();
-    //       }
-    //     })
-    //     .then(data => {
-    //       console.log(data)
-    //       for (let i = 0; i < data.comments.length; i++) {
-    //         this.lists.push(data.comments[i])
-    //       }
-    //       this.lists.forEach(function (list) {
-    //         console.log(list.post_id)
-    //         if (data.status === "new comments") {
-    //           let field = confirm(list.email + "\n" + "added new comment to Post:" + "\n" + list.postContent + ":" + "\n" + "comment:" + list.comment)
-    //           if (field === true) {
-    //             fetch("http://localhost:8000/acceptComment/" + list.id, {
-    //               method: "PATCH",
-    //               headers: {
-    //                 "Content-Type": "application/json",
-    //               },
-    //             })
-    //                 .then(response => {
-    //                   if (response.status === 200) {
-    //                     return response.json();
-    //                   }
-    //                 })
-    //                 .then(data => {
-    //                   console.log(data)
-    //                   if (data.status === "This comment is accepted") {
-    //                     window.location.href = '/showPost/' + list.post_id
-    //                     console.log("good")
-    //                   }
-    //                 })
-    //           } else {
-    //             fetch("http://localhost:8000/deleteComment", {
-    //               method: "POST",
-    //               headers: {
-    //                 "Content-Type": "application/json",
-    //               },
-    //               body: JSON.stringify({
-    //                 "id": list.id,
-    //               })
-    //             })
-    //                 .then(response => {
-    //                   if (response.status === 200) {
-    //                     return response.json();
-    //                   }
-    //                 })
-    //                 .then(data => {
-    //                   console.log(data)
-    //                   if (data.status === "This comment is deleted") {
-    //                     alert("delete comment succeess")
-    //                   } else {
-    //                     console.log("error")
-    //                   }
-    //                 })
-    //           }
-    //         }
-    //       })
-
-        // })
   }
 }
 
@@ -222,44 +131,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-* {
-  box-sizing: border-box;
-}
 
 body {
   font-family: Arial;
   padding: 10px;
-  background: #f1f1f1;
+  background: #3EEBBB;
 }
 
 
 h1 {
   font-size: 50px;
   color: white;
-}
-
-/* Style the top navigation bar */
-.topnav {
-  overflow: hidden;
-  background-color: #333;
 }
 
 /* Style the topnav links */
@@ -301,7 +183,8 @@ h1 {
 img {
   margin-left: 3px;
   margin-top: -8px;
-  width: 94%;
+  width: 89%;
+  height: auto;
   border: 2px solid black;
 }
 

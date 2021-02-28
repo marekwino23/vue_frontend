@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="app">
-      <img alt="Register" width = 50% src="../../assets/obrazek.png">
+      <img alt="Register" width = 20% src="../../assets/obrazek.png">
     </div>
     <div id="create">
       <p style="color:white; font-weight: bold">Register</p>
@@ -29,6 +29,8 @@
         <label class="place">Password</label>
         <input type="password" name="password" class="field" required min="8" value="password" v-model="password">
         <br>
+        <br>
+        <label class="place">TypeUser</label>
         <br>
         <select v-model="type">
           <option>User</option>
@@ -168,7 +170,7 @@ input[type=email], [type=password] {
 
 .sub[type=submit] {
   width: 100%;
-  background-color: #467b48;
+  background-color: #83D687;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -178,7 +180,7 @@ input[type=email], [type=password] {
 }
 
 .button{
-  background-color: #467b48; /* Green */
+  background-color: #83D687; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -188,7 +190,7 @@ input[type=email], [type=password] {
   font-size: 16px;
 }
 input[type=button]:hover {
-  background-color: #45a049;
+  background-color: #EBE3B0;
 }
 
 input[type=submit]:hover {
@@ -202,6 +204,7 @@ div {
 .place{
   color:white;
   font-weight: bold;
+  text-align: center;
 }
 
 
