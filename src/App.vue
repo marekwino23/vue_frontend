@@ -28,12 +28,12 @@
         <li v-show="!logged">
           <router-link to="/login">Login</router-link>
         </li>
-<!--        <div class="btn-group">-->
-<!--          <input type="button" class="button" v-show="logged" @click="Logout" value="Wyloguj">-->
-<!--&lt;!&ndash;          <li style="color: white; margin-left: 134px; font-size: 16px;" v-show="logged">&ndash;&gt;-->
-<!--&lt;!&ndash;            Logged as {{ status }}&ndash;&gt;-->
-<!--&lt;!&ndash;          </li>&ndash;&gt;-->
-<!--        </div>-->
+        <div class="btn-group">
+          <input type="button" class="button" v-show="logged" @click="Logout" value="Wyloguj">
+<!--          <li style="color: white; margin-left: 134px; font-size: 16px;" v-show="logged">-->
+<!--            Logged as {{ status }}-->
+<!--          </li>-->
+        </div>
       </ul>
       <button class="mobile-toggle-btn"><i class="fa fa-bars" @click="onShow" /></button>
     </nav>

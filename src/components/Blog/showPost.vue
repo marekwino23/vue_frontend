@@ -18,6 +18,7 @@
       </section>
       <section class="card-list">
         <div class="row">
+          <p>{{link}}</p>
           <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
             <p>{{list.email}}</p>
             <p>{{list.typeUser}}</p>
@@ -69,6 +70,7 @@
         return {
           lists: [],
           text: '',
+          link:'',
           email: '',
           status: '',
           subject:'',
@@ -116,6 +118,7 @@
       },
       mounted() {
         this.date = new Date();
+        this.link = sessionStorage.getItem('link')
         this.category = sessionStorage.getItem("category")
         this.category_id = sessionStorage.getItem("category_id")
         sessionStorage.setItem('subject', this.$route.params.subject)
