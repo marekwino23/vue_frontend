@@ -73,7 +73,7 @@ const router =  new VueRouter({
         },
 
         {
-            path: '/addPost/:id/:subject',
+            path: '/addPost/:id',
             name: 'addPost',
             component: addPost,
         },

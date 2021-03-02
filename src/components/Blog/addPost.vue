@@ -3,11 +3,14 @@
     <div class="header">
       <h2>Add Post</h2>
     </div>
+    <div>
+      </div>
     <div class="row">
       <div class="leftcolumn">
           <div class="fakeimg" style="height:200px;"> <img id="output" width="200"> </div>
           <br>
-          <textarea id="text"></textarea>
+        <p>Content</p>
+          <input type="text" v-model="text">
         <br>
         <input type="button" value="addPost" @click="addPost">
         <br>
@@ -48,16 +51,11 @@ export default {
 
   methods: {
     addPost: function () {
-      console.log(this.$route.params.id)
-      this.text = document.getElementById('text').innerHTML
       console.log(this.text)
       this.id = sessionStorage.getItem("id")
       this.subject_id = this.$route.params.id
-      this.subject = this.$route.params.subject
       this.category_id = sessionStorage.getItem('category_id')
       this.date = new Date()
-      // const url = `https://www.google.pl/`
-      // const item = this.text.link(url)
       this.dateFormat = this.date.toJSON().slice(0,10).replace(/-/g,'-')
       this.email = sessionStorage.getItem("email")
       fetch("http://localhost:8000/addPost", {
@@ -71,7 +69,7 @@ export default {
           "date": this.dateFormat,
           "email": this.email,
           "subject_id": this.subject_id,
-          "category_id": this.category_id,
+          "post_id": this.post_id,
 
         })
       })
@@ -81,7 +79,6 @@ export default {
             }
           })
           .then(data => {
-            console.log(data.message)
             console.log(data.post)
             sessionStorage.setItem("link", data.post)
             if (data.status === "success") {

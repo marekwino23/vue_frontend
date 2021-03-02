@@ -18,15 +18,17 @@
       </section>
       <section class="card-list">
         <div class="row">
-          <p>{{link}}</p>
-          <div v-for="list in lists" :key="list.postContent" class="rightcolumn">
+          <div v-for="list in lists" :key="list.postContent">
+            <div>
+              <a style="color:white" :href=list.post> Microsoft </a>
+            </div>
             <p>{{list.email}}</p>
             <p>{{list.typeUser}}</p>
             <img alt="User" width = 50% src="../../assets/obrazek.png">
             <div class="field">
               <p>{{list.date}}</p>
               <img class="card_img" src="../../assets/photo-1598625456132-bb6cb433e42e.jpeg"/>
-              <p style="color: white">{{list.post}}</p>
+              <p style="color: white">{{list.post}}</p>  <input :v-show ='typeUser !== "User"' class="button" type="button" value="add comment" @click=getId(list,list.id)>
               <div v-if="typeUser !== 'User'">
                 <router-link style="color:white" :v-show='typeUser !== "User"' :to="{name:'editPost', params:{id:list.id }}">Edit Post
                 </router-link>
@@ -89,7 +91,6 @@
           sessionStorage.removeItem("subject")
           window.location.href="/subject/" + this.category_id + '/' + this.category
         },
-
         deletePost: function (list) {
           console.log(list.id)
           this.id = list.id
@@ -118,7 +119,6 @@
       },
       mounted() {
         this.date = new Date();
-        this.link = sessionStorage.getItem('link')
         this.category = sessionStorage.getItem("category")
         this.category_id = sessionStorage.getItem("category_id")
         sessionStorage.setItem('subject', this.$route.params.subject)
